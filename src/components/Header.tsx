@@ -16,12 +16,12 @@ const Header = () => {
   }, []);
 
   const navItems = [
-    { label: 'Home', href: '#home' },
+    { label: 'Home', href: '/' },
     { label: 'Classes', href: '#classes' },
     { label: 'Shop', href: '#shop' },
-    { label: 'About', href: '#about' },
-    { label: 'Blog', href: '#blog' },
-    { label: 'Contact', href: '#contact' }
+    { label: 'About', href: '/about' },
+    { label: 'Blog', href: '/blog' },
+    { label: 'Contact', href: '/contact' }
   ];
 
   return (
@@ -74,8 +74,8 @@ const Header = () => {
               <User className="h-5 w-5" />
             </Button>
 
-            <Button className="btn-primary hidden md:flex">
-              Join Now
+            <Button className="btn-primary hidden md:flex" onClick={() => window.location.href = '/contact'}>
+              Become Instructor
             </Button>
 
             {/* Mobile Menu Button */}
@@ -104,8 +104,8 @@ const Header = () => {
                   {item.label}
                 </a>
               ))}
-              <Button className="btn-primary mt-4 w-full">
-                Join Now
+              <Button className="btn-primary mt-4 w-full" onClick={() => window.location.href = '/contact'}>
+                Become Instructor
               </Button>
             </nav>
           </div>

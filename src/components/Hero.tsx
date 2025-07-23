@@ -35,21 +35,6 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 text-center">
         <div className="max-w-5xl mx-auto">
-          {/* Stats Bar */}
-          <div className="flex justify-center space-x-8 mb-8">
-            <div className="card-glass text-center px-4 py-2">
-              <div className="text-2xl font-bold text-primary">500+</div>
-              <div className="text-sm text-muted-foreground">Members</div>
-            </div>
-            <div className="card-glass text-center px-4 py-2">
-              <div className="text-2xl font-bold text-secondary">50+</div>
-              <div className="text-sm text-muted-foreground">Classes</div>
-            </div>
-            <div className="card-glass text-center px-4 py-2">
-              <div className="text-2xl font-bold text-cyber-blue">24/7</div>
-              <div className="text-sm text-muted-foreground">Access</div>
-            </div>
-          </div>
 
           {/* Main Headline */}
           <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
@@ -81,29 +66,29 @@ const Hero = () => {
           </div>
 
           {/* Features Preview */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-            <div className="card-glass text-center p-6 group hover:scale-105 transition-all duration-300">
-              <div className="bg-gradient-primary p-3 rounded-xl w-fit mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <Zap className="h-6 w-6 text-white" />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-16">
+            <div className="card-glass text-center p-8 group hover:scale-105 transition-all duration-300 border border-primary/20">
+              <div className="bg-gradient-primary p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform shadow-glow">
+                <Zap className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">High-Energy Classes</h3>
-              <p className="text-muted-foreground text-sm">Live and on-demand workouts that push your limits</p>
+              <h3 className="text-xl font-bold mb-3 text-foreground">High-Energy Classes</h3>
+              <p className="text-muted-foreground">Live and on-demand workouts that push your limits and transform your body</p>
             </div>
 
-            <div className="card-glass text-center p-6 group hover:scale-105 transition-all duration-300">
-              <div className="bg-gradient-secondary p-3 rounded-xl w-fit mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <Star className="h-6 w-6 text-white" />
+            <div className="card-glass text-center p-8 group hover:scale-105 transition-all duration-300 border border-secondary/20">
+              <div className="bg-gradient-secondary p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform shadow-glow">
+                <Star className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Premium Products</h3>
-              <p className="text-muted-foreground text-sm">Curated fitness gear and supplements</p>
+              <h3 className="text-xl font-bold mb-3 text-foreground">Premium Products</h3>
+              <p className="text-muted-foreground">Curated fitness gear and supplements to fuel your journey</p>
             </div>
 
-            <div className="card-glass text-center p-6 group hover:scale-105 transition-all duration-300">
-              <div className="bg-gradient-primary p-3 rounded-xl w-fit mx-auto mb-4 group-hover:scale-110 transition-transform">
-                <Users className="h-6 w-6 text-white" />
+            <div className="card-glass text-center p-8 group hover:scale-105 transition-all duration-300 border border-primary/20">
+              <div className="bg-gradient-primary p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform shadow-glow">
+                <Users className="h-8 w-8 text-white" />
               </div>
-              <h3 className="text-lg font-semibold mb-2">Community Power</h3>
-              <p className="text-muted-foreground text-sm">Connect with motivated fitness enthusiasts</p>
+              <h3 className="text-xl font-bold mb-3 text-foreground">Community Power</h3>
+              <p className="text-muted-foreground">Connect with motivated fitness enthusiasts worldwide</p>
             </div>
           </div>
         </div>
