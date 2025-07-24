@@ -18,7 +18,7 @@ const Header = () => {
   const navItems = [
     { label: 'Home', href: '/' },
     { label: 'Classes', href: '#classes' },
-    { label: 'Shop', href: '#shop' },
+    { label: 'Shop', href: '/shop' },
     { label: 'About', href: '/about' },
     { label: 'Blog', href: '/blog' },
     { label: 'Contact', href: '/contact' }
@@ -39,7 +39,7 @@ const Header = () => {
             <img 
               src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png" 
               alt="Blossom's Fitness Hub" 
-              className="h-10 w-auto animate-pulse-glow"
+              className="h-16 w-auto animate-pulse-glow"
             />
             <div className="hidden md:block">
               <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">

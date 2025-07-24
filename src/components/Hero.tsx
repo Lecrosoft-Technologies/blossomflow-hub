@@ -33,11 +33,11 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 text-center">
+      <div className="relative z-10 container mx-auto px-4 text-center pt-20">
         <div className="max-w-5xl mx-auto">
 
           {/* Main Headline */}
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight">
+          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-6 leading-tight mt-16">
             <span className="bg-gradient-primary bg-clip-text text-transparent">
               {heroTexts[currentText]}
             </span>
@@ -66,7 +66,7 @@ const Hero = () => {
           </div>
 
           {/* Features Preview */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-16">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto mt-16 mb-16">
             <div className="card-glass text-center p-8 group hover:scale-105 transition-all duration-300 border border-primary/20">
               <div className="bg-gradient-primary p-4 rounded-2xl w-fit mx-auto mb-6 group-hover:scale-110 transition-transform shadow-glow">
                 <Zap className="h-8 w-8 text-white" />
