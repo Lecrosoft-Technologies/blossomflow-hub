@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Play, ArrowRight, Zap, Star, Users } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import heroBg from '@/assets/hero-bg.jpg';
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState(0);
@@ -21,7 +22,13 @@ const Hero = () => {
 
   return (
     <section id="home" className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Animated Background */}
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBg})` }}
+      ></div>
+      
+      {/* Gradient Overlay */}
       <div className="absolute inset-0 bg-gradient-hero opacity-90"></div>
       
       {/* Floating Elements */}
