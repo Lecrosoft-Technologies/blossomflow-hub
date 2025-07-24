@@ -48,7 +48,7 @@ All colors MUST be HSL.
     /* Gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
     --gradient-secondary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--secondary)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--primary) / 0.9), hsl(var(--secondary) / 0.8), hsl(var(--cyber-blue) / 0.7));
+    --gradient-hero: linear-gradient(135deg, rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.6));
     --gradient-card: linear-gradient(145deg, hsl(var(--card) / 0.8), hsl(var(--muted) / 0.4));
     
     /* Shadows */

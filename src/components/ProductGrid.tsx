@@ -2,8 +2,11 @@ import { useState } from 'react';
 import { ShoppingCart, Star, Heart, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import { useCart } from '@/context/CartContext';
 
 const ProductGrid = () => {
+  const { addItem, setCurrency, state } = useCart();
+  
   const products = [
     {
       id: 1,
@@ -137,11 +140,11 @@ const ProductGrid = () => {
     }
   ];
 
-  const [currency, setCurrency] = useState('usd');
+  
 
   const formatPrice = (price: any) => {
     const symbols = { usd: '$', naira: '₦', gbp: '£' };
-    return `${symbols[currency as keyof typeof symbols]}${price[currency as keyof typeof price]}`;
+    return `${symbols[state.currency as keyof typeof symbols]}${price[state.currency as keyof typeof price]}`;
   };
 
   const getBadgeVariant = (badge: string) => {
@@ -174,10 +177,10 @@ const ProductGrid = () => {
             {['usd', 'naira', 'gbp'].map((curr) => (
               <Button
                 key={curr}
-                variant={currency === curr ? "default" : "outline"}
+                variant={state.currency === curr ? "default" : "outline"}
                 size="sm"
-                onClick={() => setCurrency(curr)}
-                className={currency === curr ? "btn-primary" : ""}
+                onClick={() => setCurrency(curr as 'usd' | 'naira' | 'gbp')}
+                className={state.currency === curr ? "btn-primary" : ""}
               >
                 {curr.toUpperCase()}
               </Button>
@@ -260,6 +263,7 @@ const ProductGrid = () => {
                 <Button 
                   className="w-full btn-secondary mt-4 group-hover:btn-primary transition-all duration-300"
                   disabled={!product.inStock}
+                  onClick={() => addItem(product)}
                 >
                   <ShoppingCart className="mr-2 h-4 w-4" />
                   {product.inStock ? 'Add to Cart' : 'Out of Stock'}
@@ -271,7 +275,10 @@ const ProductGrid = () => {
 
         {/* View All Button */}
         <div className="text-center mt-12">
-          <Button className="btn-primary text-lg px-8 py-4">
+          <Button 
+            className="btn-primary text-lg px-8 py-4"
+            onClick={() => window.location.href = '/shop'}
+          >
             View All Products
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
