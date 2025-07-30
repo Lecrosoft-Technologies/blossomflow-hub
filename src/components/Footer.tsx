@@ -161,18 +161,18 @@ const Footer = () => {
             </div>
             
             <div className="flex flex-wrap justify-center md:justify-end space-x-6 text-sm">
-              <a href="#privacy" className="text-muted-foreground hover:text-primary transition-colors hover-underline">
+              <span className="text-muted-foreground hover:text-primary transition-colors hover-underline cursor-pointer">
                 Privacy Policy
-              </a>
-              <a href="#terms" className="text-muted-foreground hover:text-primary transition-colors hover-underline">
+              </span>
+              <span className="text-muted-foreground hover:text-primary transition-colors hover-underline cursor-pointer">
                 Terms of Service
-              </a>
-              <a href="#cookies" className="text-muted-foreground hover:text-primary transition-colors hover-underline">
+              </span>
+              <span className="text-muted-foreground hover:text-primary transition-colors hover-underline cursor-pointer">
                 Cookie Policy
-              </a>
-              <a href="#accessibility" className="text-muted-foreground hover:text-primary transition-colors hover-underline">
+              </span>
+              <span className="text-muted-foreground hover:text-primary transition-colors hover-underline cursor-pointer">
                 Accessibility
-              </a>
+              </span>
             </div>
           </div>
         </div>

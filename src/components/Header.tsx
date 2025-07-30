@@ -2,11 +2,13 @@ import { useState, useEffect } from 'react';
 import { Menu, X, ShoppingCart, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useCart } from '@/context/CartContext';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { getTotalItems } = useCart();
+  const navigate = useNavigate();
 
   useEffect(() => {
     const handleScroll = () => {
@@ -53,13 +55,13 @@ const Header = () => {
           {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
-              <a
+              <Link
                 key={item.label}
-                href={item.href}
+                to={item.href}
                 className="text-foreground/80 hover:text-primary transition-colors duration-300 hover-underline font-medium"
               >
                 {item.label}
-              </a>
+              </Link>
             ))}
           </nav>
 
@@ -69,7 +71,7 @@ const Header = () => {
               variant="ghost" 
               size="icon" 
               className="relative hover:bg-primary/20"
-              onClick={() => window.location.href = '/cart'}
+              onClick={() => navigate('/cart')}
             >
               <ShoppingCart className="h-5 w-5" />
               {getTotalItems() > 0 && (
@@ -83,12 +85,12 @@ const Header = () => {
               variant="ghost" 
               size="icon" 
               className="hover:bg-primary/20"
-              onClick={() => window.location.href = '/login'}
+              onClick={() => navigate('/login')}
             >
               <User className="h-5 w-5" />
             </Button>
 
-            <Button className="btn-primary hidden md:flex" onClick={() => window.location.href = '/contact'}>
+            <Button className="btn-primary hidden md:flex" onClick={() => navigate('/contact')}>
               Become Instructor
             </Button>
 
@@ -109,18 +111,18 @@ const Header = () => {
           <div className="lg:hidden mt-4 pb-4 border-t border-border">
             <nav className="flex flex-col space-y-4 pt-4">
               {navItems.map((item) => (
-                <a
+                <Link
                   key={item.label}
-                  href={item.href}
+                  to={item.href}
                   className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.label}
-                </a>
+                </Link>
               ))}
-              <Button className="btn-primary mt-4 w-full" onClick={() => window.location.href = '/contact'}>
-                Become Instructor
-              </Button>
+            <Button className="btn-primary mt-4 w-full" onClick={() => navigate('/contact')}>
+              Become Instructor
+            </Button>
             </nav>
           </div>
         )}
