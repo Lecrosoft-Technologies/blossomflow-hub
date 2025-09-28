@@ -19,8 +19,9 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				poppins: ['Poppins', 'sans-serif'],
-				urbanist: ['Urbanist', 'sans-serif'],
+				inter: ['Inter', 'sans-serif'],
+				heading: ['Playfair Display', 'serif'],
+				accent: ['Space Grotesk', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
@@ -67,10 +68,13 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				'electric-purple': 'hsl(var(--electric-purple))',
-				'neon-pink': 'hsl(var(--neon-pink))',
-				'cyber-blue': 'hsl(var(--cyber-blue))',
-				'energy-green': 'hsl(var(--energy-green))'
+				'blossom-purple': 'hsl(var(--blossom-purple))',
+				'blossom-pink': 'hsl(var(--blossom-pink))',
+				'blossom-coral': 'hsl(var(--blossom-coral))',
+				'blossom-mint': 'hsl(var(--blossom-mint))',
+				'blossom-cream': 'hsl(var(--blossom-cream))',
+				'blossom-dark': 'hsl(var(--blossom-dark))',
+				'blossom-accent': 'hsl(var(--blossom-accent))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
