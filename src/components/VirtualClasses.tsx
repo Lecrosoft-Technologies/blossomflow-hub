@@ -1,6 +1,16 @@
-import { Play, Clock, Users, Star, Calendar } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
+import { Play, Clock, Users, Star, Calendar } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Badge } from "@/components/ui/badge";
+
+import blastImage from "@/assets/blossom-group1.jpg";
+import yogaImage from "@/assets/blossom-group2.jpg";
+import strengthImage from "@/assets/blossom-group3.jpg";
+import danceImage from "@/assets/blossom-group4.jpg";
+import pilatesImage from "@/assets/blossom-group5.jpg";
+import boxingImage from "@/assets/blossom-group8.jpg";
+import blossomSingleImage from "@/assets/blossom-single.jpg";
+import blossomSingle2Image from "@/assets/blossom-single2.jpg";
+import dance from "@/assets/dance-no-logo.jpg";
 
 const VirtualClasses = () => {
   const classes = [
@@ -14,9 +24,9 @@ const VirtualClasses = () => {
       difficulty: "Advanced",
       type: "Live",
       schedule: "Today 6:00 PM",
-      thumbnail: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=300&fit=crop",
+      thumbnail: blastImage,
       price: { free: false, amount: 15 },
-      category: "HIIT"
+      category: "HIIT",
     },
     {
       id: 2,
@@ -28,9 +38,11 @@ const VirtualClasses = () => {
       difficulty: "Beginner",
       type: "Recorded",
       schedule: "Available Now",
-      thumbnail: "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=500&h=300&fit=crop",
+      thumbnail: blossomSingle2Image,
+      // thumbnail:
+      //   "https://images.unsplash.com/photo-1588286840104-8957b019727f?w=500&h=300&fit=crop",
       price: { free: true, amount: 0 },
-      category: "Yoga"
+      category: "Yoga",
     },
     {
       id: 3,
@@ -42,9 +54,10 @@ const VirtualClasses = () => {
       difficulty: "Intermediate",
       type: "Live",
       schedule: "Tomorrow 7:30 AM",
-      thumbnail: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=300&fit=crop",
+      thumbnail:
+        "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=500&h=300&fit=crop",
       price: { free: false, amount: 20 },
-      category: "Strength"
+      category: "Strength",
     },
     {
       id: 4,
@@ -56,9 +69,11 @@ const VirtualClasses = () => {
       difficulty: "All Levels",
       type: "Recorded",
       schedule: "Available Now",
-      thumbnail: "https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=500&h=300&fit=crop",
+      thumbnail: dance,
+      // thumbnail:
+      //   "https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=500&h=300&fit=crop",
       price: { free: true, amount: 0 },
-      category: "Cardio"
+      category: "Cardio",
     },
     {
       id: 5,
@@ -70,9 +85,9 @@ const VirtualClasses = () => {
       difficulty: "Intermediate",
       type: "Live",
       schedule: "Wed 5:30 PM",
-      thumbnail: "https://images.unsplash.com/photo-1506629905607-a39f1fd2018b?w=500&h=300&fit=crop",
+      thumbnail: blossomSingleImage,
       price: { free: false, amount: 12 },
-      category: "Pilates"
+      category: "Pilates",
     },
     {
       id: 6,
@@ -84,20 +99,21 @@ const VirtualClasses = () => {
       difficulty: "Advanced",
       type: "Recorded",
       schedule: "Available Now",
-      thumbnail: "https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=500&h=300&fit=crop",
+      thumbnail:
+        "https://images.unsplash.com/photo-1594737625785-a6cbdabd333c?w=500&h=300&fit=crop",
       price: { free: false, amount: 18 },
-      category: "Boxing"
-    }
+      category: "Boxing",
+    },
   ];
 
   const getDifficultyColor = (difficulty: string) => {
     const colors: Record<string, string> = {
-      'Beginner': 'bg-energy-green',
-      'Intermediate': 'bg-cyber-blue',
-      'Advanced': 'bg-gradient-secondary',
-      'All Levels': 'bg-gradient-primary'
+      Beginner: "bg-energy-green",
+      Intermediate: "bg-cyber-blue",
+      Advanced: "bg-gradient-secondary",
+      "All Levels": "bg-gradient-primary",
     };
-    return colors[difficulty] || 'bg-muted';
+    return colors[difficulty] || "bg-muted";
   };
 
   return (
@@ -106,17 +122,20 @@ const VirtualClasses = () => {
         {/* Section Header */}
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-6xl font-black mb-6">
-            <span className="bg-gradient-secondary bg-clip-text text-transparent">Virtual</span>
+            <span className="bg-gradient-secondary bg-clip-text text-transparent">
+              Virtual
+            </span>
             <br />
             Fitness Classes
           </h2>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
-            Access world-class fitness instruction from anywhere. Join live sessions or train on-demand with our expert trainers.
+            Access world-class fitness instruction from anywhere. Join live
+            sessions or train on-demand with our expert trainers.
           </p>
-          
+
           {/* Filter Tabs */}
           <div className="flex flex-wrap justify-center gap-2 mb-8">
-            {['All', 'Live', 'Recorded', 'Free'].map((filter) => (
+            {["All", "Live", "Recorded", "Free"].map((filter) => (
               <Button
                 key={filter}
                 variant="outline"
@@ -132,18 +151,21 @@ const VirtualClasses = () => {
         {/* Classes Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {classes.map((classItem) => (
-            <div key={classItem.id} className="card-glass group cursor-pointer relative overflow-hidden">
+            <div
+              key={classItem.id}
+              className="card-glass group cursor-pointer relative overflow-hidden"
+            >
               {/* Thumbnail */}
               <div className="relative overflow-hidden rounded-xl mb-4">
-                <img 
-                  src={classItem.thumbnail} 
+                <img
+                  src={classItem.thumbnail}
                   alt={classItem.title}
                   className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
-                
+
                 {/* Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent"></div>
-                
+
                 {/* Play Button */}
                 <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                   <div className="bg-primary/90 rounded-full p-4 backdrop-blur-sm">
@@ -152,7 +174,7 @@ const VirtualClasses = () => {
                 </div>
 
                 {/* Live Badge */}
-                {classItem.type === 'Live' && (
+                {classItem.type === "Live" && (
                   <Badge className="absolute top-4 left-4 bg-red-500 text-white animate-pulse">
                     🔴 LIVE
                   </Badge>
@@ -181,7 +203,11 @@ const VirtualClasses = () => {
                   <Badge variant="outline" className="text-xs">
                     {classItem.category}
                   </Badge>
-                  <Badge className={`text-xs text-white ${getDifficultyColor(classItem.difficulty)}`}>
+                  <Badge
+                    className={`text-xs text-white ${getDifficultyColor(
+                      classItem.difficulty
+                    )}`}
+                  >
                     {classItem.difficulty}
                   </Badge>
                 </div>
@@ -193,7 +219,10 @@ const VirtualClasses = () => {
 
                 {/* Instructor */}
                 <p className="text-muted-foreground">
-                  with <span className="text-primary font-medium">{classItem.instructor}</span>
+                  with{" "}
+                  <span className="text-primary font-medium">
+                    {classItem.instructor}
+                  </span>
                 </p>
 
                 {/* Stats */}
@@ -220,14 +249,16 @@ const VirtualClasses = () => {
                     {classItem.price.free ? (
                       <span className="text-energy-green">FREE</span>
                     ) : (
-                      <span className="text-primary">${classItem.price.amount}</span>
+                      <span className="text-primary">
+                        ${classItem.price.amount}
+                      </span>
                     )}
                   </div>
-                  <Button 
-                    size="sm" 
+                  <Button
+                    size="sm"
                     className="btn-secondary group-hover:btn-primary transition-all duration-300"
                   >
-                    {classItem.type === 'Live' ? 'Join Live' : 'Watch Now'}
+                    {classItem.type === "Live" ? "Join Live" : "Watch Now"}
                   </Button>
                 </div>
               </div>
@@ -245,10 +276,11 @@ const VirtualClasses = () => {
               Get unlimited access to all classes with our premium membership
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="btn-primary">
-                Start Free Trial
-              </Button>
-              <Button variant="outline" className="hover:bg-primary hover:text-primary-foreground">
+              <Button className="btn-primary">Start Free Trial</Button>
+              <Button
+                variant="outline"
+                className="hover:bg-primary hover:text-primary-foreground"
+              >
                 View All Classes
               </Button>
             </div>

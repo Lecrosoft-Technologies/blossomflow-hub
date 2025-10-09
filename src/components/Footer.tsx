@@ -65,7 +65,7 @@ const Footer = () => {
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 text-sm">
                   <MapPin className="h-4 w-4 text-primary" />
-                  <span className="text-muted-foreground">123 Fitness Street, Wellness City, WC 12345</span>
+                  <span className="text-muted-foreground">123 Fitness Street, Wellness City,Lagos</span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm">
                   <Phone className="h-4 w-4 text-primary" />

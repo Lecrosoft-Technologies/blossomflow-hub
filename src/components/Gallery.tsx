@@ -1,10 +1,23 @@
-import { useState } from 'react';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Card } from '@/components/ui/card';
-import gymInterior from '@/assets/gym-interior-1.jpg';
-import gymClass from '@/assets/gym-class.jpg';
-import personalTraining from '@/assets/personal-training.jpg';
+import { useState } from "react";
+import { ChevronLeft, ChevronRight, X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Card } from "@/components/ui/card";
+import gymInterior from "@/assets/gym-interior-1.jpg";
+import gymClass from "@/assets/gym-class.jpg";
+import personalTraining from "@/assets/personal-training.jpg";
+
+import blastImage from "@/assets/blossom-group1.jpg";
+import yogaImage from "@/assets/blossom-group2.jpg";
+import strengthImage from "@/assets/blossom-group3.jpg";
+import danceImage from "@/assets/blossom-group4.jpg";
+import pilatesImage from "@/assets/blossom-group5.jpg";
+import boxingImage from "@/assets/blossom-group8.jpg";
+import blossomSingleImage from "@/assets/blossom-single.jpg";
+import blossomSingle2Image from "@/assets/blossom-single2.jpg";
+import dance from "@/assets/dance-no-logo.jpg";
+import eventPics from "@/assets/blossom-event.jpg";
+import matureGroup from "@/assets/mature-grop.jpg";
+import blossomSingleWhite from "@/assets/blossom-single-white.jpg";
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -12,46 +25,50 @@ const Gallery = () => {
   const galleryImages = [
     {
       id: 1,
-      src: gymInterior,
+      src: eventPics,
       alt: "Modern Gym Interior",
       title: "State-of-the-Art Equipment",
-      description: "Experience our fully equipped fitness facility with the latest technology"
+      description:
+        "Experience our fully equipped fitness facility with the latest technology",
     },
     {
       id: 2,
-      src: gymClass,
+      src: matureGroup,
       alt: "Group Fitness Class",
-      title: "Group Fitness Classes", 
-      description: "Join our energetic group sessions and train with like-minded individuals"
+      title: "Group Fitness Classes",
+      description:
+        "Join our energetic group sessions and train with like-minded individuals",
     },
     {
       id: 3,
-      src: personalTraining,
+      src: blossomSingle2Image,
       alt: "Personal Training Session",
       title: "Personal Training",
-      description: "One-on-one coaching tailored to your specific fitness goals"
+      description:
+        "One-on-one coaching tailored to your specific fitness goals",
     },
     {
       id: 4,
-      src: gymInterior,
+      src: danceImage,
       alt: "Cardio Area",
       title: "Cardio Zone",
-      description: "Dedicated cardio area with premium machines and entertainment systems"
+      description:
+        "Dedicated cardio area with premium machines and entertainment systems",
     },
     {
       id: 5,
-      src: gymClass,
+      src: strengthImage,
       alt: "Strength Training",
       title: "Strength Training",
-      description: "Complete free weights and resistance training equipment"
+      description: "Complete free weights and resistance training equipment",
     },
     {
       id: 6,
-      src: personalTraining,
+      src: blossomSingleWhite,
       alt: "Wellness Area",
       title: "Wellness & Recovery",
-      description: "Dedicated space for stretching, meditation, and recovery"
-    }
+      description: "Dedicated space for stretching, meditation, and recovery",
+    },
   ];
 
   const openModal = (index: number) => {
@@ -70,7 +87,9 @@ const Gallery = () => {
 
   const prevImage = () => {
     if (selectedImage !== null) {
-      setSelectedImage(selectedImage === 0 ? galleryImages.length - 1 : selectedImage - 1);
+      setSelectedImage(
+        selectedImage === 0 ? galleryImages.length - 1 : selectedImage - 1
+      );
     }
   };
 
@@ -82,20 +101,21 @@ const Gallery = () => {
             Our Gym <span className="text-primary">Environment</span>
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Step into our world-class fitness facility designed to inspire and motivate your fitness journey
+            Step into our world-class fitness facility designed to inspire and
+            motivate your fitness journey
           </p>
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {galleryImages.map((image, index) => (
-            <Card 
-              key={image.id} 
+            <Card
+              key={image.id}
               className="card-glass overflow-hidden group cursor-pointer hover-scale"
               onClick={() => openModal(index)}
             >
               <div className="relative overflow-hidden">
-                <img 
-                  src={image.src} 
+                <img
+                  src={image.src}
                   alt={image.alt}
                   className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-110"
                 />
@@ -121,7 +141,7 @@ const Gallery = () => {
               >
                 <X className="h-6 w-6" />
               </Button>
-              
+
               <Button
                 variant="ghost"
                 size="icon"
@@ -130,7 +150,7 @@ const Gallery = () => {
               >
                 <ChevronLeft className="h-8 w-8" />
               </Button>
-              
+
               <Button
                 variant="ghost"
                 size="icon"
@@ -139,16 +159,20 @@ const Gallery = () => {
               >
                 <ChevronRight className="h-8 w-8" />
               </Button>
-              
-              <img 
+
+              <img
                 src={galleryImages[selectedImage].src}
                 alt={galleryImages[selectedImage].alt}
                 className="max-w-full max-h-full object-contain"
               />
-              
+
               <div className="absolute bottom-4 left-4 right-4 text-white text-center">
-                <h3 className="text-xl font-bold mb-2">{galleryImages[selectedImage].title}</h3>
-                <p className="text-white/90">{galleryImages[selectedImage].description}</p>
+                <h3 className="text-xl font-bold mb-2">
+                  {galleryImages[selectedImage].title}
+                </h3>
+                <p className="text-white/90">
+                  {galleryImages[selectedImage].description}
+                </p>
               </div>
             </div>
           </div>
