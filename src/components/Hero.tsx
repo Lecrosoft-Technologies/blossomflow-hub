@@ -3,7 +3,7 @@ import { Play, ArrowRight, Zap, Star, Users, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useParallax } from "@/hooks/useParallax";
-import drBlossomHero from "@/assets/dr-blossom-hero.jpg";
+import drBlossomHero from "@/assets/hero-bg-with-coach.png";
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState(0);
@@ -42,7 +42,7 @@ const Hero = () => {
         />
 
         {/* Gradient Overlay */}
-        <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-background/90" />
+        {/* <div className="absolute inset-0 bg-gradient-to-br from-background/90 via-background/70 to-background/90" /> */}
 
         {/* Floating Elements */}
         <div className="absolute inset-0 overflow-hidden">
