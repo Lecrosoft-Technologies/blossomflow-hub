@@ -2,13 +2,12 @@ import { useState, useEffect } from "react";
 import { Play, ArrowRight, Zap, Star, Users, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import { useParallax } from "@/hooks/useParallax";
 import drBlossomImage from "@/assets/dr_blossom.png";
 import heroBackground from "@/assets/hero-real-bg.jpg";
+import twirlPattern from "@/assets/Twirl-line.png";
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState(0);
-  const parallaxRef = useParallax(0.3);
 
   const heroTexts = [
     "Fun First, Fitness Always",
@@ -33,11 +32,10 @@ const Hero = () => {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image with Parallax */}
+      {/* Background Image */}
       <div className="absolute inset-0">
         <div
-          ref={parallaxRef}
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat parallax-element"
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
           style={{ backgroundImage: `url(${heroBackground})` }}
         />
         {/* Gradient Overlay for better text readability */}
@@ -92,10 +90,21 @@ const Hero = () => {
           {/* Right Side - Dr. Blossom Image with Floating Stats */}
           <div className="relative flex justify-center lg:justify-end animate-fade-in-up stagger-2">
             <div className="relative">
+              {/* Twirl Pattern Background */}
+              <div 
+                className="absolute inset-0 opacity-30 pointer-events-none z-0"
+                style={{ 
+                  backgroundImage: `url(${twirlPattern})`,
+                  backgroundSize: 'cover',
+                  backgroundRepeat: 'repeat',
+                  backgroundPosition: 'center'
+                }}
+              />
+              
               <img
                 src={drBlossomImage}
                 alt="Dr. Blossom Maduafokwa - Fitness Instructor"
-                className="relative w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-2xl"
+                className="relative z-10 w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-2xl"
               />
 
               {/* Floating Stat Cards */}

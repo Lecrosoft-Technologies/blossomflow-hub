@@ -5,6 +5,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { CartProvider } from "@/context/CartContext";
 import { ThemeProvider } from "next-themes";
+import PageLoader from "@/components/PageLoader";
 import Index from "./pages/Index";
 import About from "./pages/About";
 import Blog from "./pages/Blog";
@@ -27,6 +28,7 @@ const App = () => (
     <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
       <CartProvider>
         <TooltipProvider>
+          <PageLoader />
           <Toaster />
           <Sonner />
           <BrowserRouter>
