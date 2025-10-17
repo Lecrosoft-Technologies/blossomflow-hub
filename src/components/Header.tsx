@@ -31,7 +31,7 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out  flex ${
         isScrolled
           ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-lg"
           : "bg-transparent"

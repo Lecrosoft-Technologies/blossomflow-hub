@@ -46,7 +46,7 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 container-custom mx-auto px-4 pt-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto md:mt-[-3rem]">
           {/* Left Side - Text Content */}
           <div className="text-left space-y-8">
             {/* Brand Badge */}
@@ -60,7 +60,7 @@ const Hero = () => {
             </div>
 
             {/* Main Headline */}
-            <h1 className="hero-text animate-fade-in-up stagger-1">
+            <h1 className="hero-text animate-fade-in-up staggeruu-1">
               <span className="bg-gradient-primary bg-clip-text text-transparent">
                 {heroTexts[currentText]}
               </span>
@@ -87,7 +87,6 @@ const Hero = () => {
                 </Button>
               </Link>
             </div>
-
           </div>
 
           {/* Right Side - Dr. Blossom Image with Floating Stats */}
@@ -98,7 +97,7 @@ const Hero = () => {
                 alt="Dr. Blossom Maduafokwa - Fitness Instructor"
                 className="w-full max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-2xl"
               />
-              
+
               {/* Floating Stat Cards */}
               <div className="absolute top-[15%] -left-8 glass-card p-4 rounded-xl shadow-lg animate-float">
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
@@ -109,7 +108,10 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="absolute top-[35%] -right-4 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "0.5s" }}>
+              <div
+                className="absolute top-[35%] -right-4 glass-card p-4 rounded-xl shadow-lg animate-float"
+                style={{ animationDelay: "0.5s" }}
+              >
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
                   50+
                 </div>
@@ -118,7 +120,10 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "1s" }}>
+              <div
+                className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float"
+                style={{ animationDelay: "1s" }}
+              >
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
                   5+
                 </div>
@@ -127,7 +132,10 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="absolute bottom-[10%] right-0 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "1.5s" }}>
+              <div
+                className="absolute bottom-[10%] right-0 glass-card p-4 rounded-xl shadow-lg animate-float"
+                style={{ animationDelay: "1.5s" }}
+              >
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
                   100%
                 </div>
@@ -156,7 +164,8 @@ const Hero = () => {
               High-Energy Zumba
             </h3>
             <p className="text-sm text-muted-foreground">
-              Dance-fitness classes that combine Latin rhythms with effective cardio workouts
+              Dance-fitness classes that combine Latin rhythms with effective
+              cardio workouts
             </p>
           </div>
 
@@ -168,7 +177,8 @@ const Hero = () => {
               Premium Wellness
             </h3>
             <p className="text-sm text-muted-foreground">
-              Holistic approach including nutrition guidance and lifestyle coaching
+              Holistic approach including nutrition guidance and lifestyle
+              coaching
             </p>
           </div>
 
