@@ -66,14 +66,16 @@ const Hero = () => {
       <div className="relative z-10 container-custom mx-auto px-4 text-center pt-32">
         <div className="max-w-6xl mx-auto">
           {/* Brand Badge */}
-          <div className="mb-8 animate-fade-in-up">
+          {/* <div className="mb-8 animate-fade-in-up">
             <div className="inline-flex items-center space-x-2 glass-card px-6 py-3 rounded-full">
               <Heart className="w-5 h-5 text-blossom-purple" />
               <span className="font-accent font-medium text-blossom-purple">
                 Led by Dr. Blossom Maduafokwa
               </span>
             </div>
-          </div>
+          </div> */}
+
+          
 
           {/* Main Headline */}
           <h1 className="hero-text mb-8 animate-fade-in-up stagger-1">
