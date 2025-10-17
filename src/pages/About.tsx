@@ -19,6 +19,7 @@ import blossomSingle2Image from "@/assets/blossom-single2.jpg";
 import dance from "@/assets/dance-no-logo.jpg";
 import eventPics from "@/assets/blossom-event.jpg";
 import matureGroup from "@/assets/mature-grop.jpg";
+import blossomAlleGroup from "@/assets/blossom-group.jpg";
 
 const About = () => {
   const values = [
@@ -64,7 +65,7 @@ const About = () => {
     {
       name: "Emma Davis",
       role: "Yoga & Wellness Instructor",
-      image: personalTraining,
+      image: blossomAlleGroup,
       bio: "Certified yoga instructor focused on mindfulness and holistic wellness.",
     },
   ];
@@ -101,7 +102,7 @@ const About = () => {
               <h2 className="text-4xl font-bold mb-6">Our Story</h2>
               <div className="space-y-4 text-muted-foreground leading-relaxed">
                 <p>
-                  Founded by Dr. Blossom Maduafokwa  a passionate Creative
+                  Founded by Dr. Blossom Maduafokwa a passionate Creative
                   Director, certified Zumba Instructor, and wellness advocate.
                   Blossom’s Fitness is driven by the vision to redefine fitness
                   culture in Nigeria. With her background in health and her deep
@@ -117,13 +118,10 @@ const About = () => {
                 </p>
                 <p>
                   At Blossom’s Fitness, our core values guide everything we do:
-                  Inclusivity
-                  – Everyone is welcome on the dance floor. Passion
-                  – We bring energy and heart to every movement.
-                  Empowerment
-                  – We help people discover their strength, inside and out.
-                  Wellness
-                  – We promote holistic living through mind, body, and
+                  Inclusivity – Everyone is welcome on the dance floor. Passion
+                  – We bring energy and heart to every movement. Empowerment –
+                  We help people discover their strength, inside and out.
+                  Wellness – We promote holistic living through mind, body, and
                   spirit balance. Join us as we dance, grow, and transform one
                   beat, one move, and one life at a time.
                 </p>

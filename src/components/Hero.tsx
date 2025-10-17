@@ -44,11 +44,11 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 container-custom mx-auto px-4 pt-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto md:mt-[-3rem]">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto md:mt-[-4rem]">
           {/* Left Side - Text Content */}
-          <div className="text-left space-y-8">
+          <div className="text-left space-y-8  md:mt-[-4rem]">
             {/* Brand Badge */}
-            <div className="animate-fade-in-up">
+            <div className="animate-fade-in-up md:mt-[-4rem]">
               <div className="inline-flex items-center space-x-2 glass-card px-6 py-3 rounded-full">
                 <Heart className="w-5 h-5 text-blossom-purple" />
                 <span className="font-accent font-medium text-blossom-purple">
@@ -73,7 +73,7 @@ const Hero = () => {
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-2">
               <Link to="/classes">
                 <Button size="lg" className="btn-primary text-lg group">
-                  Join Our Dance Community
+                  Join Our Zumba Community
                   <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
@@ -91,16 +91,16 @@ const Hero = () => {
           <div className="relative flex justify-center lg:justify-end animate-fade-in-up stagger-2">
             <div className="relative">
               {/* Twirl Pattern Background */}
-              <div 
+              <div
                 className="absolute inset-0 opacity-30 pointer-events-none z-0"
-                style={{ 
+                style={{
                   backgroundImage: `url(${twirlPattern})`,
-                  backgroundSize: 'cover',
-                  backgroundRepeat: 'repeat',
-                  backgroundPosition: 'center'
+                  backgroundSize: "cover",
+                  backgroundRepeat: "repeat",
+                  backgroundPosition: "center",
                 }}
               />
-              
+
               <img
                 src={drBlossomImage}
                 alt="Dr. Blossom Maduafokwa - Fitness Instructor"

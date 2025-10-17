@@ -1,39 +1,63 @@
-import { Instagram, Facebook, Youtube, Twitter, MapPin, Phone, Mail } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import {
+  Instagram,
+  Facebook,
+  Youtube,
+  Twitter,
+  MapPin,
+  Phone,
+  Mail,
+} from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 const Footer = () => {
   const socialLinks = [
-    { icon: Instagram, href: 'https://instagram.com/blossomsfitnesshub', label: 'Instagram' },
-    { icon: Facebook, href: 'https://facebook.com/blossomsfitnesshub', label: 'Facebook' },
-    { icon: Youtube, href: 'https://youtube.com/blossomsfitnesshub', label: 'YouTube' },
-    { icon: Twitter, href: 'https://twitter.com/blossomsfitnesshub', label: 'X (Twitter)' }
+    {
+      icon: Instagram,
+      href: "https://instagram.com/blossomsfitnesshub",
+      label: "Instagram",
+    },
+    {
+      icon: Facebook,
+      href: "https://facebook.com/blossomsfitnesshub",
+      label: "Facebook",
+    },
+    {
+      icon: Youtube,
+      href: "https://youtube.com/blossomsfitnesshub",
+      label: "YouTube",
+    },
+    {
+      icon: Twitter,
+      href: "https://twitter.com/blossomsfitnesshub",
+      label: "X (Twitter)",
+    },
   ];
 
   const quickLinks = [
-    { label: 'About Us', href: '#about' },
-    { label: 'Virtual Classes', href: '#classes' },
-    { label: 'Membership Plans', href: '#pricing' },
-    { label: 'Personal Training', href: '#training' },
-    { label: 'Nutrition Coaching', href: '#nutrition' },
-    { label: 'Corporate Wellness', href: '#corporate' }
+    { label: "About Us", href: "#about" },
+    { label: "Virtual Classes", href: "#classes" },
+    { label: "Membership Plans", href: "#pricing" },
+    { label: "Personal Training", href: "#training" },
+    { label: "Nutrition Coaching", href: "#nutrition" },
+    { label: "Corporate Wellness", href: "#corporate" },
   ];
 
   const supportLinks = [
-    { label: 'Help Center', href: '#help' },
-    { label: 'Contact Support', href: '#support' },
-    { label: 'Class Schedule', href: '#schedule' },
-    { label: 'Booking Policy', href: '#policy' },
-    { label: 'Refund Policy', href: '#refunds' },
-    { label: 'Technical Support', href: '#tech' }
+    { label: "Help Center", href: "#help" },
+    { label: "Contact Support", href: "#support" },
+    { label: "Class Schedule", href: "#schedule" },
+    { label: "Booking Policy", href: "#policy" },
+    { label: "Refund Policy", href: "#refunds" },
+    { label: "Technical Support", href: "#tech" },
   ];
 
   const shopLinks = [
-    { label: 'Fitness Equipment', href: '#equipment' },
-    { label: 'Supplements', href: '#supplements' },
-    { label: 'Workout Apparel', href: '#apparel' },
-    { label: 'Accessories', href: '#accessories' },
-    { label: 'Gift Cards', href: '#gifts' },
-    { label: 'New Arrivals', href: '#new' }
+    { label: "Fitness Equipment", href: "#equipment" },
+    { label: "Supplements", href: "#supplements" },
+    { label: "Workout Apparel", href: "#apparel" },
+    { label: "Accessories", href: "#accessories" },
+    { label: "Gift Cards", href: "#gifts" },
+    { label: "New Arrivals", href: "#new" },
   ];
 
   return (
@@ -45,9 +69,9 @@ const Footer = () => {
             {/* Brand Section */}
             <div className="space-y-6">
               <div className="flex items-center space-x-3">
-                <img 
-                  src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png" 
-                  alt="Blossom's Fitness Hub" 
+                <img
+                  src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png"
+                  alt="Blossom's Fitness Hub"
                   className="h-10 w-auto"
                 />
                 <div>
@@ -56,24 +80,33 @@ const Footer = () => {
                   </h3>
                 </div>
               </div>
-              
+
               <p className="text-muted-foreground leading-relaxed">
-                Transform your body, elevate your mind. Join thousands of members on their fitness journey with cutting-edge virtual classes and premium products.
+                Transform your body, elevate your mind. Join thousands of
+                members on their fitness journey with cutting-edge virtual
+                classes and premium products.
               </p>
 
               {/* Contact Info */}
               <div className="space-y-3">
                 <div className="flex items-center space-x-3 text-sm">
                   <MapPin className="h-4 w-4 text-primary" />
-                  <span className="text-muted-foreground">123 Fitness Street, Wellness City,Lagos</span>
+                  <span className="text-muted-foreground">
+                    Nestoil Towers,4th Flooor,41/42 Akin Adesola Street,
+                    Victoria Island,Lagos
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm">
                   <Phone className="h-4 w-4 text-primary" />
-                  <span className="text-muted-foreground">+1 (555) 123-FITNESS</span>
+                  <span className="text-muted-foreground">
+                    +234 803 502 6262
+                  </span>
                 </div>
                 <div className="flex items-center space-x-3 text-sm">
                   <Mail className="h-4 w-4 text-primary" />
-                  <span className="text-muted-foreground">hello@blossomsfitnesshub.com</span>
+                  <span className="text-muted-foreground">
+                    blossom@blossomsfitnesshub.com
+                  </span>
                 </div>
               </div>
 
@@ -87,7 +120,7 @@ const Footer = () => {
                     asChild
                     className="hover:bg-primary hover:text-primary-foreground transition-all duration-300"
                   >
-                    <a 
+                    <a
                       href={social.href}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -106,7 +139,7 @@ const Footer = () => {
               <ul className="space-y-3">
                 {quickLinks.map((link) => (
                   <li key={link.label}>
-                    <a 
+                    <a
                       href={link.href}
                       className="text-muted-foreground hover:text-primary transition-colors duration-300 hover-underline"
                     >
@@ -123,7 +156,7 @@ const Footer = () => {
               <ul className="space-y-3">
                 {supportLinks.map((link) => (
                   <li key={link.label}>
-                    <a 
+                    <a
                       href={link.href}
                       className="text-muted-foreground hover:text-primary transition-colors duration-300 hover-underline"
                     >
@@ -140,7 +173,7 @@ const Footer = () => {
               <ul className="space-y-3">
                 {shopLinks.map((link) => (
                   <li key={link.label}>
-                    <a 
+                    <a
                       href={link.href}
                       className="text-muted-foreground hover:text-primary transition-colors duration-300 hover-underline"
                     >
@@ -159,7 +192,7 @@ const Footer = () => {
             <div className="text-sm text-muted-foreground">
               © 2024 Blossom's Fitness Hub. All rights reserved.
             </div>
-            
+
             <div className="flex flex-wrap justify-center md:justify-end space-x-6 text-sm">
               <span className="text-muted-foreground hover:text-primary transition-colors hover-underline cursor-pointer">
                 Privacy Policy

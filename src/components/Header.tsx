@@ -23,10 +23,10 @@ const Header = () => {
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
 
-    { label: "Shop", href: "/shop" },
+    { label: "Store", href: "/shop" },
     { label: "Classes", href: "/classes" },
     { label: "Blog", href: "/blog" },
-    { label: "Contact", href: "/contact" },
+    // { label: "Contact", href: "/contact" },
   ];
 
   return (
@@ -36,7 +36,7 @@ const Header = () => {
           ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-lg"
           : "bg-transparent"
       }`}
-      style={{ maxHeight: '10vh' }}
+      style={{ maxHeight: "10vh" }}
     >
       <div className="container mx-auto px-4 lg:px-8 py-2">
         <div className="flex items-center justify-between">
@@ -93,7 +93,7 @@ const Header = () => {
               className="btn-primary hidden md:flex"
               onClick={() => navigate("/contact")}
             >
-              Become Instructor
+              Contact Us
             </Button>
 
             {/* Mobile Menu Button */}
@@ -130,7 +130,7 @@ const Header = () => {
                 className="btn-primary mt-4 w-full"
                 onClick={() => navigate("/contact")}
               >
-                Become Instructor
+                Contact Us
               </Button>
             </nav>
           </div>

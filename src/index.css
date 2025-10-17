@@ -1,6 +1,6 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap');
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800;900&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap");
 
 @tailwind base;
 @tailwind components;
@@ -42,11 +42,32 @@
     --blossom-accent: 45 93% 87%;
 
     /* Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--blossom-purple)), hsl(var(--blossom-pink)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--blossom-coral)), hsl(var(--blossom-mint)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--blossom-purple)) 0%, hsl(var(--blossom-pink)) 50%, hsl(var(--blossom-coral)) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--blossom-cream)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--blossom-accent)) 0%, hsl(var(--blossom-cream)) 100%);
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(var(--blossom-purple)),
+      hsl(var(--blossom-pink))
+    );
+    --gradient-secondary: linear-gradient(
+      135deg,
+      hsl(var(--blossom-coral)),
+      hsl(var(--blossom-mint))
+    );
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(var(--blossom-purple)) 0%,
+      hsl(var(--blossom-pink)) 50%,
+      hsl(var(--blossom-coral)) 100%
+    );
+    --gradient-subtle: linear-gradient(
+      180deg,
+      hsl(var(--background)),
+      hsl(var(--blossom-cream))
+    );
+    --gradient-accent: linear-gradient(
+      135deg,
+      hsl(var(--blossom-accent)) 0%,
+      hsl(var(--blossom-cream)) 100%
+    );
 
     /* Shadows & Effects */
     --shadow-soft: 0 4px 20px -4px hsl(var(--blossom-purple) / 0.2);
@@ -103,11 +124,32 @@
     --blossom-accent: 240 6% 25%;
 
     /* Dark Mode Gradients */
-    --gradient-primary: linear-gradient(135deg, hsl(var(--blossom-purple)), hsl(var(--blossom-pink)));
-    --gradient-secondary: linear-gradient(135deg, hsl(var(--blossom-coral)), hsl(var(--blossom-mint)));
-    --gradient-hero: linear-gradient(135deg, hsl(var(--blossom-purple)) 0%, hsl(var(--blossom-pink)) 50%, hsl(var(--blossom-coral)) 100%);
-    --gradient-subtle: linear-gradient(180deg, hsl(var(--background)), hsl(var(--blossom-cream)));
-    --gradient-accent: linear-gradient(135deg, hsl(var(--blossom-accent)) 0%, hsl(var(--blossom-cream)) 100%);
+    --gradient-primary: linear-gradient(
+      135deg,
+      hsl(var(--blossom-purple)),
+      hsl(var(--blossom-pink))
+    );
+    --gradient-secondary: linear-gradient(
+      135deg,
+      hsl(var(--blossom-coral)),
+      hsl(var(--blossom-mint))
+    );
+    --gradient-hero: linear-gradient(
+      135deg,
+      hsl(var(--blossom-purple)) 0%,
+      hsl(var(--blossom-pink)) 50%,
+      hsl(var(--blossom-coral)) 100%
+    );
+    --gradient-subtle: linear-gradient(
+      180deg,
+      hsl(var(--background)),
+      hsl(var(--blossom-cream))
+    );
+    --gradient-accent: linear-gradient(
+      135deg,
+      hsl(var(--blossom-accent)) 0%,
+      hsl(var(--blossom-cream)) 100%
+    );
 
     /* Dark Mode Shadows */
     --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
@@ -133,7 +175,7 @@
   * {
     @apply border-border;
   }
-  
+
   body {
     @apply bg-background text-foreground font-inter overflow-x-hidden;
   }
@@ -165,30 +207,30 @@
 @layer components {
   /* Typography */
   .font-heading {
-    font-family: 'Playfair Display', serif;
+    font-family: "Playfair Display", serif;
   }
 
   .font-body {
-    font-family: 'Inter', sans-serif;
+    font-family: "Inter", sans-serif;
   }
 
   .font-accent {
-    font-family: 'Space Grotesk', sans-serif;
+    font-family: "Space Grotesk", sans-serif;
   }
 
   /* Gradient Backgrounds */
   .bg-gradient-primary {
     background: var(--gradient-primary);
   }
-  
+
   .bg-gradient-secondary {
     background: var(--gradient-secondary);
   }
-  
+
   .bg-gradient-hero {
     background: var(--gradient-hero);
   }
-  
+
   .bg-gradient-subtle {
     background: var(--gradient-subtle);
   }
@@ -235,7 +277,7 @@
   .btn-primary {
     @apply bg-gradient-primary text-primary-foreground px-8 py-4 rounded-xl font-semibold shadow-soft hover:shadow-medium transition-all duration-300 transform hover:scale-[1.02] hover:glow-primary;
   }
-  
+
   .btn-secondary {
     @apply bg-gradient-secondary text-white px-8 py-4 rounded-xl font-semibold shadow-soft hover:shadow-medium transition-all duration-300 transform hover:scale-[1.02];
   }
@@ -271,8 +313,11 @@
   }
 
   /* Hero Specific */
-  .hero-text {
+  /* .hero-text {
     @apply text-6xl md:text-7xl lg:text-8xl font-heading font-bold leading-tight;
+  } */
+  .hero-text {
+    @apply text-6xl md:text-5xl lg:text-6xl font-heading font-bold leading-tight;
   }
 
   .hero-subtitle {
@@ -283,11 +328,11 @@
   .animate-float {
     animation: float 6s ease-in-out infinite;
   }
-  
+
   .animate-pulse-glow {
     animation: pulse-glow 2s ease-in-out infinite alternate;
   }
-  
+
   .animate-fade-in-up {
     animation: fade-in-up 0.8s var(--ease-smooth) forwards;
   }
@@ -305,21 +350,38 @@
   }
 
   /* Stagger animations */
-  .stagger-1 { animation-delay: 0.1s; }
-  .stagger-2 { animation-delay: 0.2s; }
-  .stagger-3 { animation-delay: 0.3s; }
-  .stagger-4 { animation-delay: 0.4s; }
+  .stagger-1 {
+    animation-delay: 0.1s;
+  }
+  .stagger-2 {
+    animation-delay: 0.2s;
+  }
+  .stagger-3 {
+    animation-delay: 0.3s;
+  }
+  .stagger-4 {
+    animation-delay: 0.4s;
+  }
 }
 
 /* Custom Keyframe Animations */
 @keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-20px);
+  }
 }
 
 @keyframes pulse-glow {
-  0% { box-shadow: 0 0 20px hsl(var(--blossom-purple) / 0.4); }
-  100% { box-shadow: 0 0 40px hsl(var(--blossom-purple) / 0.8); }
+  0% {
+    box-shadow: 0 0 20px hsl(var(--blossom-purple) / 0.4);
+  }
+  100% {
+    box-shadow: 0 0 40px hsl(var(--blossom-purple) / 0.8);
+  }
 }
 
 @keyframes fade-in-up {
@@ -356,13 +418,23 @@
 }
 
 @keyframes bounce-gentle {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
+  0%,
+  100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
 }
 
 @keyframes gradient-shift {
-  0%, 100% { background-position: 0% 50%; }
-  50% { background-position: 100% 50%; }
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
 }
 
 /* Parallax utilities */
