@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import { useParallax } from "@/hooks/useParallax";
 import drBlossomImage from "@/assets/dr_blossom.png";
 import heroBackground from "@/assets/hero-real-bg.jpg";
-import twirlPattern from "@/assets/Twirl-line.png";
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState(0);
@@ -94,17 +93,6 @@ const Hero = () => {
           {/* Right Side - Dr. Blossom Image with Floating Stats */}
           <div className="relative flex justify-center lg:justify-end animate-fade-in-up stagger-2">
             <div className="relative">
-              {/* Pattern Background */}
-              <div 
-                className="absolute inset-0 opacity-20 pointer-events-none"
-                style={{ 
-                  backgroundImage: `url(${twirlPattern})`,
-                  backgroundSize: 'contain',
-                  backgroundRepeat: 'no-repeat',
-                  backgroundPosition: 'center'
-                }}
-              />
-              
               <img
                 src={drBlossomImage}
                 alt="Dr. Blossom Maduafokwa - Fitness Instructor"
