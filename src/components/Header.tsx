@@ -45,7 +45,7 @@ const Header = () => {
               src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png"
               alt="Blossom's Fitness Hub"
               className={`transition-all duration-300 ${
-                isScrolled ? "h-16 md:h-20" : "h-20 md:h-24"
+                isScrolled ? "h-20 md:h-24" : "h-28 md:h-32"
               } w-auto`}
             />
           </div>

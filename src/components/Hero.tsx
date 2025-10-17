@@ -88,27 +88,9 @@ const Hero = () => {
               </Link>
             </div>
 
-            {/* Success Stats */}
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-6 pt-8 animate-fade-in-up stagger-3">
-              {[
-                { number: "1000+", label: "Happy Members" },
-                { number: "50+", label: "Weekly Classes" },
-                { number: "5+", label: "Years Experience" },
-                { number: "100%", label: "Fun Guaranteed" },
-              ].map((stat, index) => (
-                <div key={index} className="text-left">
-                  <div className="text-3xl md:text-4xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent mb-1">
-                    {stat.number}
-                  </div>
-                  <div className="text-sm text-muted-foreground font-medium">
-                    {stat.label}
-                  </div>
-                </div>
-              ))}
-            </div>
           </div>
 
-          {/* Right Side - Dr. Blossom Image */}
+          {/* Right Side - Dr. Blossom Image with Floating Stats */}
           <div className="relative lg:flex justify-end hidden animate-fade-in-up stagger-2">
             <div className="relative">
               <img
@@ -116,6 +98,44 @@ const Hero = () => {
                 alt="Dr. Blossom Maduafokwa - Fitness Instructor"
                 className="w-full max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-2xl"
               />
+              
+              {/* Floating Stat Cards */}
+              <div className="absolute top-[15%] -left-8 glass-card p-4 rounded-xl shadow-lg animate-float">
+                <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
+                  1000+
+                </div>
+                <div className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                  Happy Members
+                </div>
+              </div>
+
+              <div className="absolute top-[35%] -right-4 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "0.5s" }}>
+                <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
+                  50+
+                </div>
+                <div className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                  Weekly Classes
+                </div>
+              </div>
+
+              <div className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "1s" }}>
+                <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
+                  5+
+                </div>
+                <div className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                  Years Experience
+                </div>
+              </div>
+
+              <div className="absolute bottom-[10%] right-0 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "1.5s" }}>
+                <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
+                  100%
+                </div>
+                <div className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                  Fun Guaranteed
+                </div>
+              </div>
+
               {/* Decorative floating elements */}
               <div className="absolute -top-10 -left-10 w-32 h-32 bg-blossom-purple/20 rounded-full blur-3xl animate-float" />
               <div
