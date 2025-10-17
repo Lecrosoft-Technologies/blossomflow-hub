@@ -31,26 +31,23 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-300 ${
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${
         isScrolled
-          ? "bg-background/80 backdrop-blur-xl border-b border-border shadow-card"
+          ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-lg"
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 py-4">
+      <div className="container mx-auto px-4 lg:px-8 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <img
               src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png"
               alt="Blossom's Fitness Hub"
-              className="h-20 w-auto animate-pulse-glow666"
+              className={`transition-all duration-300 ${
+                isScrolled ? "h-16 md:h-20" : "h-20 md:h-24"
+              } w-auto`}
             />
-            {/* <div className="hidden md:block">
-              <h1 className="text-xl font-bold bg-gradient-primary bg-clip-text text-transparent">
-                Blossom's Fitness Hub
-              </h1>
-            </div> */}
           </div>
 
           {/* Desktop Navigation */}
