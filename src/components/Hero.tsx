@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { Play, ArrowRight, Zap, Star, Users } from "lucide-react";
+import { Play, ArrowRight, Zap, Star, Users, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { useParallax } from "@/hooks/useParallax";
@@ -45,24 +45,26 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container-custom mx-auto px-4 text-center pt-32">
-        <div className="max-w-6xl mx-auto">
-          {/* Brand Badge */}
-          <div className="mb-8 animate-fade-in-up">
-            <div className="inline-flex items-center space-x-2 glass-card px-6 py-3 rounded-full">
-              <Heart className="w-5 h-5 text-blossom-purple" />
-              <span className="font-accent font-medium text-blossom-purple">
-                Led by Dr. Blossom Maduafokwa
-              </span>
+      <div className="relative z-10 container-custom mx-auto px-4 pt-32">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+          {/* Left Side - Text Content */}
+          <div className="text-left space-y-8">
+            {/* Brand Badge */}
+            <div className="animate-fade-in-up">
+              <div className="inline-flex items-center space-x-2 glass-card px-6 py-3 rounded-full">
+                <Heart className="w-5 h-5 text-blossom-purple" />
+                <span className="font-accent font-medium text-blossom-purple">
+                  Led by Dr. Blossom Maduafokwa
+                </span>
+              </div>
             </div>
-          </div>
 
-          {/* Main Headline */}
-          <h1 className="hero-text mb-8 animate-fade-in-up stagger-1">
-            <span className="bg-gradient-primary bg-clip-text text-transparent">
-              {heroTexts[currentText]}
-            </span>
-          </h1>
+            {/* Main Headline */}
+            <h1 className="hero-text animate-fade-in-up stagger-1">
+              <span className="bg-gradient-primary bg-clip-text text-transparent">
+                {heroTexts[currentText]}
+              </span>
+            </h1>
 
             {/* Subheading */}
             <p className="text-lg md:text-xl text-muted-foreground max-w-xl animate-fade-in-up stagger-1">
