@@ -60,7 +60,7 @@ const Hero = () => {
             </div>
 
             {/* Main Headline */}
-            <h1 className="hero-text animate-fade-in-up staggeruu-1">
+            <h1 className="hero-text animate-fade-in-up staggeryyyy-1">
               <span className="bg-gradient-primary bg-clip-text text-transparent">
                 {heroTexts[currentText]}
               </span>
@@ -97,7 +97,7 @@ const Hero = () => {
                 alt="Dr. Blossom Maduafokwa - Fitness Instructor"
                 className="relative w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-2xl"
               />
-              
+
               {/* Floating Stat Cards */}
               <div className="absolute top-[15%] -left-8 glass-card p-4 rounded-xl shadow-lg animate-float">
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
@@ -108,7 +108,10 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="absolute top-[35%] -right-4 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "0.5s" }}>
+              <div
+                className="absolute top-[35%] -right-4 glass-card p-4 rounded-xl shadow-lg animate-float"
+                style={{ animationDelay: "0.5s" }}
+              >
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
                   50+
                 </div>
@@ -117,7 +120,10 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "1s" }}>
+              <div
+                className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float"
+                style={{ animationDelay: "1s" }}
+              >
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
                   5+
                 </div>
@@ -126,7 +132,10 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div className="absolute bottom-[10%] right-0 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "1.5s" }}>
+              <div
+                className="absolute bottom-[10%] right-0 glass-card p-4 rounded-xl shadow-lg animate-float"
+                style={{ animationDelay: "1.5s" }}
+              >
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
                   100%
                 </div>
