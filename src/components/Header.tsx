@@ -36,8 +36,9 @@ const Header = () => {
           ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-lg"
           : "bg-transparent"
       }`}
+      style={{ maxHeight: '10vh' }}
     >
-      <div className="container mx-auto px-4 lg:px-8 py-4">
+      <div className="container mx-auto px-4 lg:px-8 py-2">
         <div className="flex items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-3">
@@ -45,7 +46,7 @@ const Header = () => {
               src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png"
               alt="Blossom's Fitness Hub"
               className={`transition-all duration-300 ${
-                isScrolled ? "h-20 md:h-24" : "h-28 md:h-32"
+                isScrolled ? "h-12 md:h-14" : "h-16 md:h-18"
               } w-auto`}
             />
           </div>

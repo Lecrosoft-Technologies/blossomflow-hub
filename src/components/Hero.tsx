@@ -5,6 +5,7 @@ import { Link } from "react-router-dom";
 import { useParallax } from "@/hooks/useParallax";
 import drBlossomImage from "@/assets/dr_blossom.png";
 import heroBackground from "@/assets/hero-real-bg.jpg";
+import twirlPattern from "@/assets/Twirl-line.png";
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState(0);
@@ -90,14 +91,25 @@ const Hero = () => {
           </div>
 
           {/* Right Side - Dr. Blossom Image with Floating Stats */}
-          <div className="relative lg:flex justify-end hidden animate-fade-in-up stagger-2">
+          <div className="relative flex justify-center lg:justify-end animate-fade-in-up stagger-2">
             <div className="relative">
+              {/* Pattern Background */}
+              <div 
+                className="absolute inset-0 opacity-20 pointer-events-none"
+                style={{ 
+                  backgroundImage: `url(${twirlPattern})`,
+                  backgroundSize: 'contain',
+                  backgroundRepeat: 'no-repeat',
+                  backgroundPosition: 'center'
+                }}
+              />
+              
               <img
                 src={drBlossomImage}
                 alt="Dr. Blossom Maduafokwa - Fitness Instructor"
-                className="w-full max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-2xl"
+                className="relative w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-2xl"
               />
-
+              
               {/* Floating Stat Cards */}
               <div className="absolute top-[15%] -left-8 glass-card p-4 rounded-xl shadow-lg animate-float">
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
@@ -108,10 +120,7 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div
-                className="absolute top-[35%] -right-4 glass-card p-4 rounded-xl shadow-lg animate-float"
-                style={{ animationDelay: "0.5s" }}
-              >
+              <div className="absolute top-[35%] -right-4 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "0.5s" }}>
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
                   50+
                 </div>
@@ -120,10 +129,7 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div
-                className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float"
-                style={{ animationDelay: "1s" }}
-              >
+              <div className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "1s" }}>
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
                   5+
                 </div>
@@ -132,10 +138,7 @@ const Hero = () => {
                 </div>
               </div>
 
-              <div
-                className="absolute bottom-[10%] right-0 glass-card p-4 rounded-xl shadow-lg animate-float"
-                style={{ animationDelay: "1.5s" }}
-              >
+              <div className="absolute bottom-[10%] right-0 glass-card p-4 rounded-xl shadow-lg animate-float" style={{ animationDelay: "1.5s" }}>
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
                   100%
                 </div>
