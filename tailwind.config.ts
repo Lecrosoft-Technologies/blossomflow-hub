@@ -19,9 +19,9 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				inter: ['Inter', 'sans-serif'],
-				heading: ['Playfair Display', 'serif'],
-				accent: ['Space Grotesk', 'sans-serif'],
+				sans: ['Poppins', 'sans-serif'],
+				heading: ['Urbanist', 'sans-serif'],
+				accent: ['Outfit', 'sans-serif'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
