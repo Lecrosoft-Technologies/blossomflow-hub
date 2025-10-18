@@ -43,12 +43,12 @@ const Hero = () => {
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container-custom mx-auto px-4 pt-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto md:mt-[-4rem]">
+      <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
           {/* Left Side - Text Content */}
-          <div className="text-left space-y-8  md:mt-[-4rem]">
+          <div className="text-left space-y-8">
             {/* Brand Badge */}
-            <div className="animate-fade-in-up md:mt-[-4rem]">
+            <div className="animate-fade-in-up">
               <div className="inline-flex items-center space-x-2 glass-card px-6 py-3 rounded-full">
                 <Heart className="w-5 h-5 text-blossom-purple" />
                 <span className="font-accent font-medium text-blossom-purple">

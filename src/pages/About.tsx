@@ -132,17 +132,43 @@ const About = () => {
                 </Link>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
-              <img
-                src={eventPics}
-                alt="Group fitness class"
-                className="rounded-lg hover-scale"
-              />
-              <img
-                src={blossomSingleImage}
-                alt="Personal training session"
-                className="rounded-lg hover-scale mt-8"
-              />
+            <div className="relative">
+              <div className="grid grid-cols-2 gap-6">
+                {/* Main large image */}
+                <div className="col-span-2">
+                  <div className="relative rounded-2xl overflow-hidden shadow-2xl hover-scale">
+                    <img
+                      src={eventPics}
+                      alt="Group fitness class"
+                      className="w-full h-80 object-cover"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+                  </div>
+                </div>
+                
+                {/* Two smaller images side by side */}
+                <div className="relative rounded-2xl overflow-hidden shadow-xl hover-scale">
+                  <img
+                    src={blossomSingleImage}
+                    alt="Personal training session"
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                </div>
+                
+                <div className="relative rounded-2xl overflow-hidden shadow-xl hover-scale">
+                  <img
+                    src={dance}
+                    alt="Dance fitness"
+                    className="w-full h-48 object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+                </div>
+              </div>
+              
+              {/* Decorative elements */}
+              <div className="absolute -top-4 -right-4 w-24 h-24 bg-blossom-purple/20 rounded-full blur-2xl" />
+              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-blossom-pink/20 rounded-full blur-2xl" />
             </div>
           </div>
         </div>

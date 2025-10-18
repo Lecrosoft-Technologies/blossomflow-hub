@@ -38,15 +38,15 @@ const Header = () => {
       }`}
       style={{ maxHeight: "10vh" }}
     >
-      <div className="container mx-auto px-4 lg:px-8 py-2">
-        <div className="flex items-center justify-between">
+      <div className="container mx-auto px-4 lg:px-8 h-full flex items-center">
+        <div className="flex items-center justify-between w-full">
           {/* Logo */}
           <div className="flex items-center space-x-3">
             <img
               src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png"
               alt="Blossom's Fitness Hub"
               className={`transition-all duration-300 ${
-                isScrolled ? "h-16 md:h-20" : "h-20 md:h-24"
+                isScrolled ? "h-20 md:h-24" : "h-24 md:h-28"
               } w-auto`}
             />
           </div>
