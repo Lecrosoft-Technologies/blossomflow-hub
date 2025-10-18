@@ -57,8 +57,8 @@ const About = () => {
       bio: "15+ years of experience in fitness training and nutrition coaching.",
     },
     {
-      name: "Mike Rodriguez",
-      role: "Strength & Conditioning Coach",
+      name: "Dr. Blossom Maduafokwa",
+      role: "Founder & Zumba Instructor",
       image: blossomSingleImage,
       bio: "Former professional athlete specializing in strength training and sports performance.",
     },
@@ -145,7 +145,7 @@ const About = () => {
                     <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
                   </div>
                 </div>
-                
+
                 {/* Two smaller images side by side */}
                 <div className="relative rounded-2xl overflow-hidden shadow-xl hover-scale">
                   <img
@@ -155,7 +155,7 @@ const About = () => {
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>
-                
+
                 <div className="relative rounded-2xl overflow-hidden shadow-xl hover-scale">
                   <img
                     src={dance}
@@ -165,7 +165,7 @@ const About = () => {
                   <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
                 </div>
               </div>
-              
+
               {/* Decorative elements */}
               <div className="absolute -top-4 -right-4 w-24 h-24 bg-blossom-purple/20 rounded-full blur-2xl" />
               <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-blossom-pink/20 rounded-full blur-2xl" />
