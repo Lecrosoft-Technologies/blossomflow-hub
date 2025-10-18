@@ -82,7 +82,7 @@ const Contact = () => {
                     </label>
                     <Input
                       type="tel"
-                      placeholder="+1 (555) 123-4567"
+                      placeholder="+234 803 502 6262"
                       className="border-primary/20 focus:border-primary"
                     />
                   </div>
