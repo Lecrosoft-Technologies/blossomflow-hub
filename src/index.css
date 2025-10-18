@@ -177,7 +177,7 @@
   }
 
   body {
-    @apply bg-background text-foreground font-inter overflow-x-hidden;
+    @apply bg-background text-foreground font-sans overflow-x-hidden;
   }
 
   /* Smooth scrolling */
@@ -207,15 +207,15 @@
 @layer components {
   /* Typography */
   .font-heading {
-    font-family: "Playfair Display", serif;
+    font-family: "Urbanist", sans-serif;
   }
 
   .font-body {
-    font-family: "Inter", sans-serif;
+    font-family: "Poppins", sans-serif;
   }
 
   .font-accent {
-    font-family: "Space Grotesk", sans-serif;
+    font-family: "Outfit", sans-serif;
   }
 
   /* Gradient Backgrounds */
