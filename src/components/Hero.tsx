@@ -72,14 +72,18 @@ const Hero = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-2">
               <Link to="/classes">
-                <Button size="lg" className="btn-primary text-lg group">
+                <Button size="default" className="btn-primary text-lg group">
                   Join Our Zumba Community
-                  <ArrowRight className="ml-2 h-5 w-5 group-hover:translate-x-1 transition-transform" />
+                  <ArrowRight className="ml-2 h-5 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
 
               <Link to="/virtual-classes">
-                <Button size="lg" variant="outline" className="text-lg group">
+                <Button
+                  size="default"
+                  variant="outline"
+                  className="text-lg group"
+                >
                   <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                   Book Virtual Class
                 </Button>
@@ -118,7 +122,7 @@ const Hero = () => {
               </div>
 
               <div
-                className="absolute top-[35%] -right-4 glass-card p-4 rounded-xl shadow-lg animate-float"
+                className="absolute top-[35%] -right-4 glass-card p-4 rounded-xl shadow-lg animate-float z-10"
                 style={{ animationDelay: "0.5s" }}
               >
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
@@ -130,7 +134,7 @@ const Hero = () => {
               </div>
 
               <div
-                className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float"
+                className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float z-10"
                 style={{ animationDelay: "1s" }}
               >
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
@@ -142,7 +146,7 @@ const Hero = () => {
               </div>
 
               <div
-                className="absolute bottom-[10%] right-0 glass-card p-4 rounded-xl shadow-lg animate-float"
+                className="absolute bottom-[10%] right-0 glass-card p-4 rounded-xl shadow-lg animate-float z-10"
                 style={{ animationDelay: "1.5s" }}
               >
                 <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
