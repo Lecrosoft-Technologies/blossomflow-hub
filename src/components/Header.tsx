@@ -37,14 +37,14 @@ const Header = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-4">
+      <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-2">
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <img
             src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png"
             alt="Blossom's Fitness Hub"
             className={`transition-all duration-300 ${
-              isScrolled ? "h-20 md:h-24" : "h-24 md:h-28"
+              isScrolled ? "h-24 md:h-28" : "h-28 md:h-32"
             } w-auto`}
           />
         </div>
