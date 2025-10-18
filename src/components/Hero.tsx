@@ -44,7 +44,7 @@ const Hero = () => {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32 pb-16">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto  md:mt-[-3.2rem]">
           {/* Left Side - Text Content */}
           <div className="text-left space-y-8 md:mt-[-15rem] ">
             {/* Brand Badge */}
