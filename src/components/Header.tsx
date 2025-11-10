@@ -3,6 +3,7 @@ import { Menu, X, ShoppingCart, User } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
+import logo from "@/assets/logo_dark_mode_cream_color.png";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -22,11 +23,9 @@ const Header = () => {
   const navItems = [
     { label: "Home", href: "/" },
     { label: "About", href: "/about" },
-
-    { label: "Store", href: "/shop" },
     { label: "Classes", href: "/classes" },
-    { label: "Blog", href: "/blog" },
-    // { label: "Contact", href: "/contact" },
+    { label: "News & Article", href: "/blog" },
+    { label: "Contact", href: "/contact" },
   ];
 
   return (
@@ -41,11 +40,11 @@ const Header = () => {
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <img
-            src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png"
+            src={logo}
             alt="Blossom's Fitness Hub"
             className={`transition-all duration-300 ${
               isScrolled ? "h-24 md:h-28" : "h-28 md:h-32"
-            } w-auto`}
+            } w-24 md:w-28 object-contain cursor-pointer`}
           />
         </div>
 
@@ -89,9 +88,9 @@ const Header = () => {
 
           <Button
             className="btn-primary hidden md:flex"
-            onClick={() => navigate("/contact")}
+            onClick={() => navigate("/shop")}
           >
-            Contact Us
+            Shop
           </Button>
 
           {/* Mobile Menu Button */}

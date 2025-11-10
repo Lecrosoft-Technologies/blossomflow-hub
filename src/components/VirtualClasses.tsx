@@ -121,16 +121,19 @@ const VirtualClasses = () => {
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-black mb-6">
-            <span className="bg-gradient-secondary bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-6xl font-black mb-4 leading-tight">
+            {/* <span className="bg-gradient-secondary bg-clip-text text-transparent">
               Virtual
             </span>
-            <br />
-            Fitness Classes
+            <br /> */}
+            Premium Zumba® <br></br> Classes & Videos
           </h2>
+          <h5 className="text-2xl font-black mb-4">
+            Ready to start your Zumba® journey?
+          </h5>
           <p className="text-xl text-muted-foreground max-w-2xl mx-auto mb-8">
             Access world-class fitness instruction from anywhere. Join live
-            sessions or train on-demand with our expert trainers.
+            sessions or train on-demand with Dr. Blossom Maduafokwa.
           </p>
 
           {/* Filter Tabs */}
