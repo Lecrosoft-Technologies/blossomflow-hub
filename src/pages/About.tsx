@@ -175,27 +175,29 @@ const About = () => {
       </section>
 
       {/* Our Values */}
-      <section className="py-20 bg-gradient-to-r from-background to-primary/5">
+      <section className="py-20 bg-background">
         <div className="container mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Our Values</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              These core principles guide everything we do and shape the
-              experience we create for our members
+            <h2 className="text-4xl font-bold mb-4 text-chocolate">The Blossom's Fitness Hub Team</h2>
+            <p className="text-foreground/80 text-lg max-w-3xl mx-auto">
+              Since its founding, the hub has grown from a small local initiative into a thriving fitness community supported by a diverse team of certified instructors, coaches, and wellness enthusiasts. Each member of the team brings unique expertise — from strength and conditioning to dance fitness, yoga, and functional training — creating a well-rounded and inclusive approach to health and wellness.
+            </p>
+            <p className="text-foreground/80 text-lg max-w-3xl mx-auto mt-4">
+              Through their collective effort, the Blossom's Fitness Hub team has built more than just a workout space — they've created a movement that empowers individuals to stay active, confident, and connected.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {values.map((value, index) => (
               <Card
                 key={index}
-                className="card-glass p-6 text-center hover-scale"
+                className="glass-card p-6 text-center hover-lift"
               >
-                <div className="w-16 h-16 bg-gradient-primary rounded-full mx-auto mb-4 flex items-center justify-center text-white">
+                <div className="w-16 h-16 bg-chocolate rounded-full mx-auto mb-4 flex items-center justify-center text-creamish">
                   {value.icon}
                 </div>
-                <h3 className="text-xl font-bold mb-3">{value.title}</h3>
-                <p className="text-muted-foreground leading-relaxed">
+                <h3 className="text-xl font-bold mb-3 text-chocolate">{value.title}</h3>
+                <p className="text-foreground/70 leading-relaxed">
                   {value.description}
                 </p>
               </Card>
@@ -241,24 +243,24 @@ const About = () => {
       <Gallery />
 
       {/* Stats Section */}
-      <section className="py-20 bg-gradient-primary text-white">
+      <section className="py-20 bg-chocolate text-creamish">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             <div>
               <div className="text-4xl font-bold mb-2">1000+</div>
-              <div className="text-white/80">Happy Members</div>
+              <div className="text-creamish/80">Happy Members</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">50+</div>
-              <div className="text-white/80">Group Classes</div>
+              <div className="text-creamish/80">Group Classes</div>
             </div>
             <div>
               <div className="text-4xl font-bold mb-2">15+</div>
-              <div className="text-white/80">Expert Trainers</div>
+              <div className="text-creamish/80">Expert Trainers</div>
             </div>
             <div>
-              <div className="text-4xl font-bold mb-2">10+</div>
-              <div className="text-white/80">Years Experience</div>
+              <div className="text-4xl font-bold mb-2">6+</div>
+              <div className="text-creamish/80">Years Experience</div>
             </div>
           </div>
         </div>

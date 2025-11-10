@@ -2,6 +2,7 @@ import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Clock, User, ArrowRight, Heart, Zap, Star } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { Link } from 'react-router-dom';
 
 const Blog = () => {
   const blogPosts = [
@@ -146,22 +147,23 @@ const Blog = () => {
             {/* Blog Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
               {blogPosts.slice(1).map((post) => (
-                <article key={post.id} className="card-glass group hover:scale-105 transition-all duration-300 border border-border/50">
-                  <div className="bg-gradient-secondary/20 h-48 rounded-t-lg flex items-center justify-center mb-6">
-                    {post.category === "Nutrition" && <Heart className="h-12 w-12 text-secondary" />}
-                    {post.category === "Wellness" && <Star className="h-12 w-12 text-primary" />}
-                    {post.category === "Equipment" && <Zap className="h-12 w-12 text-cyber-blue" />}
-                    {post.category === "Workouts" && <Zap className="h-12 w-12 text-energy-green" />}
+                <Link to={`/blog/${post.id}`} key={post.id}>
+                  <article className="card-glass group hover:scale-105 transition-all duration-300 border border-border/50">
+                    <div className="bg-creamish-dark/30 h-48 rounded-t-lg flex items-center justify-center mb-6">
+                      {post.category === "Nutrition" && <Heart className="h-12 w-12 text-chocolate" />}
+                      {post.category === "Wellness" && <Star className="h-12 w-12 text-chocolate" />}
+                      {post.category === "Equipment" && <Zap className="h-12 w-12 text-chocolate" />}
+                      {post.category === "Workouts" && <Zap className="h-12 w-12 text-chocolate" />}
                   </div>
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-3">
-                      <span className="text-primary font-semibold text-sm">{post.category}</span>
+                      <span className="bg-chocolate text-creamish px-3 py-1 rounded-full font-semibold text-sm">{post.category}</span>
                       <span className="text-muted-foreground text-sm">{post.date}</span>
                     </div>
-                    <h3 className="text-xl font-bold mb-3 group-hover:text-primary transition-colors">
+                    <h3 className="text-xl font-bold mb-3 group-hover:text-chocolate transition-colors">
                       {post.title}
                     </h3>
-                    <p className="text-muted-foreground mb-4 leading-relaxed">
+                    <p className="text-foreground/70 mb-4 leading-relaxed">
                       {post.excerpt}
                     </p>
                     <div className="flex items-center justify-between">
@@ -170,12 +172,13 @@ const Blog = () => {
                         {post.author}
                       </div>
                       <div className="flex items-center gap-2 text-sm text-muted-foreground">
-                        <Clock className="h-4 w-4" />
+                        <Clock className="h-4 h-4" />
                         {post.readTime}
                       </div>
                     </div>
                   </div>
                 </article>
+              </Link>
               ))}
             </div>
 

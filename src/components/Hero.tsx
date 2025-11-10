@@ -31,48 +31,29 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0">
-        <div
-          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
-          style={{ backgroundImage: `url(${heroBackground})` }}
-        />
-        {/* Gradient Overlay for better text readability */}
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
-      </div>
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-hero-bg">
+      {/* Background - Solid chocolate color */}
+      <div className="absolute inset-0 bg-hero-bg" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto  md:mt-[-3.2rem]">
+      <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32 pb-16">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
           {/* Left Side - Text Content */}
-          <div className="text-left space-y-8 md:mt-[-13rem] ">
-            {/* Brand Badge */}
-            {/* <div className="animate-fade-in-up">
-              <div className="inline-flex items-center space-x-2 glass-card px-6 py-3 rounded-full">
-                <Heart className="w-5 h-5 text-blossom-purple" />
-                <span className="font-accent font-medium text-blossom-purple">
-                  Led by Dr. Blossom Maduafokwa
-                </span>
-              </div>
-            </div> */}
-
+          <div className="text-left space-y-8">
             {/* Main Headline */}
-            <h1 className="hero-text animate-fade-in-up staggeryyyy-1">
-              <span className="bg-gradient-primary bg-clip-text text-transparent">
-                {heroTexts[currentText]}
-              </span>
+            <h1 className="hero-text animate-fade-in-up text-hero-text">
+              {heroTexts[currentText]}
             </h1>
 
             {/* Subheading */}
-            <p className="text-lg md:text-xl text-muted-foreground max-w-xl animate-fade-in-up stagger-1">
+            <p className="text-lg md:text-xl text-hero-text/80 max-w-xl animate-fade-in-up stagger-1">
               {subTexts[currentText]}
             </p>
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-2">
               <Link to="/classes">
-                <Button size="default" className="btn-primary text-lg group">
+                <Button size="default" className="bg-creamish text-chocolate hover:bg-creamish/90 text-lg group">
                   Join Our Zumba® Community
                   <ArrowRight className="ml-2 h-5 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
@@ -82,7 +63,7 @@ const Hero = () => {
                 <Button
                   size="default"
                   variant="outline"
-                  className="text-lg group"
+                  className="bg-white text-chocolate border-white hover:bg-white/90 text-lg group"
                 >
                   <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                   Book a Class
@@ -112,11 +93,11 @@ const Hero = () => {
               />
 
               {/* Floating Stat Cards */}
-              <div className="absolute top-[15%] -left-8 glass-card p-4 rounded-xl shadow-lg animate-float">
-                <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
+              <div className="absolute top-[15%] -left-8 glass-card p-4 rounded-xl shadow-lg animate-float bg-creamish/90 border-creamish">
+                <div className="text-3xl font-heading font-bold text-chocolate">
                   1000+
                 </div>
-                <div className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                <div className="text-sm text-chocolate/70 font-medium whitespace-nowrap">
                   Happy Members
                 </div>
               </div>
@@ -134,13 +115,13 @@ const Hero = () => {
               </div> */}
 
               <div
-                className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float z-10"
+                className="absolute bottom-[30%] -left-12 glass-card p-4 rounded-xl shadow-lg animate-float z-10 bg-creamish/90 border-creamish"
                 style={{ animationDelay: "1s" }}
               >
-                <div className="text-3xl font-heading font-bold bg-gradient-primary bg-clip-text text-transparent">
-                  7+
+                <div className="text-3xl font-heading font-bold text-chocolate">
+                  6+
                 </div>
-                <div className="text-sm text-muted-foreground font-medium whitespace-nowrap">
+                <div className="text-sm text-chocolate/70 font-medium whitespace-nowrap">
                   Years Experience
                 </div>
               </div>
@@ -158,61 +139,15 @@ const Hero = () => {
               </div> */}
 
               {/* Decorative floating elements */}
-              <div className="absolute -top-10 -left-10 w-32 h-32 bg-blossom-purple/20 rounded-full blur-3xl animate-float" />
+              <div className="absolute -top-10 -left-10 w-32 h-32 bg-creamish/30 rounded-full blur-3xl animate-float" />
               <div
-                className="absolute -bottom-10 -right-10 w-40 h-40 bg-blossom-pink/20 rounded-full blur-3xl animate-float"
+                className="absolute -bottom-10 -right-10 w-40 h-40 bg-creamish/20 rounded-full blur-3xl animate-float"
                 style={{ animationDelay: "2s" }}
               />
             </div>
           </div>
         </div>
-
-        {/* Features Preview - Below hero content */}
-        {/* <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mt-24 animate-fade-in-up stagger-4">
-          <div className="glass-card text-left p-6 group hover-lift">
-            <div className="bg-gradient-primary p-3 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
-              <Zap className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-lg font-heading font-bold mb-2 text-foreground">
-              High-Energy Zumba
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Dance-fitness classes that combine Latin rhythms with effective
-              cardio workouts
-            </p>
-          </div>
-
-          <div className="glass-card text-left p-6 group hover-lift">
-            <div className="bg-gradient-secondary p-3 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
-              <Star className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-lg font-heading font-bold mb-2 text-foreground">
-              Premium Wellness
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Holistic approach including nutrition guidance and lifestyle
-              coaching
-            </p>
-          </div>
-
-          <div className="glass-card text-left p-6 group hover-lift">
-            <div className="bg-gradient-primary p-3 rounded-xl w-fit mb-4 group-hover:scale-110 transition-transform">
-              <Users className="h-6 w-6 text-white" />
-            </div>
-            <h3 className="text-lg font-heading font-bold mb-2 text-foreground">
-              Vibrant Community
-            </h3>
-            <p className="text-sm text-muted-foreground">
-              Connect with like-minded fitness enthusiasts across Nigeria
-            </p>
-          </div>
-        </div> */}
       </div>
-
-      {/* Scroll Indicator */}
-      {/* <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce-gentle">
-        <div className="w-1 h-16 bg-gradient-primary rounded-full opacity-60" />
-      </div> */}
     </section>
   );
 };

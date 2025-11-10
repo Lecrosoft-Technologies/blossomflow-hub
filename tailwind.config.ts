@@ -68,13 +68,12 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				'blossom-purple': 'hsl(var(--blossom-purple))',
-				'blossom-pink': 'hsl(var(--blossom-pink))',
-				'blossom-coral': 'hsl(var(--blossom-coral))',
-				'blossom-mint': 'hsl(var(--blossom-mint))',
-				'blossom-cream': 'hsl(var(--blossom-cream))',
-				'blossom-dark': 'hsl(var(--blossom-dark))',
-				'blossom-accent': 'hsl(var(--blossom-accent))'
+				chocolate: 'hsl(var(--chocolate))',
+				creamish: 'hsl(var(--creamish))',
+				'chocolate-light': 'hsl(var(--chocolate-light))',
+				'creamish-dark': 'hsl(var(--creamish-dark))',
+				'hero-bg': 'hsl(var(--hero-bg))',
+				'hero-text': 'hsl(var(--hero-text))'
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
