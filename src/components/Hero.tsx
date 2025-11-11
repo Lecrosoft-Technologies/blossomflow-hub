@@ -36,10 +36,10 @@ const Hero = () => {
       <div className="absolute inset-0 bg-hero-bg" />
 
       {/* Content */}
-      <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32 pb-16">
+      <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
           {/* Left Side - Text Content */}
-          <div className="text-left space-y-8">
+          <div className="text-left space-y-8 mt-[-12rem] ">
             {/* Main Headline */}
             <h1 className="hero-text animate-fade-in-up text-hero-text">
               {heroTexts[currentText]}
@@ -53,7 +53,10 @@ const Hero = () => {
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-2">
               <Link to="/classes">
-                <Button size="default" className="bg-creamish text-chocolate hover:bg-creamish/90 text-lg group">
+                <Button
+                  size="default"
+                  className="bg-creamish text-chocolate hover:bg-creamish/90 text-lg group"
+                >
                   Join Our Zumba® Community
                   <ArrowRight className="ml-2 h-5 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
