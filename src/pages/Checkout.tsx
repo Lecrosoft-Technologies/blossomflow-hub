@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ArrowLeft, CreditCard, Truck, Shield } from 'lucide-react';
+import { ArrowLeft, CreditCard, Truck, Shield, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
@@ -9,6 +9,7 @@ import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Checkbox } from '@/components/ui/checkbox';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/hooks/use-toast';
+import { usePromoCode } from '@/hooks/usePromoCode';
 import Header from '@/components/Header';
 import Footer from '@/components/Footer';
 import { Link } from 'react-router-dom';
@@ -16,8 +17,10 @@ import { Link } from 'react-router-dom';
 const Checkout = () => {
   const { state, getTotalPrice, clearCart } = useCart();
   const { toast } = useToast();
+  const { promoCode, calculateDiscount, validateCode, clearPromoCode } = usePromoCode();
   const [loading, setLoading] = useState(false);
   const [paymentMethod, setPaymentMethod] = useState('card');
+  const [promoInput, setPromoInput] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     firstName: '',
@@ -35,8 +38,14 @@ const Checkout = () => {
 
   const symbols = { usd: '$', naira: '₦', gbp: '£' };
   const totalPrice = getTotalPrice();
-  const tax = totalPrice * 0.1;
-  const finalTotal = totalPrice + tax;
+  const discountAmount = calculateDiscount(totalPrice);
+  const subtotalAfterDiscount = totalPrice - discountAmount;
+  const tax = subtotalAfterDiscount * 0.1;
+  const finalTotal = subtotalAfterDiscount + tax;
+
+  const handleApplyPromo = async () => {
+    await validateCode(promoInput);
+  };
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData(prev => ({
@@ -347,11 +356,45 @@ const Checkout = () => {
                   
                   <Separator className="my-4" />
                   
+                  {/* Promo Code */}
+                  <div className="mb-6">
+                    <Label htmlFor="promoCode">Promo Code</Label>
+                    <div className="flex gap-2">
+                      <Input
+                        id="promoCode"
+                        value={promoInput}
+                        onChange={(e) => setPromoInput(e.target.value.toUpperCase())}
+                        placeholder="Enter code"
+                      />
+                      <Button 
+                        type="button"
+                        variant="outline"
+                        onClick={handleApplyPromo}
+                      >
+                        <Tag className="w-4 h-4 mr-2" />
+                        Apply
+                      </Button>
+                    </div>
+                    {promoCode && (
+                      <p className="text-sm text-green-600 mt-2">
+                        ✓ Promo code "{promoCode.code}" applied!
+                      </p>
+                    )}
+                  </div>
+
+                  <Separator className="my-4" />
+                  
                   <div className="space-y-2 mb-6">
                     <div className="flex justify-between">
                       <span>Subtotal</span>
                       <span>{symbols[state.currency]}{totalPrice.toFixed(2)}</span>
                     </div>
+                    {discountAmount > 0 && (
+                      <div className="flex justify-between text-green-600">
+                        <span>Discount ({promoCode?.code})</span>
+                        <span>-{symbols[state.currency]}{discountAmount.toFixed(2)}</span>
+                      </div>
+                    )}
                     <div className="flex justify-between">
                       <span>Shipping</span>
                       <span>Free</span>

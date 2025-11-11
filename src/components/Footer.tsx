@@ -61,7 +61,7 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="bg-chocolate text-creamish border-t border-creamish/20">
       <div className="container mx-auto px-4">
         {/* Main Footer Content */}
         <div className="py-12">
@@ -75,13 +75,13 @@ const Footer = () => {
                   className="h-10 w-auto"
                 />
                 <div>
-                  <h3 className="text-lg font-bold bg-gradient-primary bg-clip-text text-transparent">
+                  <h3 className="text-lg font-bold text-creamish">
                     Blossom's Fitness Hub
                   </h3>
                 </div>
               </div>
 
-              <p className="text-muted-foreground leading-relaxed">
+              <p className="text-creamish/80 leading-relaxed">
                 Transform your body, elevate your mind. Join thousands of
                 members on their fitness journey with cutting-edge virtual
                 classes and premium products.

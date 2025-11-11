@@ -4,7 +4,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext';
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,30 +13,16 @@ const Login = () => {
     password: '',
   });
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  const { login } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate API call - replace with actual authentication
     try {
-      // TODO: Replace with actual API call to Laravel backend
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Login Successful",
-        description: "Welcome back to Blossom's Fitness Hub!",
-      });
-      
-      // Redirect to home or dashboard
-      window.location.href = '/';
+      await login(formData.email, formData.password);
     } catch (error) {
-      toast({
-        title: "Login Failed",
-        description: "Invalid email or password. Please try again.",
-        variant: "destructive",
-      });
+      // Error handling is done in the login function
     } finally {
       setLoading(false);
     }
