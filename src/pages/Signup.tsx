@@ -5,7 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
 import { Checkbox } from '@/components/ui/checkbox';
-import { useToast } from '@/hooks/use-toast';
+import { useAuth } from '@/context/AuthContext';
+import { toast } from '@/hooks/use-toast';
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,7 +20,7 @@ const Signup = () => {
     agreeToTerms: false,
   });
   const [loading, setLoading] = useState(false);
-  const { toast } = useToast();
+  const { signup } = useAuth();
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -44,24 +45,14 @@ const Signup = () => {
 
     setLoading(true);
 
-    // Simulate API call - replace with actual registration
     try {
-      // TODO: Replace with actual API call to Laravel backend
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
-      toast({
-        title: "Account Created",
-        description: "Welcome to Blossom's Fitness Hub! Please check your email to verify your account.",
+      await signup({
+        name: `${formData.firstName} ${formData.lastName}`,
+        email: formData.email,
+        password: formData.password,
       });
-      
-      // Redirect to login
-      window.location.href = '/login';
     } catch (error) {
-      toast({
-        title: "Registration Failed",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      // Error handling is done in the signup function
     } finally {
       setLoading(false);
     }

@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
-import { Menu, X, ShoppingCart, User } from "lucide-react";
+import { Menu, X, ShoppingCart, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
+import { useAuth } from "@/context/AuthContext";
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import logo from "@/assets/logo_dark_mode_cream_color.png";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const { getTotalItems } = useCart();
+  const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -39,13 +42,15 @@ const Header = () => {
       <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-2">
         {/* Logo */}
         <div className="flex items-center space-x-3">
-          <img
-            src={logo}
-            alt="Blossom's Fitness Hub"
-            className={`transition-all duration-300 ${
-              isScrolled ? "h-32 md:h-36" : "h-36 md:h-40"
-            } w-auto object-contain cursor-pointer`}
-          />
+          <Link to="/">
+            <img
+              src={logo}
+              alt="Blossom's Fitness Hub"
+              className={`transition-all duration-300 ${
+                isScrolled ? "h-16 md:h-20" : "h-20 md:h-24"
+              } w-auto object-contain cursor-pointer`}
+            />
+          </Link>
         </div>
 
         {/* Desktop Navigation */}
@@ -54,7 +59,7 @@ const Header = () => {
             <Link
               key={item.label}
               to={item.href}
-              className="text-foreground/80 hover:text-primary transition-colors duration-300 hover-underline font-medium"
+              className="text-creamish hover:text-white transition-colors duration-300 hover-underline font-medium"
             >
               {item.label}
             </Link>
@@ -77,14 +82,36 @@ const Header = () => {
             )}
           </Button>
 
-          <Button
-            variant="ghost"
-            size="icon"
-            className="hover:bg-primary/20"
-            onClick={() => navigate("/login")}
-          >
-            <User className="h-5 w-5" />
-          </Button>
+          {isAuthenticated ? (
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon" className="hover:bg-primary/20">
+                  <User className="h-5 w-5" />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end" className="w-48">
+                <DropdownMenuItem onClick={() => navigate(user?.role === 'admin' ? '/admin' : '/dashboard')}>
+                  Dashboard
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                  My Profile
+                </DropdownMenuItem>
+                <DropdownMenuItem onClick={logout} className="text-red-600">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </DropdownMenuItem>
+              </DropdownMenuContent>
+            </DropdownMenu>
+          ) : (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="hover:bg-primary/20"
+              onClick={() => navigate("/login")}
+            >
+              <User className="h-5 w-5" />
+            </Button>
+          )}
 
           <Button
             className="bg-creamish text-chocolate hover:bg-creamish/90 hidden md:flex"
@@ -117,12 +144,41 @@ const Header = () => {
               <Link
                 key={item.label}
                 to={item.href}
-                className="text-foreground/80 hover:text-primary transition-colors duration-300 font-medium"
+                className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium"
                 onClick={() => setIsMobileMenuOpen(false)}
               >
                 {item.label}
               </Link>
             ))}
+            {isAuthenticated && (
+              <>
+                <Link
+                  to={user?.role === 'admin' ? '/admin' : '/dashboard'}
+                  className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  Dashboard
+                </Link>
+                <Link
+                  to="/profile"
+                  className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium"
+                  onClick={() => setIsMobileMenuOpen(false)}
+                >
+                  My Profile
+                </Link>
+                <Button
+                  variant="outline"
+                  className="w-full text-red-600 border-red-600 hover:bg-red-50"
+                  onClick={() => {
+                    logout();
+                    setIsMobileMenuOpen(false);
+                  }}
+                >
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </>
+            )}
             <Button
               className="btn-primary mt-4 w-full"
               onClick={() => {
