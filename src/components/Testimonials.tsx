@@ -76,7 +76,7 @@ const Testimonials = () => {
   }, []);
 
   return (
-    <section className="py-20 bg-background relative overflow-hidden">
+    <section className="py-20 bg-creamish relative overflow-hidden">
       {/* Background Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute top-20 left-10 w-32 h-32 bg-primary/10 rounded-full blur-xl animate-float"></div>
@@ -86,12 +86,10 @@ const Testimonials = () => {
       <div className="container mx-auto px-4 relative z-10">
         {/* Section Header */}
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-6xl font-black mb-6">
-            <span className="text-foreground">What Our</span>
-            <br />
-            <span className="bg-gradient-primary bg-clip-text text-transparent">Members Say</span>
+          <h2 className="text-4xl md:text-6xl font-black mb-6 text-chocolate">
+            What Our Members Say
           </h2>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-xl text-chocolate/80 max-w-2xl mx-auto">
             Real stories from real people who transformed their lives with Blossom's Fitness Hub
           </p>
         </div>

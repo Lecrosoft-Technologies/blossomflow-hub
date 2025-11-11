@@ -261,7 +261,7 @@ const ProductGrid = () => {
 
                 {/* Add to Cart Button */}
                 <Button 
-                  className="w-full btn-secondary mt-4 group-hover:btn-primary transition-all duration-300"
+                  className="w-full bg-chocolate text-creamish hover:bg-chocolate/90 mt-4"
                   disabled={!product.inStock}
                   onClick={() => addItem(product)}
                 >

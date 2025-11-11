@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useReducer, ReactNode } from 'react';
+import React, { createContext, useContext, useReducer, useEffect, ReactNode } from 'react';
 import { useToast } from '@/hooks/use-toast';
 
 interface Product {
@@ -114,8 +114,30 @@ interface CartContextType {
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
 export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [state, dispatch] = useReducer(cartReducer, initialState);
+  // Load cart from localStorage
+  const loadCartFromStorage = (): CartState => {
+    try {
+      const savedCart = localStorage.getItem('blossomCart');
+      if (savedCart) {
+        return JSON.parse(savedCart);
+      }
+    } catch (error) {
+      console.error('Error loading cart from storage:', error);
+    }
+    return initialState;
+  };
+
+  const [state, dispatch] = useReducer(cartReducer, initialState, loadCartFromStorage);
   const { toast } = useToast();
+
+  // Save to localStorage whenever cart changes
+  useEffect(() => {
+    try {
+      localStorage.setItem('blossomCart', JSON.stringify(state));
+    } catch (error) {
+      console.error('Error saving cart to storage:', error);
+    }
+  }, [state]);
 
   const addItem = (product: Product) => {
     if (!product.inStock) {

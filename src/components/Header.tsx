@@ -36,15 +36,15 @@ const Header = () => {
           : "bg-transparent"
       }`}
     >
-      <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-2 h-[13vh]">
+      <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-2">
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <img
             src={logo}
             alt="Blossom's Fitness Hub"
             className={`transition-all duration-300 ${
-              isScrolled ? "h-24 md:h-28" : "h-28 md:h-32"
-            } w-24 md:w-28 object-contain cursor-pointer`}
+              isScrolled ? "h-32 md:h-36" : "h-36 md:h-40"
+            } w-auto object-contain cursor-pointer`}
           />
         </div>
 
@@ -87,7 +87,7 @@ const Header = () => {
           </Button>
 
           <Button
-            className="btn-primary hidden md:flex"
+            className="bg-creamish text-chocolate hover:bg-creamish/90 hidden md:flex"
             onClick={() => navigate("/shop")}
           >
             Shop
