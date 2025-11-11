@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Play, ArrowRight, Zap, Star, Users, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
-import drBlossomImage from "@/assets/dr_blossom.png";
+import drBlossomImage from "@/assets/dr-blossom.png";
 import heroBackground from "@/assets/hero-real-bg.jpg";
 import twirlPattern from "@/assets/Twirl-line.png";
 
@@ -79,7 +79,7 @@ const Hero = () => {
           <div className="relative flex justify-center lg:justify-end animate-fade-in-up stagger-2">
             <div className="relative">
               {/* Twirl Pattern Background */}
-              <div
+              {/* <div
                 className="absolute inset-0 opacity-30 pointer-events-none z-0"
                 style={{
                   backgroundImage: `url(${twirlPattern})`,
@@ -87,7 +87,7 @@ const Hero = () => {
                   backgroundRepeat: "no-repeat",
                   backgroundPosition: "center",
                 }}
-              />
+              /> */}
 
               <img
                 src={drBlossomImage}
