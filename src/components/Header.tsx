@@ -36,11 +36,11 @@ const Header = () => {
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${
         isScrolled
-          ? "bg-creamish/98 backdrop-blur-xl border-b border-chocolate/10 shadow-lg"
-          : "bg-transparent"
+          ? "bg-creamish backdrop-blur-xl border-b border-chocolate/10 shadow-lg py-4"
+          : "bg-transparent py-2"
       }`}
     >
-      <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between py-2">
+      <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between">
         {/* Logo */}
         <div className="flex items-center space-x-3">
           <Link to="/">

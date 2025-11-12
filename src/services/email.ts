@@ -1,4 +1,7 @@
 // Email service for sending transactional emails
+
+// Laravel API base URL
+const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 export interface EmailData {
   to: string;
   subject: string;
@@ -9,8 +12,7 @@ export interface EmailData {
 export const emailService = {
   async sendEmail(emailData: EmailData): Promise<boolean> {
     try {
-      // TODO: Replace with actual API endpoint (Laravel backend)
-      const response = await fetch('/api/emails/send', {
+      const response = await fetch(`${API_BASE_URL}/emails/send`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -18,6 +20,7 @@ export const emailService = {
         body: JSON.stringify(emailData),
       });
 
+      if (!response.ok) throw new Error('Email sending failed');
       const result = await response.json();
       return result.success;
     } catch (error) {

@@ -1,5 +1,8 @@
 // API service layer - ready to connect to backend endpoints
 
+// TODO: Replace with your Laravel backend URL
+const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+
 export interface Class {
   id: string;
   name: string;
@@ -105,75 +108,173 @@ export const mockClasses: Class[] = [
 export const apiService = {
   // Classes
   async getClasses(): Promise<Class[]> {
-    // TODO: Replace with actual API call
-    // const response = await fetch('/api/classes');
-    // return response.json();
-    return mockClasses;
+    try {
+      const response = await fetch(`${API_BASE_URL}/classes`);
+      if (!response.ok) throw new Error('Failed to fetch classes');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      // Fallback to mock data
+      return mockClasses;
+    }
   },
 
   async getClassById(id: string): Promise<Class | null> {
-    // TODO: Replace with actual API call
-    return mockClasses.find(c => c.id === id) || null;
+    try {
+      const response = await fetch(`${API_BASE_URL}/classes/${id}`);
+      if (!response.ok) throw new Error('Failed to fetch class');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      return mockClasses.find(c => c.id === id) || null;
+    }
   },
 
   // Orders
   async createOrder(orderData: Partial<Order>): Promise<Order> {
-    // TODO: Replace with actual API call
-    // const response = await fetch('/api/orders', {
-    //   method: 'POST',
-    //   body: JSON.stringify(orderData),
-    // });
-    // return response.json();
-    
-    const newOrder: Order = {
-      id: `ord-${Date.now()}`,
-      userId: orderData.userId || 'guest',
-      items: orderData.items || [],
-      total: orderData.total || 0,
-      currency: orderData.currency || '₦',
-      status: 'pending',
-      createdAt: new Date().toISOString(),
-    };
-    return newOrder;
+    try {
+      const response = await fetch(`${API_BASE_URL}/orders`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(orderData),
+      });
+      if (!response.ok) throw new Error('Failed to create order');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      // Fallback to local creation
+      const newOrder: Order = {
+        id: `ord-${Date.now()}`,
+        userId: orderData.userId || 'guest',
+        items: orderData.items || [],
+        total: orderData.total || 0,
+        currency: orderData.currency || '₦',
+        status: 'pending',
+        createdAt: new Date().toISOString(),
+      };
+      return newOrder;
+    }
   },
 
   async getUserOrders(userId: string): Promise<Order[]> {
-    // TODO: Replace with actual API call
-    const orders = localStorage.getItem(`orders_${userId}`);
-    return orders ? JSON.parse(orders) : [];
+    try {
+      const response = await fetch(`${API_BASE_URL}/users/${userId}/orders`);
+      if (!response.ok) throw new Error('Failed to fetch orders');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      const orders = localStorage.getItem(`orders_${userId}`);
+      return orders ? JSON.parse(orders) : [];
+    }
   },
 
   // Promo Codes
   async validatePromoCode(code: string): Promise<PromoCode | null> {
-    // TODO: Replace with actual API call
-    const promoCodes = localStorage.getItem('promoCodes');
-    const codes: PromoCode[] = promoCodes ? JSON.parse(promoCodes) : [];
-    return codes.find(p => p.code === code) || null;
+    try {
+      const response = await fetch(`${API_BASE_URL}/promo-codes/validate/${code}`);
+      if (!response.ok) throw new Error('Failed to validate promo code');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      const promoCodes = localStorage.getItem('promoCodes');
+      const codes: PromoCode[] = promoCodes ? JSON.parse(promoCodes) : [];
+      return codes.find(p => p.code === code) || null;
+    }
   },
 
   // Purchased Classes
   async getPurchasedClasses(userId: string): Promise<PurchasedClass[]> {
-    // TODO: Replace with actual API call
-    const purchased = localStorage.getItem(`purchased_classes_${userId}`);
-    return purchased ? JSON.parse(purchased) : [];
+    try {
+      const response = await fetch(`${API_BASE_URL}/users/${userId}/purchased-classes`);
+      if (!response.ok) throw new Error('Failed to fetch purchased classes');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      const purchased = localStorage.getItem(`purchased_classes_${userId}`);
+      return purchased ? JSON.parse(purchased) : [];
+    }
   },
 
   async purchaseClass(userId: string, classId: string, orderId: string): Promise<PurchasedClass> {
-    // TODO: Replace with actual API call
-    const purchased: PurchasedClass = {
-      id: `pc-${Date.now()}`,
-      userId,
-      classId,
-      orderId,
-      zoomLink: `https://zoom.us/j/mock-${classId}-${Date.now()}`,
-      purchasedAt: new Date().toISOString(),
-      attended: false,
-    };
+    try {
+      const response = await fetch(`${API_BASE_URL}/classes/purchase`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ userId, classId, orderId }),
+      });
+      if (!response.ok) throw new Error('Failed to purchase class');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      // Fallback to local creation
+      const purchased: PurchasedClass = {
+        id: `pc-${Date.now()}`,
+        userId,
+        classId,
+        orderId,
+        zoomLink: `https://zoom.us/j/mock-${classId}-${Date.now()}`,
+        purchasedAt: new Date().toISOString(),
+        attended: false,
+      };
 
-    // Store in localStorage temporarily
-    const existing = await this.getPurchasedClasses(userId);
-    localStorage.setItem(`purchased_classes_${userId}`, JSON.stringify([...existing, purchased]));
-    
-    return purchased;
+      const existing = await this.getPurchasedClasses(userId);
+      localStorage.setItem(`purchased_classes_${userId}`, JSON.stringify([...existing, purchased]));
+      
+      return purchased;
+    }
+  },
+  
+  // Products
+  async getProducts(): Promise<Product[]> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/products`);
+      if (!response.ok) throw new Error('Failed to fetch products');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      return [];
+    }
+  },
+
+  async createProduct(product: Partial<Product>): Promise<Product> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/products`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(product),
+      });
+      if (!response.ok) throw new Error('Failed to create product');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
+  },
+
+  async updateProduct(id: string, product: Partial<Product>): Promise<Product> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(product),
+      });
+      if (!response.ok) throw new Error('Failed to update product');
+      return await response.json();
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
+  },
+
+  async deleteProduct(id: string): Promise<void> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/products/${id}`, {
+        method: 'DELETE',
+      });
+      if (!response.ok) throw new Error('Failed to delete product');
+    } catch (error) {
+      console.error('API Error:', error);
+      throw error;
+    }
   },
 };
