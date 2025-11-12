@@ -1,267 +1,239 @@
-import { Users, Target, Heart, Award, Zap, Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import Header from "@/components/Header";
-import Footer from "@/components/Footer";
-import Gallery from "@/components/Gallery";
-import { Link } from "react-router-dom";
-import gymClass from "@/assets/gym-class.jpg";
-import personalTraining from "@/assets/personal-training.jpg";
-
-import blastImage from "@/assets/blossom-group1.jpg";
-import yogaImage from "@/assets/blossom-group2.jpg";
-import strengthImage from "@/assets/blossom-group3.jpg";
-import danceImage from "@/assets/blossom-group4.jpg";
-import pilatesImage from "@/assets/blossom-group5.jpg";
-import boxingImage from "@/assets/blossom-group8.jpg";
-import blossomSingleImage from "@/assets/blossom-single.jpg";
-import blossomSingle2Image from "@/assets/blossom-single2.jpg";
-import dance from "@/assets/dance-no-logo.jpg";
-import eventPics from "@/assets/blossom-event.jpg";
-import matureGroup from "@/assets/mature-grop.jpg";
-import blossomAlleGroup from "@/assets/blossom-group.jpg";
+import Header from '@/components/Header';
+import Footer from '@/components/Footer';
+import { motion } from 'framer-motion';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { Award, Heart, Users, Target, Zap, Star, TrendingUp, Globe } from 'lucide-react';
+import { Card } from '@/components/ui/card';
+import drBlossomPhoto from '@/assets/_0000_Dr-Blossom-Photo (1).png';
+import heroBackground from '@/assets/bg-hero-blossom.png';
 
 const About = () => {
   const values = [
     {
-      icon: <Heart className="h-8 w-8" />,
-      title: "Passion for Fitness",
-      description:
-        "We believe fitness is not just about physical strength, but about building mental resilience and confidence.",
+      icon: Heart,
+      title: 'Fun First',
+      description: 'We believe fitness should be joyful, not a chore',
     },
     {
-      icon: <Users className="h-8 w-8" />,
-      title: "Community First",
-      description:
-        "Creating a supportive environment where everyone feels welcomed and motivated to achieve their goals.",
+      icon: Users,
+      title: 'Community',
+      description: 'Building a supportive network of wellness warriors',
     },
     {
-      icon: <Target className="h-8 w-8" />,
-      title: "Goal-Oriented",
-      description:
-        "Every program is designed with clear objectives and measurable results to track your progress.",
+      icon: Target,
+      title: 'Results',
+      description: 'Proven methods that deliver real transformation',
     },
     {
-      icon: <Award className="h-8 w-8" />,
-      title: "Excellence",
-      description:
-        "We maintain the highest standards in equipment, training, and customer service.",
+      icon: Zap,
+      title: 'Energy',
+      description: 'High-energy workouts that make you feel alive',
     },
   ];
 
-  const team = [
+  const stats = [
+    { label: 'Happy Members', value: '1000+', icon: Users },
+    { label: 'Classes Taught', value: '5000+', icon: Star },
+    { label: 'Years Experience', value: '6+', icon: Award },
+    { label: 'Countries Reached', value: '4', icon: Globe },
+  ];
+
+  const timeline = [
     {
-      name: "Sarah Johnson",
-      role: "Head Trainer & Founder",
-      image: matureGroup,
-      bio: "15+ years of experience in fitness training and nutrition coaching.",
+      year: '2018',
+      title: 'The Beginning',
+      description: 'Dr. Blossom started her Zumba® journey, discovering her passion for dance fitness',
     },
     {
-      name: "Dr. Blossom Maduafokwa",
-      role: "Founder & Zumba Instructor",
-      image: blossomSingleImage,
-      bio: "Former professional athlete specializing in strength training and sports performance.",
+      year: '2019',
+      title: 'Certification & Growth',
+      description: 'Became a certified Zumba® instructor and started teaching classes in Lagos',
     },
     {
-      name: "Emma Davis",
-      role: "Yoga & Wellness Instructor",
-      image: blossomAlleGroup,
-      bio: "Certified yoga instructor focused on mindfulness and holistic wellness.",
+      year: '2020',
+      title: 'Virtual Expansion',
+      description: 'Pivoted to virtual classes during the pandemic, reaching students across Africa',
+    },
+    {
+      year: '2022',
+      title: 'Blossom Fitness Hub',
+      description: 'Launched the official fitness hub, offering comprehensive wellness programs',
+    },
+    {
+      year: '2024',
+      title: 'International Impact',
+      description: 'Expanded reach to multiple countries with thousands of active members',
     },
   ];
 
   return (
-    <div className="min-h-screen bg-background">
+    <div className="min-h-screen bg-creamish">
       <Header />
-
-      {/* Hero Section */}
-      <section className="relative py-20 bg-gradient-to-r from-primary/10 to-primary-glow/10">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6">
-              About <span className="text-primary">Blossom's Fitness</span>
-            </h1>
-            <p className="text-xl text-muted-foreground mb-8 leading-relaxed">
-              Blossom’s Fitness is more than just a fitness brand. It’s a
-              vibrant community where fun meets fitness through the perfect
-              blend of dance, nutrition, and wellness. We believe that staying
-              healthy should be joyful, expressive, and empowering. That’s why
-              our programs combine the energy of Zumba, the balance of proper
-              nutrition, and the power of holistic wellness to help individuals
-              look, feel, and live their best.
-            </p>
-          </div>
+      
+      {/* Hero Section with Background */}
+      <section 
+        className="relative pt-32 pb-20 overflow-hidden"
+        style={{
+          backgroundImage: `url(${heroBackground})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
+        <div className="absolute inset-0 bg-chocolate/50" />
+        <div className="relative z-10 container-custom mx-auto text-center">
+          <motion.h1 
+            className="text-5xl md:text-6xl font-heading font-bold mb-6 text-creamish drop-shadow-lg"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
+            About Dr. Blossom
+          </motion.h1>
+          <motion.p 
+            className="text-xl text-creamish/90 max-w-3xl mx-auto drop-shadow"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
+            Transforming lives through the power of dance, wellness, and community
+          </motion.p>
         </div>
       </section>
 
-      {/* Our Story */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div>
-              <h2 className="text-4xl font-bold mb-6">Our Story</h2>
-              <div className="space-y-4 text-muted-foreground leading-relaxed">
-                <p>
-                  Founded by Dr. Blossom Maduafokwa a passionate Creative
-                  Director, certified Zumba Instructor, and wellness advocate.
-                  Blossom’s Fitness is driven by the vision to redefine fitness
-                  culture in Nigeria. With her background in health and her deep
-                  love for dance, Dr. Blossom inspires others to embrace
-                  movement as a celebration of life, confidence, and community.
-                </p>
-                <p>
-                  Our mission is to empower individuals through dance fitness,
-                  support youth sponsorship programs, and promote healthier
-                  lifestyles across Nigeria. We believe everyone deserves the
-                  opportunity to thrive — regardless of age, size, or
-                  background.
-                </p>
-                <p>
-                  At Blossom’s Fitness, our core values guide everything we do:
-                  Inclusivity – Everyone is welcome on the dance floor. Passion
-                  – We bring energy and heart to every movement. Empowerment –
-                  We help people discover their strength, inside and out.
-                  Wellness – We promote holistic living through mind, body, and
-                  spirit balance. Join us as we dance, grow, and transform one
-                  beat, one move, and one life at a time.
-                </p>
-              </div>
-              <div className="mt-8">
-                <Link to="/contact">
-                  <Button className="btn-primary">Join Our Community</Button>
-                </Link>
-              </div>
-            </div>
-            <div className="relative">
-              <div className="grid grid-cols-2 gap-6">
-                {/* Main large image */}
-                <div className="col-span-2">
-                  <div className="relative rounded-2xl overflow-hidden shadow-2xl hover-scale">
-                    <img
-                      src={eventPics}
-                      alt="Group fitness class"
-                      className="w-full h-80 object-cover"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />
+      {/* Dr. Blossom's Story */}
+      <section className="section-padding bg-white">
+        <div className="container-custom mx-auto">
+          <AnimatedSection animation="fade">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+              {/* Photo */}
+              <div className="relative">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  whileInView={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8 }}
+                  viewport={{ once: true }}
+                  className="relative"
+                >
+                  <img
+                    src={drBlossomPhoto}
+                    alt="Dr. Blossom Maduafokwa"
+                    className="rounded-2xl shadow-2xl w-full object-cover"
+                  />
+                  <div className="absolute -bottom-6 -right-6 bg-chocolate text-creamish p-6 rounded-xl shadow-xl">
+                    <p className="text-4xl font-bold">6+</p>
+                    <p className="text-sm">Years of Impact</p>
                   </div>
-                </div>
-
-                {/* Two smaller images side by side */}
-                <div className="relative rounded-2xl overflow-hidden shadow-xl hover-scale">
-                  <img
-                    src={blossomSingleImage}
-                    alt="Personal training session"
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                </div>
-
-                <div className="relative rounded-2xl overflow-hidden shadow-xl hover-scale">
-                  <img
-                    src={dance}
-                    alt="Dance fitness"
-                    className="w-full h-48 object-cover"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-                </div>
+                </motion.div>
               </div>
 
-              {/* Decorative elements */}
-              <div className="absolute -top-4 -right-4 w-24 h-24 bg-blossom-purple/20 rounded-full blur-2xl" />
-              <div className="absolute -bottom-4 -left-4 w-32 h-32 bg-blossom-pink/20 rounded-full blur-2xl" />
+              {/* Story */}
+              <div className="space-y-6">
+                <AnimatedSection animation="slide-right">
+                  <h2 className="text-4xl font-heading font-bold text-chocolate mb-6">
+                    Meet Dr. Blossom Maduafokwa
+                  </h2>
+                  
+                  <div className="prose prose-lg text-chocolate/80 space-y-4">
+                    <p>
+                      Dr. Blossom Maduafokwa is not just a Zumba® instructor—she's a movement builder, 
+                      a wellness advocate, and a passionate believer in the transformative power of dance.
+                    </p>
+                    
+                    <p>
+                      With over 6 years of experience and thousands of students across multiple countries, 
+                      Dr. Blossom has built a reputation for creating high-energy, inclusive fitness 
+                      experiences that celebrate every body and every fitness level.
+                    </p>
+                    
+                    <p>
+                      Her unique approach combines the joy of Latin dance rhythms with effective fitness 
+                      techniques, creating workouts that don't feel like work. From Lagos to Monrovia, 
+                      from virtual classes to in-person sessions, Dr. Blossom's infectious energy and 
+                      genuine care for her students have transformed the lives of over 1,000 members.
+                    </p>
+                    
+                    <p className="font-semibold text-chocolate">
+                      "Fitness should be fun first. When you love what you do, results follow naturally." 
+                      - Dr. Blossom
+                    </p>
+                  </div>
+                </AnimatedSection>
+              </div>
             </div>
+          </AnimatedSection>
+        </div>
+      </section>
+
+      {/* Timeline */}
+      <section className="section-padding bg-creamish">
+        <div className="container-custom mx-auto">
+          <AnimatedSection animation="fade">
+            <h2 className="text-4xl font-heading font-bold text-center text-chocolate mb-16">
+              The Journey
+            </h2>
+          </AnimatedSection>
+
+          <div className="max-w-4xl mx-auto">
+            {timeline.map((item, index) => (
+              <AnimatedSection key={index} animation="slide-up" delay={index * 0.1}>
+                <div className="flex gap-6 mb-8 group">
+                  <div className="flex flex-col items-center">
+                    <div className="w-16 h-16 rounded-full bg-chocolate text-creamish flex items-center justify-center font-bold text-lg shadow-lg group-hover:scale-110 transition-transform">
+                      {item.year}
+                    </div>
+                    {index !== timeline.length - 1 && (
+                      <div className="w-1 h-full bg-chocolate/20 mt-2" />
+                    )}
+                  </div>
+                  <Card className="flex-1 p-6 bg-white border-chocolate/20 hover:shadow-xl transition-all">
+                    <h3 className="text-2xl font-bold text-chocolate mb-2">{item.title}</h3>
+                    <p className="text-chocolate/70">{item.description}</p>
+                  </Card>
+                </div>
+              </AnimatedSection>
+            ))}
           </div>
         </div>
       </section>
 
-      {/* Our Values */}
-      <section className="py-20 bg-background">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4 text-chocolate">The Blossom's Fitness Hub Team</h2>
-            <p className="text-foreground/80 text-lg max-w-3xl mx-auto">
-              Since its founding, the hub has grown from a small local initiative into a thriving fitness community supported by a diverse team of certified instructors, coaches, and wellness enthusiasts. Each member of the team brings unique expertise — from strength and conditioning to dance fitness, yoga, and functional training — creating a well-rounded and inclusive approach to health and wellness.
-            </p>
-            <p className="text-foreground/80 text-lg max-w-3xl mx-auto mt-4">
-              Through their collective effort, the Blossom's Fitness Hub team has built more than just a workout space — they've created a movement that empowers individuals to stay active, confident, and connected.
-            </p>
+      {/* Stats */}
+      <section className="section-padding bg-white">
+        <div className="container-custom mx-auto">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+            {stats.map((stat, index) => (
+              <AnimatedSection key={index} animation="scale" delay={index * 0.1}>
+                <Card className="p-8 text-center bg-gradient-to-br from-chocolate to-chocolate/80 text-creamish hover:shadow-2xl transition-all">
+                  <stat.icon className="w-12 h-12 mx-auto mb-4" />
+                  <div className="text-4xl font-bold mb-2">{stat.value}</div>
+                  <div className="text-creamish/90">{stat.label}</div>
+                </Card>
+              </AnimatedSection>
+            ))}
           </div>
+        </div>
+      </section>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {/* Values */}
+      <section className="section-padding bg-creamish">
+        <div className="container-custom mx-auto">
+          <AnimatedSection animation="fade">
+            <h2 className="text-4xl font-heading font-bold text-center text-chocolate mb-16">
+              Our Core Values
+            </h2>
+          </AnimatedSection>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
             {values.map((value, index) => (
-              <Card
-                key={index}
-                className="glass-card p-6 text-center hover-lift"
-              >
-                <div className="w-16 h-16 bg-chocolate rounded-full mx-auto mb-4 flex items-center justify-center text-creamish">
-                  {value.icon}
-                </div>
-                <h3 className="text-xl font-bold mb-3 text-chocolate">{value.title}</h3>
-                <p className="text-foreground/70 leading-relaxed">
-                  {value.description}
-                </p>
-              </Card>
+              <AnimatedSection key={index} animation="slide-up" delay={index * 0.1}>
+                <Card className="p-8 text-center bg-white border-chocolate/20 hover:shadow-xl transition-all group">
+                  <div className="bg-chocolate/10 w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:bg-chocolate group-hover:text-creamish transition-all">
+                    <value.icon className="w-8 h-8 text-chocolate group-hover:text-creamish transition-colors" />
+                  </div>
+                  <h3 className="text-2xl font-bold text-chocolate mb-3">{value.title}</h3>
+                  <p className="text-chocolate/70">{value.description}</p>
+                </Card>
+              </AnimatedSection>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Meet Our Team */}
-      <section className="py-20">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold mb-4">Meet Our Team</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-              Our certified trainers and wellness experts are here to guide you
-              on your fitness journey
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {team.map((member, index) => (
-              <Card
-                key={index}
-                className="card-glass overflow-hidden hover-scale"
-              >
-                <img
-                  src={member.image}
-                  alt={member.name}
-                  className="w-full h-64 object-cover"
-                />
-                <div className="p-6">
-                  <h3 className="text-xl font-bold mb-2">{member.name}</h3>
-                  <p className="text-primary font-medium mb-3">{member.role}</p>
-                  <p className="text-muted-foreground text-sm">{member.bio}</p>
-                </div>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* Gallery Section */}
-      <Gallery />
-
-      {/* Stats Section */}
-      <section className="py-20 bg-chocolate text-creamish">
-        <div className="container mx-auto px-4">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-            <div>
-              <div className="text-4xl font-bold mb-2">1000+</div>
-              <div className="text-creamish/80">Happy Members</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">50+</div>
-              <div className="text-creamish/80">Group Classes</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">15+</div>
-              <div className="text-creamish/80">Expert Trainers</div>
-            </div>
-            <div>
-              <div className="text-4xl font-bold mb-2">6+</div>
-              <div className="text-creamish/80">Years Experience</div>
-            </div>
           </div>
         </div>
       </section>

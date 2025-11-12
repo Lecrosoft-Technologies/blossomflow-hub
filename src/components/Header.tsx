@@ -5,7 +5,8 @@ import { useCart } from "@/context/CartContext";
 import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import logo from "@/assets/logo_dark_mode_cream_color.png";
+import logo from "@/assets/Blossom Fitness Logo lightmode Rust.png";
+import logoWhite from "@/assets/blossom-logo-white.png";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -33,9 +34,9 @@ const Header = () => {
 
   return (
     <header
-      className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out   ${
+      className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${
         isScrolled
-          ? "bg-background/95 backdrop-blur-xl border-b border-border shadow-lg"
+          ? "bg-creamish/98 backdrop-blur-xl border-b border-chocolate/10 shadow-lg"
           : "bg-transparent"
       }`}
     >
@@ -44,10 +45,10 @@ const Header = () => {
         <div className="flex items-center space-x-3">
           <Link to="/">
             <img
-              src={logo}
+              src={isScrolled ? logo : logoWhite}
               alt="Blossom's Fitness Hub"
               className={`transition-all duration-300 ${
-                isScrolled ? "h-16 md:h-20" : "h-20 md:h-24"
+                isScrolled ? "h-10" : "h-12"
               } w-auto object-contain cursor-pointer`}
             />
           </Link>
@@ -59,7 +60,11 @@ const Header = () => {
             <Link
               key={item.label}
               to={item.href}
-              className="text-creamish hover:text-white transition-colors duration-300 hover-underline font-medium"
+              className={`transition-colors duration-300 hover-underline font-medium ${
+                isScrolled 
+                  ? 'text-chocolate hover:text-chocolate/70' 
+                  : 'text-creamish hover:text-white'
+              }`}
             >
               {item.label}
             </Link>
@@ -71,7 +76,9 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="relative hover:bg-primary/20"
+            className={`relative hover:bg-primary/20 ${
+              isScrolled ? 'text-chocolate' : 'text-creamish'
+            }`}
             onClick={() => navigate("/cart")}
           >
             <ShoppingCart className="h-5 w-5" />
@@ -85,7 +92,9 @@ const Header = () => {
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className="hover:bg-primary/20">
+                <Button variant="ghost" size="icon" className={`hover:bg-primary/20 ${
+                  isScrolled ? 'text-chocolate' : 'text-creamish'
+                }`}>
                   <User className="h-5 w-5" />
                 </Button>
               </DropdownMenuTrigger>
@@ -106,7 +115,9 @@ const Header = () => {
             <Button
               variant="ghost"
               size="icon"
-              className="hover:bg-primary/20"
+              className={`hover:bg-primary/20 ${
+                isScrolled ? 'text-chocolate' : 'text-creamish'
+              }`}
               onClick={() => navigate("/login")}
             >
               <User className="h-5 w-5" />
@@ -124,7 +135,9 @@ const Header = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="lg:hidden"
+            className={`lg:hidden ${
+              isScrolled ? 'text-chocolate' : 'text-creamish'
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? (
@@ -138,7 +151,7 @@ const Header = () => {
 
       {/* Mobile Menu */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-background/95 backdrop-blur-xl border-b border-border">
+        <div className="lg:hidden absolute top-full left-0 right-0 bg-creamish/98 backdrop-blur-xl border-b border-chocolate/20">
           <nav className="container mx-auto px-4 py-6 flex flex-col space-y-4">
             {navItems.map((item) => (
               <Link

@@ -1,10 +1,10 @@
 import { useState, useEffect } from "react";
-import { Play, ArrowRight, Zap, Star, Users, Heart } from "lucide-react";
+import { Play, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
 import drBlossomImage from "@/assets/dr-blossom.png";
-import heroBackground from "@/assets/hero-real-bg.jpg";
-import twirlPattern from "@/assets/Twirl-line.png";
+import heroBackground from "@/assets/bg-hero-blossom.png";
 
 const Hero = () => {
   const [currentText, setCurrentText] = useState(0);
@@ -31,67 +31,71 @@ const Hero = () => {
   }, []);
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-hero-bg">
-      {/* Background - Solid chocolate color */}
-      <div className="absolute inset-0 bg-hero-bg" />
+    <section className="relative min-h-screen flex items-center overflow-hidden">
+      {/* Background Image */}
+      <div 
+        className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: `url(${heroBackground})` }}
+      >
+        <div className="absolute inset-0 bg-chocolate/40" />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center max-w-7xl mx-auto">
           {/* Left Side - Text Content */}
-          <div className="text-left space-y-8 mt-[-12rem] ">
+          <motion.div 
+            className="text-left space-y-8 mt-[-12rem]"
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+          >
             {/* Main Headline */}
-            <h1 className="hero-text animate-fade-in-up text-hero-text">
+            <h1 className="hero-text text-creamish drop-shadow-lg">
               {heroTexts[currentText]}
             </h1>
 
             {/* Subheading */}
-            <p className="text-lg md:text-xl text-hero-text/80 max-w-xl animate-fade-in-up stagger-1">
+            <p className="text-lg md:text-xl text-creamish/90 max-w-xl drop-shadow">
               {subTexts[currentText]}
             </p>
 
             {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4 animate-fade-in-up stagger-2">
-              <Link to="/classes">
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Link to="/newsletter">
                 <Button
                   size="default"
-                  className="bg-creamish text-chocolate hover:bg-creamish/90 text-lg group"
+                  className="bg-creamish text-chocolate hover:bg-creamish/90 text-lg group shadow-lg"
                 >
                   Join Our Zumba® Community
                   <ArrowRight className="ml-2 h-5 w-4 group-hover:translate-x-1 transition-transform" />
                 </Button>
               </Link>
 
-              <Link to="/virtual-classes">
+              <Link to="/classes">
                 <Button
                   size="default"
                   variant="outline"
-                  className="bg-white text-chocolate border-white hover:bg-white/90 text-lg group"
+                  className="bg-white text-chocolate border-white hover:bg-white/90 text-lg group shadow-lg"
                 >
                   <Play className="mr-2 h-5 w-5 group-hover:scale-110 transition-transform" />
                   Book a Class
                 </Button>
               </Link>
             </div>
-          </div>
+          </motion.div>
 
           {/* Right Side - Dr. Blossom Image with Floating Stats */}
-          <div className="relative flex justify-center lg:justify-end animate-fade-in-up stagger-2">
+          <motion.div 
+            className="relative flex justify-center lg:justify-end"
+            initial={{ opacity: 0, x: 30 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+          >
             <div className="relative">
-              {/* Twirl Pattern Background */}
-              {/* <div
-                className="absolute inset-0 opacity-30 pointer-events-none z-0"
-                style={{
-                  backgroundImage: `url(${twirlPattern})`,
-                  backgroundSize: "cover",
-                  backgroundRepeat: "no-repeat",
-                  backgroundPosition: "center",
-                }}
-              /> */}
-
               <img
                 src={drBlossomImage}
-                alt="Dr. Blossom Maduafokwa - Fitness Instructor"
+                alt="Dr. Blossom Maduafokwa - Zumba® Fitness Instructor"
                 className="relative z-10 w-full max-w-sm md:max-w-md lg:max-w-lg xl:max-w-xl h-auto object-contain drop-shadow-2xl"
               />
 
@@ -148,7 +152,7 @@ const Hero = () => {
                 style={{ animationDelay: "2s" }}
               />
             </div>
-          </div>
+          </motion.div>
         </div>
       </div>
     </section>
