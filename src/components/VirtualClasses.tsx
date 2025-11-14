@@ -117,7 +117,7 @@ const VirtualClasses = () => {
   };
 
   return (
-    <section id="classes" className="py-20 bg-muted/20">
+    <section id="classes" className="py-20 bg-creamish">
       <div className="container mx-auto px-4">
         {/* Section Header */}
         <div className="text-center mb-16">
@@ -259,9 +259,10 @@ const VirtualClasses = () => {
                   </div>
                   <Button
                     size="sm"
-                    className="btn-secondary group-hover:btn-primary transition-all duration-300"
+                    className="bg-chocolate text-creamish hover:bg-chocolate/90"
+                    onClick={() => window.location.href = '/classes'}
                   >
-                    {classItem.type === "Live" ? "Join Live" : "Watch Now"}
+                    {classItem.price.free ? "Join Free" : "Add to Cart"}
                   </Button>
                 </div>
               </div>
@@ -271,20 +272,26 @@ const VirtualClasses = () => {
 
         {/* CTA Section */}
         <div className="text-center mt-16">
-          <div className="card-glass max-w-2xl mx-auto p-8">
-            <h3 className="text-2xl font-bold mb-4">
-              Ready to start your fitness journey?
+          <div className="card-glass max-w-2xl mx-auto p-8 bg-white/80 backdrop-blur">
+            <h3 className="text-2xl font-bold mb-4 text-chocolate">
+              Ready to start your Zumba® journey?
             </h3>
-            <p className="text-muted-foreground mb-6">
+            <p className="text-chocolate/80 mb-6">
               Get unlimited access to all classes with our premium membership
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Button className="btn-primary">Start Free Trial</Button>
+              <Button 
+                className="bg-chocolate text-creamish hover:bg-chocolate/90"
+                onClick={() => window.location.href = '/classes'}
+              >
+                Browse All Classes
+              </Button>
               <Button
                 variant="outline"
-                className="hover:bg-primary hover:text-primary-foreground"
+                className="border-chocolate text-chocolate hover:bg-chocolate hover:text-creamish"
+                onClick={() => window.location.href = '/contact'}
               >
-                View All Classes
+                Contact Us
               </Button>
             </div>
           </div>
