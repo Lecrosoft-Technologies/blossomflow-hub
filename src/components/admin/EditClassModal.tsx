@@ -1,97 +1,116 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useState, useEffect } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Class } from '@/services/api';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ImageUpload } from './ImageUpload';
 
-interface AddClassModalProps {
-  open: boolean;
+interface Class {
+  id: string;
+  name: string;
+  description: string;
+  type: string;
+  date: string;
+  time: string;
+  duration: string;
+  spotsAvailable: number;
+  price: { usd: number; naira: number; gbp: number };
+  instructor: string;
+  zoomLink?: string;
+  image: string;
+  category: string;
+}
+
+interface EditClassModalProps {
+  classData: Class | null;
+  isOpen: boolean;
   onClose: () => void;
-  onSave: (classData: Omit<Class, 'id'>) => void;
+  onSave: (classData: Class) => void;
   categories: string[];
 }
 
-const AddClassModal = ({ open, onClose, onSave, categories }: AddClassModalProps) => {
-  const [formData, setFormData] = useState({
+export const EditClassModal = ({ classData, isOpen, onClose, onSave, categories }: EditClassModalProps) => {
+  const [formData, setFormData] = useState<Class>({
+    id: '',
     name: '',
     description: '',
-    instructor: 'Dr. Blossom Maduafokwa',
-    type: 'virtual' as 'virtual' | 'in-person' | 'hybrid',
+    type: 'in-person',
     date: '',
     time: '',
-    duration: '60 mins',
+    duration: '',
+    spotsAvailable: 20,
     price: { usd: 0, naira: 0, gbp: 0 },
-    spotsAvailable: 50,
-    image: '',
+    instructor: '',
     zoomLink: '',
+    image: '',
     category: '',
   });
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    if (classData) {
+      setFormData(classData);
+    }
+  }, [classData]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     onSave(formData);
-    setFormData({
-      name: '',
-      description: '',
-      instructor: 'Dr. Blossom Maduafokwa',
-      type: 'virtual',
-      date: '',
-      time: '',
-      duration: '60 mins',
-      price: { usd: 0, naira: 0, gbp: 0 },
-      spotsAvailable: 50,
-      image: '',
-      zoomLink: '',
-      category: '',
-    });
     onClose();
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Add New Class</DialogTitle>
+          <DialogTitle>Edit Class</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid gap-2">
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
             <Label htmlFor="name">Class Name</Label>
             <Input
               id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="High-Energy Zumba®"
+              required
             />
           </div>
-          <div className="grid gap-2">
+
+          <div>
             <Label htmlFor="description">Description</Label>
             <Textarea
               id="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="Dance your way to fitness..."
+              rows={3}
             />
           </div>
+
           <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="type">Type</Label>
-              <Select value={formData.type} onValueChange={(value: any) => setFormData({ ...formData, type: value })}>
+            <div>
+              <Label>Type</Label>
+              <Select
+                value={formData.type}
+                onValueChange={(value) => setFormData({ ...formData, type: value })}
+              >
                 <SelectTrigger>
                   <SelectValue />
                 </SelectTrigger>
                 <SelectContent>
-                  <SelectItem value="virtual">Virtual</SelectItem>
                   <SelectItem value="in-person">In-Person</SelectItem>
+                  <SelectItem value="virtual">Virtual</SelectItem>
                   <SelectItem value="hybrid">Hybrid</SelectItem>
                 </SelectContent>
               </Select>
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="category">Category</Label>
-              <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
+
+            <div>
+              <Label>Category</Label>
+              <Select
+                value={formData.category}
+                onValueChange={(value) => setFormData({ ...formData, category: value })}
+              >
                 <SelectTrigger>
                   <SelectValue placeholder="Select category" />
                 </SelectTrigger>
@@ -103,58 +122,42 @@ const AddClassModal = ({ open, onClose, onSave, categories }: AddClassModalProps
               </Select>
             </div>
           </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
+
+          <div className="grid grid-cols-3 gap-4">
+            <div>
               <Label htmlFor="date">Date</Label>
               <Input
                 id="date"
                 type="date"
                 value={formData.date}
                 onChange={(e) => setFormData({ ...formData, date: e.target.value })}
+                required
               />
             </div>
-            <div className="grid gap-2">
+            <div>
               <Label htmlFor="time">Time</Label>
               <Input
                 id="time"
                 type="time"
                 value={formData.time}
                 onChange={(e) => setFormData({ ...formData, time: e.target.value })}
+                required
               />
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <div className="grid gap-2">
-              <Label htmlFor="instructor">Instructor</Label>
-              <Input
-                id="instructor"
-                value={formData.instructor}
-                onChange={(e) => setFormData({ ...formData, instructor: e.target.value })}
-              />
-            </div>
-            <div className="grid gap-2">
+            <div>
               <Label htmlFor="duration">Duration</Label>
               <Input
                 id="duration"
                 value={formData.duration}
                 onChange={(e) => setFormData({ ...formData, duration: e.target.value })}
                 placeholder="60 mins"
+                required
               />
             </div>
           </div>
-          
-          <div className="grid gap-2">
-            <Label htmlFor="spots">Spots Available</Label>
-            <Input
-              id="spots"
-              type="number"
-              value={formData.spotsAvailable}
-              onChange={(e) => setFormData({ ...formData, spotsAvailable: parseInt(e.target.value) || 0 })}
-            />
-          </div>
-          
+
           <div className="grid grid-cols-3 gap-4">
-            <div className="grid gap-2">
+            <div>
               <Label htmlFor="price-naira">Price (₦)</Label>
               <Input
                 id="price-naira"
@@ -164,9 +167,10 @@ const AddClassModal = ({ open, onClose, onSave, categories }: AddClassModalProps
                   ...formData,
                   price: { ...formData.price, naira: parseFloat(e.target.value) || 0 }
                 })}
+                required
               />
             </div>
-            <div className="grid gap-2">
+            <div>
               <Label htmlFor="price-usd">Price ($)</Label>
               <Input
                 id="price-usd"
@@ -177,9 +181,10 @@ const AddClassModal = ({ open, onClose, onSave, categories }: AddClassModalProps
                   ...formData,
                   price: { ...formData.price, usd: parseFloat(e.target.value) || 0 }
                 })}
+                required
               />
             </div>
-            <div className="grid gap-2">
+            <div>
               <Label htmlFor="price-gbp">Price (£)</Label>
               <Input
                 id="price-gbp"
@@ -190,38 +195,61 @@ const AddClassModal = ({ open, onClose, onSave, categories }: AddClassModalProps
                   ...formData,
                   price: { ...formData.price, gbp: parseFloat(e.target.value) || 0 }
                 })}
+                required
               />
             </div>
           </div>
-          
-          <div className="grid gap-2">
+
+          <div className="grid grid-cols-2 gap-4">
+            <div>
+              <Label htmlFor="instructor">Instructor</Label>
+              <Input
+                id="instructor"
+                value={formData.instructor}
+                onChange={(e) => setFormData({ ...formData, instructor: e.target.value })}
+                required
+              />
+            </div>
+            <div>
+              <Label htmlFor="spots">Spots Available</Label>
+              <Input
+                id="spots"
+                type="number"
+                value={formData.spotsAvailable}
+                onChange={(e) => setFormData({ ...formData, spotsAvailable: parseInt(e.target.value) || 0 })}
+                required
+              />
+            </div>
+          </div>
+
+          {formData.type !== 'in-person' && (
+            <div>
+              <Label htmlFor="zoomLink">Zoom® Link</Label>
+              <Input
+                id="zoomLink"
+                value={formData.zoomLink || ''}
+                onChange={(e) => setFormData({ ...formData, zoomLink: e.target.value })}
+                placeholder="https://zoom.us/j/..."
+              />
+            </div>
+          )}
+
+          <div>
             <Label>Class Image</Label>
             <ImageUpload
               value={formData.image}
               onChange={(value) => setFormData({ ...formData, image: value })}
             />
           </div>
-          {formData.type !== 'in-person' && (
-            <div className="grid gap-2">
-              <Label htmlFor="zoomLink">Zoom® Link</Label>
-              <Input
-                id="zoomLink"
-                value={formData.zoomLink}
-                onChange={(e) => setFormData({ ...formData, zoomLink: e.target.value })}
-                placeholder="https://zoom.us/j/..."
-              />
-            </div>
-          )}
-        </div>
-        <div className="flex justify-end gap-3">
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSubmit} className="bg-chocolate text-creamish hover:bg-chocolate/90">
-            Add Class
-          </Button>
-        </div>
+
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit">Save Changes</Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
 };
-
-export default AddClassModal;

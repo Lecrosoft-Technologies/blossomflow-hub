@@ -19,6 +19,7 @@ const AdminDashboard = () => {
   const [orders, setOrders] = useState<Order[]>([]);
   const [promoCodes, setPromoCodes] = useState<PromoCode[]>([]);
   const [categories, setCategories] = useState<string[]>(['Fitness Gear', 'Apparel', 'Accessories', 'Nutrition']);
+  const [classCategories, setClassCategories] = useState<string[]>(['Fitness', 'Seniors', 'Kids', 'Advanced']);
   const [newCategory, setNewCategory] = useState('');
   const [showClassModal, setShowClassModal] = useState(false);
   const [showProductModal, setShowProductModal] = useState(false);
@@ -219,7 +220,7 @@ const AdminDashboard = () => {
                         <div>
                           <h3 className="font-semibold text-chocolate">{classItem.name}</h3>
                           <p className="text-sm text-chocolate/70">{classItem.type} • {classItem.date} at {classItem.time}</p>
-                          <p className="text-sm text-chocolate/70">{classItem.currency}{classItem.price} • {classItem.spotsAvailable}/{classItem.capacity} spots</p>
+                          <p className="text-sm text-chocolate/70">₦{classItem.price.naira} • {classItem.spotsAvailable} spots</p>
                         </div>
                         <Button 
                           variant="destructive" 
@@ -255,8 +256,8 @@ const AdminDashboard = () => {
                       <div key={product.id} className="flex items-center justify-between p-4 border border-chocolate/20 rounded-lg">
                         <div>
                           <h3 className="font-semibold text-chocolate">{product.name}</h3>
-                          <p className="text-sm text-chocolate/70">{product.category} • {product.currency}{product.price}</p>
-                          <p className="text-sm text-chocolate/70">Stock: {product.stock} • {product.requiresShipping ? 'Requires Shipping' : 'Digital'}</p>
+                          <p className="text-sm text-chocolate/70">{product.category} • ₦{product.price.naira}</p>
+                          <p className="text-sm text-chocolate/70">{product.inStock ? 'In Stock' : 'Out of Stock'}</p>
                         </div>
                         <Button 
                           variant="destructive" 
@@ -442,10 +443,11 @@ const AdminDashboard = () => {
         </div>
       </section>
 
-      <AddClassModal 
+      <AddClassModal
         open={showClassModal}
         onClose={() => setShowClassModal(false)}
         onSave={handleAddClass}
+        categories={classCategories}
       />
 
       <AddProductModal 

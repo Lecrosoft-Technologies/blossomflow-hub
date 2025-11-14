@@ -1,23 +1,34 @@
-import { useState } from 'react';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { useState, useEffect } from 'react';
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Switch } from '@/components/ui/switch';
-import { Product } from '@/services/api';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { ImageUpload } from './ImageUpload';
+import { Switch } from '@/components/ui/switch';
 
-interface AddProductModalProps {
-  open: boolean;
+interface Product {
+  id: string;
+  name: string;
+  description: string;
+  price: { usd: number; naira: number; gbp: number };
+  image: string;
+  category: string;
+  inStock: boolean;
+}
+
+interface EditProductModalProps {
+  product: Product | null;
+  isOpen: boolean;
   onClose: () => void;
-  onSave: (product: Omit<Product, 'id'>) => void;
+  onSave: (product: Product) => void;
   categories: string[];
 }
 
-const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalProps) => {
-  const [formData, setFormData] = useState({
+export const EditProductModal = ({ product, isOpen, onClose, onSave, categories }: EditProductModalProps) => {
+  const [formData, setFormData] = useState<Product>({
+    id: '',
     name: '',
     description: '',
     price: { usd: 0, naira: 0, gbp: 0 },
@@ -26,60 +37,47 @@ const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalP
     inStock: true,
   });
 
-  const handleSubmit = () => {
+  useEffect(() => {
+    if (product) {
+      setFormData(product);
+    }
+  }, [product]);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
     onSave(formData);
-    setFormData({
-      name: '',
-      description: '',
-      price: { usd: 0, naira: 0, gbp: 0 },
-      image: '',
-      category: '',
-      inStock: true,
-    });
     onClose();
   };
 
   return (
-    <Dialog open={open} onOpenChange={onClose}>
+    <Dialog open={isOpen} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Add New Product</DialogTitle>
+          <DialogTitle>Edit Product</DialogTitle>
         </DialogHeader>
-        <div className="grid gap-4 py-4">
-          <div className="grid gap-2">
-            <Label htmlFor="productName">Product Name</Label>
+        <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="name">Product Name</Label>
             <Input
-              id="productName"
+              id="name"
               value={formData.name}
               onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              placeholder="Yoga Mat Pro"
+              required
             />
           </div>
-          <div className="grid gap-2">
-            <Label htmlFor="productDesc">Description</Label>
+
+          <div>
+            <Label htmlFor="description">Description</Label>
             <Textarea
-              id="productDesc"
+              id="description"
               value={formData.description}
               onChange={(e) => setFormData({ ...formData, description: e.target.value })}
-              placeholder="High-quality yoga mat..."
+              rows={3}
             />
           </div>
-          <div className="grid gap-2">
-            <Label>Category</Label>
-            <Select value={formData.category} onValueChange={(value) => setFormData({ ...formData, category: value })}>
-              <SelectTrigger>
-                <SelectValue placeholder="Select category" />
-              </SelectTrigger>
-              <SelectContent>
-                {categories.map((cat) => (
-                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
-          
+
           <div className="grid grid-cols-3 gap-4">
-            <div className="grid gap-2">
+            <div>
               <Label htmlFor="price-naira">Price (₦)</Label>
               <Input
                 id="price-naira"
@@ -89,9 +87,10 @@ const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalP
                   ...formData,
                   price: { ...formData.price, naira: parseFloat(e.target.value) || 0 }
                 })}
+                required
               />
             </div>
-            <div className="grid gap-2">
+            <div>
               <Label htmlFor="price-usd">Price ($)</Label>
               <Input
                 id="price-usd"
@@ -102,9 +101,10 @@ const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalP
                   ...formData,
                   price: { ...formData.price, usd: parseFloat(e.target.value) || 0 }
                 })}
+                required
               />
             </div>
-            <div className="grid gap-2">
+            <div>
               <Label htmlFor="price-gbp">Price (£)</Label>
               <Input
                 id="price-gbp"
@@ -115,18 +115,36 @@ const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalP
                   ...formData,
                   price: { ...formData.price, gbp: parseFloat(e.target.value) || 0 }
                 })}
+                required
               />
             </div>
           </div>
-          
-          <div className="grid gap-2">
+
+          <div>
+            <Label>Category</Label>
+            <Select
+              value={formData.category}
+              onValueChange={(value) => setFormData({ ...formData, category: value })}
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Select category" />
+              </SelectTrigger>
+              <SelectContent>
+                {categories.map((cat) => (
+                  <SelectItem key={cat} value={cat}>{cat}</SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+
+          <div>
             <Label>Product Image</Label>
             <ImageUpload
               value={formData.image}
               onChange={(value) => setFormData({ ...formData, image: value })}
             />
           </div>
-          
+
           <div className="flex items-center space-x-2">
             <Switch
               id="inStock"
@@ -135,16 +153,15 @@ const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalP
             />
             <Label htmlFor="inStock">In Stock</Label>
           </div>
-        </div>
-        <div className="flex justify-end gap-3">
-          <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSubmit} className="bg-chocolate text-creamish hover:bg-chocolate/90">
-            Add Product
-          </Button>
-        </div>
+
+          <DialogFooter>
+            <Button type="button" variant="outline" onClick={onClose}>
+              Cancel
+            </Button>
+            <Button type="submit">Save Changes</Button>
+          </DialogFooter>
+        </form>
       </DialogContent>
     </Dialog>
   );
 };
-
-export default AddProductModal;

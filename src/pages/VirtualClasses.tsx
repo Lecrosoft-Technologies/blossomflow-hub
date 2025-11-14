@@ -9,7 +9,7 @@ import { useCurrency } from '@/hooks/useCurrency';
 
 const VirtualClasses = () => {
   const [classes, setClasses] = useState<Class[]>([]);
-  const { formatPrice } = useCurrency();
+  const { currency } = useCurrency();
 
   useEffect(() => {
     loadVirtualClasses();
@@ -58,7 +58,7 @@ const VirtualClasses = () => {
                 
                 <div className="flex items-center justify-between">
                   <span className="text-2xl font-bold text-chocolate">
-                    {formatPrice(classItem.price)}
+                    {currency === '₦' ? `₦${classItem.price.naira.toLocaleString()}` : `$${classItem.price.usd.toFixed(2)}`}
                   </span>
                   <Button className="bg-chocolate text-creamish hover:bg-chocolate/90">
                     Book Now

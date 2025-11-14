@@ -8,28 +8,25 @@ export interface Class {
   name: string;
   description: string;
   instructor: string;
-  type: 'virtual' | 'in-person';
+  type: 'virtual' | 'in-person' | 'hybrid';
   date: string;
   time: string;
-  duration: number; // in minutes
-  price: number;
-  currency: string;
-  capacity: number;
+  duration: string;
+  price: { usd: number; naira: number; gbp: number };
   spotsAvailable: number;
   image?: string;
-  zoomLink?: string; // Only available after purchase
+  zoomLink?: string;
+  category: string;
 }
 
 export interface Product {
   id: string;
   name: string;
   description: string;
-  price: number;
-  currency: string;
+  price: { usd: number; naira: number; gbp: number };
   image: string;
   category: string;
-  stock: number;
-  requiresShipping: boolean;
+  inStock: boolean;
 }
 
 export interface Order {
@@ -72,35 +69,33 @@ export interface PurchasedClass {
   attended: boolean;
 }
 
-// Mock data - will be replaced with API calls
-export const mockClasses: Class[] = [
+// Mock data for demonstration
+const mockClasses: Class[] = [
   {
     id: 'c1',
-    name: 'High-Energy Zumba',
+    name: 'High-Energy Zumba®',
     description: 'Dance your way to fitness with Dr. Blossom',
     instructor: 'Dr. Blossom Maduafokwa',
     type: 'virtual',
     date: '2025-01-15',
     time: '18:00',
-    duration: 60,
-    price: 3000,
-    currency: '₦',
-    capacity: 50,
+    duration: '60 mins',
+    price: { naira: 3000, usd: 25, gbp: 20 },
     spotsAvailable: 12,
+    category: 'Fitness',
   },
   {
     id: 'c2',
-    name: 'Zumba Gold (Seniors)',
-    description: 'Low-impact Zumba for mature participants',
+    name: 'Zumba® Gold (Seniors)',
+    description: 'Low-impact Zumba® for mature participants',
     instructor: 'Dr. Blossom Maduafokwa',
     type: 'in-person',
     date: '2025-01-16',
     time: '10:00',
-    duration: 45,
-    price: 2500,
-    currency: '₦',
-    capacity: 30,
+    duration: '45 mins',
+    price: { naira: 2500, usd: 20, gbp: 15 },
     spotsAvailable: 8,
+    category: 'Seniors',
   },
 ];
 
