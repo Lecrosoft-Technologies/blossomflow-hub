@@ -176,6 +176,17 @@ export const paypalService = {
   },
 };
 
+// Unified payment service
+export const paymentService = {
+  initializePaystackPayment: paystackService.initializePayment,
+  verifyPaystackPayment: paystackService.verifyPayment,
+  createPayPalOrder: paypalService.createOrder,
+  verifyPayPalPayment: paypalService.captureOrder,
+  handlePaystackWebhook: paystackService.handleWebhook,
+  handlePayPalWebhook: paypalService.handleWebhook,
+};
+
+
 // Generate unique payment reference
 export const generatePaymentReference = () => {
   return `BF_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`.toUpperCase();
