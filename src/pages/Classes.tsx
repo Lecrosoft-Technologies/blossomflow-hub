@@ -13,7 +13,7 @@ const Classes = () => {
   const [classes, setClasses] = useState<Class[]>([]);
   const [selectedClasses, setSelectedClasses] = useState<string[]>([]);
   const [loading, setLoading] = useState(true);
-  const { formatPrice } = useCurrency();
+  const { formatPrice, currency } = useCurrency();
   const { toast } = useToast();
 
   useEffect(() => {
@@ -70,7 +70,7 @@ const Classes = () => {
 
   const totalBulkPrice = classes
     .filter(c => selectedClasses.includes(c.id))
-    .reduce((sum, c) => sum + c.price, 0);
+    .reduce((sum, c) => sum + (currency === '₦' ? c.price.naira : c.price.usd), 0);
 
   return (
     <div className="min-h-screen bg-creamish">
@@ -142,7 +142,7 @@ const Classes = () => {
                   </div>
                   
                   <div className="text-2xl font-bold text-chocolate mb-6">
-                    {formatPrice(classItem.price)}
+                    {formatPrice(currency === '₦' ? classItem.price.naira : classItem.price.usd)}
                   </div>
                   
                   <Button 
