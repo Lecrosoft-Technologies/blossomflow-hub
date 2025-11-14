@@ -1,13 +1,13 @@
 // Payment service for Paystack and PayPal integration
 
 // TODO: Add your Paystack Public Key
-const PAYSTACK_PUBLIC_KEY = process.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_xxxxxxxxxxxxx';
+const PAYSTACK_PUBLIC_KEY = import.meta.env.VITE_PAYSTACK_PUBLIC_KEY || 'pk_test_xxxxxxxxxxxxx';
 
 // TODO: Add your PayPal Client ID
-const PAYPAL_CLIENT_ID = process.env.VITE_PAYPAL_CLIENT_ID || 'xxxxxxxxxxxxx';
+const PAYPAL_CLIENT_ID = import.meta.env.VITE_PAYPAL_CLIENT_ID || 'xxxxxxxxxxxxx';
 
 // Laravel API base URL
-const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 export interface PaymentData {
   email: string;
   amount: number;

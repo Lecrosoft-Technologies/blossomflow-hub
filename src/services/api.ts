@@ -1,7 +1,7 @@
 // API service layer - ready to connect to backend endpoints
 
 // TODO: Replace with your Laravel backend URL
-const API_BASE_URL = process.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000/api';
 
 export interface Class {
   id: string;
