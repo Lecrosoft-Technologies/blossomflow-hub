@@ -68,12 +68,18 @@ export default {
 					border: 'hsl(var(--sidebar-border))',
 					ring: 'hsl(var(--sidebar-ring))'
 				},
-				chocolate: 'hsl(var(--chocolate))',
-				creamish: 'hsl(var(--creamish))',
-				'chocolate-light': 'hsl(var(--chocolate-light))',
-				'creamish-dark': 'hsl(var(--creamish-dark))',
-				'hero-bg': 'hsl(var(--hero-bg))',
-				'hero-text': 'hsl(var(--hero-text))'
+				purple: {
+					primary: 'hsl(var(--purple-primary))',
+					light: 'hsl(var(--purple-light))',
+					dark: 'hsl(var(--purple-dark))',
+					glow: 'hsl(var(--purple-glow))'
+				},
+				pink: {
+					accent: 'hsl(var(--pink-accent))'
+				},
+				violet: {
+					deep: 'hsl(var(--violet-deep))'
+				}
 			},
 			borderRadius: {
 				lg: 'var(--radius)',
