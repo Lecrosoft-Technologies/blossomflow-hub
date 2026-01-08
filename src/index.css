@@ -447,3 +447,7 @@
   transform: translateZ(0);
   will-change: transform;
 }
+/* Add to your global CSS */
+.bg-lilac {
+  background-color: #d8b4fe; /* or your preferred lilac shade */
+}

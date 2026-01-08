@@ -26,6 +26,7 @@ import NotFound from "./pages/NotFound";
 import Classes from "./pages/Classes";
 import Events from "./pages/Events";
 import VirtualClasses from "./pages/VirtualClasses";
+import OrderConfirmation from "./pages/OrderConfirmation";
 
 const queryClient = new QueryClient();
 
@@ -43,7 +44,7 @@ const App = () => (
                 <Route path="/" element={<Index />} />
                 <Route path="/about" element={<About />} />
                 <Route path="/blog" element={<Blog />} />
-                <Route path="/blog/:id" element={<BlogPost />} />
+                <Route path="/blog/:slug" element={<BlogPost />} />
                 <Route path="/contact" element={<Contact />} />
                 <Route path="/classes" element={<Classes />} />
                 <Route path="/events" element={<Events />} />
@@ -54,29 +55,38 @@ const App = () => (
                 <Route path="/login" element={<Login />} />
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/forgot-password" element={<ForgotPassword />} />
-                <Route 
-                  path="/dashboard" 
+                <Route
+                  path="/dashboard"
                   element={
                     <ProtectedRoute>
                       <UserDashboard />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/profile" 
+                <Route
+                  path="/profile"
                   element={
                     <ProtectedRoute>
                       <UserProfile />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
-                <Route 
-                  path="/admin" 
+                <Route
+                  path="/order-confirmation/:orderId"
+                  element={
+                    <ProtectedRoute>
+                      <OrderConfirmation />
+                    </ProtectedRoute>
+                  }
+                />
+
+                <Route
+                  path="/admin"
                   element={
                     <ProtectedRoute adminOnly>
                       <AdminDashboard />
                     </ProtectedRoute>
-                  } 
+                  }
                 />
                 <Route path="*" element={<NotFound />} />
               </Routes>

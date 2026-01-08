@@ -12,19 +12,20 @@ const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [formData, setFormData] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
     agreeToTerms: false,
   });
   const [loading, setLoading] = useState(false);
   const { signup } = useAuth();
 
+  // Update your Signup component's handleSubmit function:
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     if (formData.password !== formData.confirmPassword) {
       toast({
         title: "Password Mismatch",
@@ -46,13 +47,20 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      await signup({
+      const success = await signup({
         name: `${formData.firstName} ${formData.lastName}`,
         email: formData.email,
         password: formData.password,
+        password_confirmation: formData.confirmPassword, // Add this line
       });
+
+      if (success) {
+        // Success - user will be redirected automatically by the auth context
+        // You can add any additional logic here if needed
+      }
     } catch (error) {
-      // Error handling is done in the signup function
+      // Error is already handled in the signup function
+      console.error("Signup error:", error);
     } finally {
       setLoading(false);
     }
@@ -60,9 +68,9 @@ const Signup = () => {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, type, checked } = e.target;
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
-      [name]: type === 'checkbox' ? checked : value
+      [name]: type === "checkbox" ? checked : value,
     }));
   };
 
@@ -70,8 +78,8 @@ const Signup = () => {
     <div className="min-h-screen bg-gradient-hero flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         {/* Back Button */}
-        <Button 
-          variant="ghost" 
+        <Button
+          variant="ghost"
           className="mb-6 text-white hover:bg-white/10"
           onClick={() => window.history.back()}
         >
@@ -82,9 +90,9 @@ const Signup = () => {
         <Card className="card-glass border-primary/20">
           <CardHeader className="text-center space-y-4">
             <div className="mx-auto w-20 h-20 bg-gradient-primary rounded-2xl flex items-center justify-center">
-              <img 
-                src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png" 
-                alt="Blossom's Fitness Hub" 
+              <img
+                src="/lovable-uploads/8abaadf7-cbec-4610-8043-eb6dc5b87331.png"
+                alt="Blossom's Fitness Hub"
                 className="h-12 w-12"
               />
             </div>
@@ -201,24 +209,27 @@ const Signup = () => {
                 <Checkbox
                   id="agreeToTerms"
                   checked={formData.agreeToTerms}
-                  onCheckedChange={(checked) => 
-                    setFormData(prev => ({ ...prev, agreeToTerms: checked as boolean }))
+                  onCheckedChange={(checked) =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      agreeToTerms: checked as boolean,
+                    }))
                   }
                 />
                 <Label htmlFor="agreeToTerms" className="text-sm">
-                  I agree to the{' '}
+                  I agree to the{" "}
                   <Button variant="link" className="p-0 h-auto text-primary">
                     Terms & Conditions
-                  </Button>{' '}
-                  and{' '}
+                  </Button>{" "}
+                  and{" "}
                   <Button variant="link" className="p-0 h-auto text-primary">
                     Privacy Policy
                   </Button>
                 </Label>
               </div>
 
-              <Button 
-                type="submit" 
+              <Button
+                type="submit"
                 className="w-full btn-primary"
                 disabled={loading}
               >
@@ -226,11 +237,13 @@ const Signup = () => {
               </Button>
 
               <div className="text-center">
-                <span className="text-muted-foreground">Already have an account? </span>
+                <span className="text-muted-foreground">
+                  Already have an account?{" "}
+                </span>
                 <Button
                   variant="link"
                   className="px-0 text-primary hover:text-primary-glow"
-                  onClick={() => window.location.href = '/login'}
+                  onClick={() => (window.location.href = "/login")}
                 >
                   Sign in
                 </Button>

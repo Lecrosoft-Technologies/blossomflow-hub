@@ -1,12 +1,20 @@
-import React, { createContext, useContext, useState, useEffect, ReactNode } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { toast } from '@/hooks/use-toast';
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useEffect,
+  ReactNode,
+} from "react";
+import { useNavigate } from "react-router-dom";
+import { toast } from "@/hooks/use-toast";
+import api from "@/lib/axios";
 
 export interface User {
-  id: string;
+  id: number;
   email: string;
   name: string;
-  role: 'admin' | 'user';
+  role: "user" | "admin" | "super_admin";
+  profile_image?: string;
   phone?: string;
   address?: string;
   city?: string;
@@ -14,190 +22,241 @@ export interface User {
   postalCode?: string;
 }
 
+interface SignupData {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+}
+
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
-  signup: (userData: Partial<User> & { password: string }) => Promise<boolean>;
+  signup: (data: SignupData) => Promise<boolean>;
   logout: () => void;
-  updateProfile: (userData: Partial<User>) => Promise<void>;
   isAuthenticated: boolean;
   isAdmin: boolean;
+  isLoading: boolean;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
-export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
+export const AuthProvider: React.FC<{ children: ReactNode }> = ({
+  children,
+}) => {
   const [user, setUser] = useState<User | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const navigate = useNavigate();
 
+  // Check if user is already logged in on app load
   useEffect(() => {
-    // Load user from localStorage on mount
-    const savedUser = localStorage.getItem('blossomUser');
-    if (savedUser) {
-      try {
-        setUser(JSON.parse(savedUser));
-      } catch (error) {
-        console.error('Failed to parse saved user:', error);
-        localStorage.removeItem('blossomUser');
+    const checkAuth = async () => {
+      const token = localStorage.getItem("token");
+      const storedUser = localStorage.getItem("user");
+
+      if (token && storedUser) {
+        try {
+          setUser(JSON.parse(storedUser));
+
+          // Verify token is still valid
+          try {
+            await api.get("/auth/user");
+          } catch (error) {
+            // Token is invalid, clear storage
+            localStorage.removeItem("token");
+            localStorage.removeItem("user");
+            setUser(null);
+          }
+        } catch (error) {
+          console.error("Failed to parse saved user:", error);
+          localStorage.removeItem("token");
+          localStorage.removeItem("user");
+        }
       }
-    }
+      setIsLoading(false);
+    };
+
+    checkAuth();
   }, []);
 
-  const login = async (email: string, password: string): Promise<boolean> => {
+  const signup = async (data: SignupData): Promise<boolean> => {
     try {
-      // TODO: Replace with actual API call
-      // const response = await fetch('/api/auth/login', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify({ email, password }),
-      // });
-      // const data = await response.json();
+      setIsLoading(true);
 
-      // Mock login - check against stored users or use demo accounts
-      const storedUsers = JSON.parse(localStorage.getItem('blossomUsers') || '[]');
-      const foundUser = storedUsers.find((u: any) => u.email === email && u.password === password);
-      
-      // Demo accounts
-      if (email === 'admin@blossom.com' && password === 'admin123') {
-        const adminUser: User = {
-          id: 'admin-1',
-          email: 'admin@blossom.com',
-          name: 'Admin User',
-          role: 'admin',
-        };
-        setUser(adminUser);
-        localStorage.setItem('blossomUser', JSON.stringify(adminUser));
+      // Call Laravel API for signup
+      const response = await api.post("/auth/signup", {
+        name: data.name,
+        email: data.email,
+        password: data.password,
+        password_confirmation: data.password_confirmation,
+      });
+
+      if (response.data.success) {
+        const { user: userData, token, redirect_to, message } = response.data;
+
+        // Store token and user data
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        // Update state
+        setUser(userData);
+
+        // Show success message
         toast({
-          title: 'Welcome back!',
-          description: 'You have successfully logged in as Admin.',
+          title: "Account Created! 🎉",
+          description: message || "Welcome to Blossom's Fitness Hub!",
         });
-        navigate('/admin');
-        return true;
-      } else if (foundUser) {
-        const loggedInUser: User = {
-          id: foundUser.id,
-          email: foundUser.email,
-          name: foundUser.name,
-          role: foundUser.role || 'user',
-          phone: foundUser.phone,
-          address: foundUser.address,
-          city: foundUser.city,
-          country: foundUser.country,
-          postalCode: foundUser.postalCode,
-        };
-        setUser(loggedInUser);
-        localStorage.setItem('blossomUser', JSON.stringify(loggedInUser));
-        toast({
-          title: 'Welcome back!',
-          description: `Logged in as ${loggedInUser.name}`,
-        });
-        navigate(loggedInUser.role === 'admin' ? '/admin' : '/dashboard');
+
+        // Redirect based on role
+        if (redirect_to === "/admin") {
+          navigate("/admin");
+        } else {
+          navigate(redirect_to || "/dashboard");
+        }
+
         return true;
       } else {
         toast({
-          title: 'Login Failed',
-          description: 'Invalid email or password',
-          variant: 'destructive',
+          title: "Signup Failed",
+          description: response.data.message || "Failed to create account",
+          variant: "destructive",
         });
         return false;
       }
-    } catch (error) {
-      toast({
-        title: 'Error',
-        description: 'An error occurred during login',
-        variant: 'destructive',
-      });
-      return false;
-    }
-  };
+    } catch (error: unknown) {
+      // Handle API errors with proper typing
+      let errorMessage = "Signup failed. Please try again.";
 
-  const signup = async (userData: Partial<User> & { password: string }): Promise<boolean> => {
-    try {
-      // TODO: Replace with actual API call
-      // const response = await fetch('/api/auth/signup', {
-      //   method: 'POST',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(userData),
-      // });
+      if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as {
+          response?: {
+            data?: {
+              message?: string;
+              errors?: Record<string, string[]>;
+            };
+          };
+        };
 
-      const newUser: User = {
-        id: `user-${Date.now()}`,
-        email: userData.email!,
-        name: userData.name!,
-        role: 'user',
-        phone: userData.phone,
-        address: userData.address,
-        city: userData.city,
-        country: userData.country,
-        postalCode: userData.postalCode,
-      };
-
-      // Store user
-      const storedUsers = JSON.parse(localStorage.getItem('blossomUsers') || '[]');
-      storedUsers.push({ ...newUser, password: userData.password });
-      localStorage.setItem('blossomUsers', JSON.stringify(storedUsers));
-
-      setUser(newUser);
-      localStorage.setItem('blossomUser', JSON.stringify(newUser));
-
-      toast({
-        title: 'Account Created!',
-        description: 'Welcome to Blossom\'s Fitness Hub!',
-      });
-
-      navigate('/dashboard');
-      return true;
-    } catch (error) {
-      toast({
-        title: 'Signup Failed',
-        description: 'An error occurred during signup',
-        variant: 'destructive',
-      });
-      return false;
-    }
-  };
-
-  const logout = () => {
-    setUser(null);
-    localStorage.removeItem('blossomUser');
-    toast({
-      title: 'Logged Out',
-      description: 'You have been successfully logged out',
-    });
-    navigate('/');
-  };
-
-  const updateProfile = async (userData: Partial<User>) => {
-    try {
-      // TODO: Replace with actual API call
-      // await fetch('/api/auth/profile', {
-      //   method: 'PUT',
-      //   headers: { 'Content-Type': 'application/json' },
-      //   body: JSON.stringify(userData),
-      // });
-
-      const updatedUser = { ...user, ...userData } as User;
-      setUser(updatedUser);
-      localStorage.setItem('blossomUser', JSON.stringify(updatedUser));
-
-      // Update in users array
-      const storedUsers = JSON.parse(localStorage.getItem('blossomUsers') || '[]');
-      const userIndex = storedUsers.findIndex((u: any) => u.id === user?.id);
-      if (userIndex !== -1) {
-        storedUsers[userIndex] = { ...storedUsers[userIndex], ...userData };
-        localStorage.setItem('blossomUsers', JSON.stringify(storedUsers));
+        // Handle Laravel validation errors
+        if (axiosError.response?.data?.errors) {
+          const errors = axiosError.response.data.errors;
+          // Get first error message
+          const firstErrorKey = Object.keys(errors)[0];
+          const firstErrorMessage = errors[firstErrorKey]?.[0];
+          errorMessage = firstErrorMessage || "Please check your input";
+        } else if (axiosError.response?.data?.message) {
+          // Server responded with error message
+          errorMessage = axiosError.response.data.message;
+        }
+      } else if (error && typeof error === "object" && "request" in error) {
+        // Request was made but no response
+        errorMessage =
+          "Cannot connect to server. Please check your connection.";
       }
 
       toast({
-        title: 'Profile Updated',
-        description: 'Your profile has been updated successfully',
+        title: "Signup Failed",
+        description: errorMessage,
+        variant: "destructive",
       });
-    } catch (error) {
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const login = async (email: string, password: string): Promise<boolean> => {
+    try {
+      setIsLoading(true);
+
+      // Call Laravel API
+      const response = await api.post("/auth/login", {
+        email,
+        password,
+      });
+
+      if (response.data.success) {
+        const { user: userData, token, redirect_to } = response.data;
+
+        // Store token and user data
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(userData));
+
+        // Update state
+        setUser(userData);
+
+        // Show success message
+        toast({
+          title: "Welcome back!",
+          description: `Logged in as ${userData.name}`,
+        });
+
+        // Redirect based on role
+        if (redirect_to === "/admin") {
+          navigate("/admin");
+        } else {
+          navigate("/dashboard");
+        }
+
+        return true;
+      } else {
+        toast({
+          title: "Login Failed",
+          description: response.data.message || "Invalid credentials",
+          variant: "destructive",
+        });
+        return false;
+      }
+    } catch (error: unknown) {
+      // Handle API errors with proper typing
+      let errorMessage = "Login failed. Please try again.";
+
+      if (error && typeof error === "object" && "response" in error) {
+        const axiosError = error as {
+          response?: { data?: { message?: string } };
+        };
+        // Server responded with error
+        errorMessage =
+          axiosError.response?.data?.message || "Invalid email or password";
+      } else if (error && typeof error === "object" && "request" in error) {
+        // Request was made but no response
+        errorMessage =
+          "Cannot connect to server. Please check your connection.";
+      }
+
       toast({
-        title: 'Update Failed',
-        description: 'Failed to update profile',
-        variant: 'destructive',
+        title: "Login Failed",
+        description: errorMessage,
+        variant: "destructive",
       });
+      return false;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const logout = async () => {
+    try {
+      // Call logout API if token exists
+      const token = localStorage.getItem("token");
+      if (token) {
+        await api.post("/auth/logout");
+      }
+    } catch (error) {
+      console.error("Logout error:", error);
+    } finally {
+      // Clear local storage and state
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      setUser(null);
+
+      // Show message and redirect
+      toast({
+        title: "Logged Out",
+        description: "You have been successfully logged out",
+      });
+
+      navigate("/");
     }
   };
 
@@ -206,9 +265,9 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     login,
     signup,
     logout,
-    updateProfile,
     isAuthenticated: !!user,
-    isAdmin: user?.role === 'admin',
+    isAdmin: user?.role === "admin" || user?.role === "super_admin",
+    isLoading,
   };
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
@@ -217,7 +276,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };

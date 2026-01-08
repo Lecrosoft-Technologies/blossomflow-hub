@@ -2,10 +2,15 @@ import { useState, useEffect } from "react";
 import { Menu, X, ShoppingCart, User, LogOut } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/context/CartContext";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/context/AuthContext";
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import logo from "@/assets/Blossom Fitness Logo lightmode Rust.png";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import logo from "@/assets/purple_logo.png";
 import logoWhite from "@/assets/blossom-logo-white.png";
 
 const Header = () => {
@@ -14,6 +19,10 @@ const Header = () => {
   const { getTotalItems } = useCart();
   const { user, logout, isAuthenticated } = useAuth();
   const navigate = useNavigate();
+  const location = useLocation();
+
+  // Check if current page is an admin page
+  const isAdminPage = location.pathname.startsWith("/admin");
 
   useEffect(() => {
     const handleScroll = () => {
@@ -32,38 +41,70 @@ const Header = () => {
     { label: "Contact", href: "/contact" },
   ];
 
+  // Admin navigation items - shown only on admin pages
+  const adminNavItems = [
+    { label: "Dashboard", href: "/admin" },
+    { label: "Classes", href: "/admin#classes" },
+    { label: "Products", href: "/admin#products" },
+    { label: "Users", href: "/admin#users" },
+    { label: "Back to Site", href: "/" },
+  ];
+
+  // Close mobile menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      const target = event.target as HTMLElement;
+      if (isMobileMenuOpen && !target.closest("header")) {
+        setIsMobileMenuOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => document.removeEventListener("click", handleClickOutside);
+  }, [isMobileMenuOpen]);
+
+  // Determine header state - on admin pages, always show solid background
+  const showSolidBackground = isAdminPage || isScrolled;
+  const textColorClass = showSolidBackground ? "text-chocolate" : "text-white";
+  const logoToShow = showSolidBackground ? logo : logoWhite;
+
   return (
     <header
       className={`fixed top-0 w-full z-50 transition-all duration-500 ease-in-out ${
-        isScrolled
-          ? "bg-creamish backdrop-blur-xl border-b border-chocolate/10 shadow-lg py-4"
-          : "bg-transparent py-2"
+        showSolidBackground
+          ? "bg-creamish backdrop-blur-xl border-b border-chocolate/10 shadow-lg py-3 md:py-4"
+          : "bg-transparent py-2 md:py-3"
       }`}
     >
       <div className="container mx-auto px-4 lg:px-8 flex items-center justify-between">
-        {/* Logo */}
-        <div className="flex items-center space-x-3">
-          <Link to="/">
+        {/* Logo - Responsive sizing */}
+        <div className="flex items-center space-x-2 md:space-x-3">
+          <Link to={isAdminPage ? "/admin" : "/"}>
             <img
-              src={isScrolled ? logo : logoWhite}
+              src={logoToShow}
               alt="Blossom's Fitness Hub"
               className={`transition-all duration-300 ${
-                isScrolled ? "h-10" : "h-12"
+                showSolidBackground ? "h-8 md:h-10" : "h-10 md:h-12"
               } w-auto object-contain cursor-pointer`}
             />
           </Link>
+          {isAdminPage && (
+            <span className="hidden md:inline-block text-sm font-medium text-chocolate/70 ml-2">
+              Admin Panel
+            </span>
+          )}
         </div>
 
         {/* Desktop Navigation */}
-        <nav className="hidden lg:flex items-center space-x-8">
-          {navItems.map((item) => (
+        <nav className="hidden lg:flex items-center space-x-6 xl:space-x-8">
+          {(isAdminPage ? adminNavItems : navItems).map((item) => (
             <Link
               key={item.label}
               to={item.href}
               className={`transition-colors duration-300 hover-underline font-medium ${
-                isScrolled 
-                  ? 'text-chocolate hover:text-chocolate/70' 
-                  : 'text-creamish hover:text-white'
+                showSolidBackground
+                  ? "text-chocolate hover:text-[#9902f7]"
+                  : "text-white hover:text-white/90"
               }`}
             >
               {item.label}
@@ -72,37 +113,44 @@ const Header = () => {
         </nav>
 
         {/* Actions */}
-        <div className="flex items-center space-x-4">
-          <Button
-            variant="ghost"
-            size="icon"
-            className={`relative hover:bg-primary/20 ${
-              isScrolled ? 'text-chocolate' : 'text-creamish'
-            }`}
-            onClick={() => navigate("/cart")}
-          >
-            <ShoppingCart className="h-5 w-5" />
-            {getTotalItems() > 0 && (
-              <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                {getTotalItems()}
-              </span>
-            )}
-          </Button>
+        <div className="flex items-center space-x-2 md:space-x-4">
+          {/* Show cart only on non-admin pages */}
+          {!isAdminPage && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className={`relative hover:bg-primary/20 ${textColorClass}`}
+              onClick={() => navigate("/cart")}
+            >
+              <ShoppingCart className="h-4 w-4 md:h-5 md:w-5" />
+              {getTotalItems() > 0 && (
+                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center">
+                  {getTotalItems()}
+                </span>
+              )}
+            </Button>
+          )}
 
           {isAuthenticated ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" size="icon" className={`hover:bg-primary/20 ${
-                  isScrolled ? 'text-chocolate' : 'text-creamish'
-                }`}>
-                  <User className="h-5 w-5" />
+                <Button
+                  variant="ghost"
+                  size="icon"
+                  className={`hover:bg-primary/20 hidden md:inline-flex ${textColorClass}`}
+                >
+                  <User className="h-4 w-4 md:h-5 md:w-5" />
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuItem onClick={() => navigate(user?.role === 'admin' ? '/admin' : '/dashboard')}>
+                <DropdownMenuItem
+                  onClick={() =>
+                    navigate(user?.role === "admin" ? "/admin" : "/dashboard")
+                  }
+                >
                   Dashboard
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                <DropdownMenuItem onClick={() => navigate("/profile")}>
                   My Profile
                 </DropdownMenuItem>
                 <DropdownMenuItem onClick={logout} className="text-red-600">
@@ -112,96 +160,135 @@ const Header = () => {
               </DropdownMenuContent>
             </DropdownMenu>
           ) : (
-            <Button
-              variant="ghost"
-              size="icon"
-              className={`hover:bg-primary/20 ${
-                isScrolled ? 'text-chocolate' : 'text-creamish'
-              }`}
-              onClick={() => navigate("/login")}
-            >
-              <User className="h-5 w-5" />
-            </Button>
+            !isAdminPage && (
+              <Button
+                variant="ghost"
+                size="icon"
+                className={`hover:bg-primary/20 hidden md:inline-flex ${textColorClass}`}
+                onClick={() => navigate("/login")}
+              >
+                <User className="h-4 w-4 md:h-5 md:w-5" />
+              </Button>
+            )
           )}
 
-          <Button
-            className="bg-creamish text-chocolate hover:bg-creamish/90 hidden md:flex"
-            onClick={() => navigate("/shop")}
-          >
-            Shop
-          </Button>
+          {/* Show Shop button only on non-admin pages */}
+          {!isAdminPage && (
+            <Button
+              className="bg-white text-chocolate hover:bg-creamish/90 hidden md:flex text-sm md:text-base"
+              onClick={() => navigate("/shop")}
+            >
+              Shop
+            </Button>
+          )}
 
           {/* Mobile Menu Button */}
           <Button
             variant="ghost"
             size="icon"
-            className={`lg:hidden ${
-              isScrolled ? 'text-chocolate' : 'text-creamish'
-            }`}
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className={`lg:hidden ${textColorClass}`}
+            onClick={(e) => {
+              e.stopPropagation();
+              setIsMobileMenuOpen(!isMobileMenuOpen);
+            }}
           >
             {isMobileMenuOpen ? (
-              <X className="h-6 w-6" />
+              <X className="h-5 w-5 md:h-6 md:w-6" />
             ) : (
-              <Menu className="h-6 w-6" />
+              <Menu className="h-5 w-5 md:h-6 md:w-6" />
             )}
           </Button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - COMPLETELY SOLID BACKGROUND */}
       {isMobileMenuOpen && (
-        <div className="lg:hidden absolute top-full left-0 right-0 bg-creamish/98 backdrop-blur-xl border-b border-chocolate/20">
-          <nav className="container mx-auto px-4 py-6 flex flex-col space-y-4">
-            {navItems.map((item) => (
-              <Link
-                key={item.label}
-                to={item.href}
-                className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium"
-                onClick={() => setIsMobileMenuOpen(false)}
-              >
-                {item.label}
-              </Link>
-            ))}
-            {isAuthenticated && (
-              <>
+        <div
+          className="lg:hidden fixed top-[60px] md:top-[68px] left-0 right-0 bottom-0 bg-creamish z-40"
+          onClick={(e) => e.stopPropagation()}
+        >
+          <div className="bg-creamish h-full overflow-y-auto">
+            <nav className="container mx-auto px-4 py-6 flex flex-col space-y-4">
+              {(isAdminPage ? adminNavItems : navItems).map((item) => (
                 <Link
-                  to={user?.role === 'admin' ? '/admin' : '/dashboard'}
-                  className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium"
+                  key={item.label}
+                  to={item.href}
+                  className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium py-3 text-lg border-b border-chocolate/10"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
-                  Dashboard
+                  {item.label}
                 </Link>
-                <Link
-                  to="/profile"
-                  className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium"
-                  onClick={() => setIsMobileMenuOpen(false)}
-                >
-                  My Profile
-                </Link>
-                <Button
-                  variant="outline"
-                  className="w-full text-red-600 border-red-600 hover:bg-red-50"
-                  onClick={() => {
-                    logout();
-                    setIsMobileMenuOpen(false);
-                  }}
-                >
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
-                </Button>
-              </>
-            )}
-            <Button
-              className="btn-primary mt-4 w-full"
-              onClick={() => {
-                setIsMobileMenuOpen(false);
-                navigate("/contact");
-              }}
-            >
-              Contact Us
-            </Button>
-          </nav>
+              ))}
+
+              {/* Mobile Authentication Links */}
+              {!isAdminPage && (
+                <div className="pt-4 border-t border-chocolate/20 mt-2">
+                  {isAuthenticated ? (
+                    <>
+                      <Link
+                        to={user?.role === "admin" ? "/admin" : "/dashboard"}
+                        className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium py-3 block text-lg border-b border-chocolate/10"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        Dashboard
+                      </Link>
+                      <Link
+                        to="/profile"
+                        className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium py-3 block text-lg border-b border-chocolate/10"
+                        onClick={() => setIsMobileMenuOpen(false)}
+                      >
+                        My Profile
+                      </Link>
+                      <Button
+                        variant="outline"
+                        className="w-full text-red-600 border-red-600 hover:bg-red-50 mt-4 py-6 text-lg"
+                        onClick={() => {
+                          logout();
+                          setIsMobileMenuOpen(false);
+                        }}
+                      >
+                        <LogOut className="w-5 h-5 mr-2" />
+                        Logout
+                      </Button>
+                    </>
+                  ) : (
+                    <Link
+                      to="/login"
+                      className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium py-3 block text-lg border-b border-chocolate/10"
+                      onClick={() => setIsMobileMenuOpen(false)}
+                    >
+                      Login
+                    </Link>
+                  )}
+                </div>
+              )}
+
+              {/* Shop button only on non-admin pages */}
+              {!isAdminPage && (
+                <div className="pt-4 border-t border-chocolate/20 mt-2 space-y-4">
+                  <Button
+                    className="bg-white text-chocolate hover:bg-creamish/90 w-full py-6 text-lg font-medium"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      navigate("/shop");
+                    }}
+                  >
+                    Shop Now
+                  </Button>
+
+                  <Button
+                    className="btn-primary w-full py-6 text-lg font-medium"
+                    onClick={() => {
+                      setIsMobileMenuOpen(false);
+                      navigate("/contact");
+                    }}
+                  >
+                    Contact Us
+                  </Button>
+                </div>
+              )}
+            </nav>
+          </div>
         </div>
       )}
     </header>
