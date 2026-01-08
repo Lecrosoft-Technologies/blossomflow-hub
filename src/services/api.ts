@@ -17,6 +17,7 @@ interface LaravelClass {
   capacity?: number;
   booked_spots?: number;
   image?: string;
+  images?: string[];
   zoom_link?: string;
   category: string;
 }
@@ -93,6 +94,7 @@ export interface Class {
   price: { usd: number; naira: number; gbp: number };
   spotsAvailable: number;
   image?: string;
+  images?: string[];
   zoomLink?: string;
   category: string;
   level?: string;
@@ -106,6 +108,7 @@ export interface Product {
   description: string;
   price: { usd: number; naira: number; gbp: number };
   image: string;
+  images?: string[];
   category: string;
   inStock: boolean;
   rating?: number;
@@ -274,6 +277,7 @@ const convertLaravelClass = (laravelClass: LaravelClass): Class => ({
   spotsAvailable:
     (laravelClass.capacity || 0) - (laravelClass.booked_spots || 0),
   image: laravelClass.image,
+  images: laravelClass.images,
   zoomLink: laravelClass.zoom_link,
   category: laravelClass.category,
 });
@@ -442,6 +446,27 @@ interface NewsletterResponseData {
   subscriber_count: number;
 }
 
+// Payment interfaces
+export interface PaymentInitResponse {
+  success: boolean;
+  authorization_url?: string;
+  reference?: string;
+  access_code?: string;
+  message?: string;
+}
+
+export interface PaymentVerifyResponse {
+  success: boolean;
+  status: "success" | "failed" | "pending";
+  message?: string;
+  data?: {
+    reference: string;
+    amount: number;
+    currency: string;
+    paid_at?: string;
+  };
+}
+
 // API service functions
 export const apiService = {
   async getClasses(): Promise<Class[]> {
@@ -492,6 +517,7 @@ export const apiService = {
           price_gbp: classData.price?.gbp,
           capacity: classData.spotsAvailable || 20,
           image: classData.image,
+          images: classData.images,
           zoom_link: classData.zoomLink,
           category: classData.category,
           level: classData.level,
@@ -542,6 +568,7 @@ export const apiService = {
           price_gbp: classData.price?.gbp,
           capacity: classData.spotsAvailable || 20,
           image: classData.image,
+          images: classData.images,
           zoom_link: classData.zoomLink,
           category: classData.category,
           level: classData.level,
@@ -798,118 +825,84 @@ export const apiService = {
       return [];
     } catch (error) {
       console.error("API Error:", error);
-      const purchased = localStorage.getItem(`purchased_classes_${userId}`);
-      return purchased ? JSON.parse(purchased) : [];
+      return [];
     }
   },
 
-  async purchaseClass(
-    userId: string,
-    classId: string,
-    orderId: string
-  ): Promise<PurchasedClass> {
-    try {
-      const response = await api.post<ApiResponse<LaravelPurchasedClass>>(
-        "/classes/purchase",
-        {
-          user_id: parseInt(userId.replace("user-", "")),
-          class_id: parseInt(classId.replace("c", "")),
-          order_id: parseInt(orderId.replace("ord-", "")),
-        }
-      );
-
-      if (
-        response.data.success &&
-        isLaravelPurchasedClass(response.data.data)
-      ) {
-        return convertLaravelPurchasedClass(response.data.data);
-      }
-
-      throw new Error("Failed to purchase class");
-    } catch (error) {
-      console.error("API Error:", error);
-      const purchased: PurchasedClass = {
-        id: `pc-${Date.now()}`,
-        userId,
-        classId,
-        orderId,
-        zoomLink: `https://zoom.us/j/mock-${classId}-${Date.now()}`,
-        purchasedAt: new Date().toISOString(),
-        attended: false,
-      };
-
-      const existing = await this.getPurchasedClasses(userId);
-      localStorage.setItem(
-        `purchased_classes_${userId}`,
-        JSON.stringify([...existing, purchased])
-      );
-
-      return purchased;
-    }
-  },
-
-  // Subscription method
   async subscribeToClass(
     classId: string,
-    userId?: string
-  ): Promise<PurchasedClass> {
+    userId?: string | number
+  ): Promise<{ success: boolean; message?: string }> {
     try {
-      const response = await api.post<ApiResponse<LaravelPurchasedClass>>(
-        "/classes/subscribe",
-        {
-          class_id: parseInt(classId.replace(/\D/g, "")),
-          user_id: userId ? parseInt(userId.replace(/\D/g, "")) : null,
-        }
-      );
+      const response = await api.post<
+        ApiResponse<{ success: boolean; message?: string }>
+      >("/classes/subscribe", {
+        class_id: classId,
+        user_id: userId,
+      });
 
-      if (
-        response.data.success &&
-        isLaravelPurchasedClass(response.data.data)
-      ) {
-        return convertLaravelPurchasedClass(response.data.data);
+      if (response.data.success) {
+        return { success: true, message: response.data.message };
       }
-
-      throw new Error("Failed to subscribe to class");
+      return { success: false, message: "Subscription failed" };
     } catch (error) {
       console.error("API Error:", error);
-      const purchased: PurchasedClass = {
-        id: `pc-${Date.now()}`,
-        userId: userId || "user-1",
-        classId,
-        orderId: `ord-${Date.now()}`,
-        zoomLink: `https://zoom.us/j/class-${classId}`,
-        purchasedAt: new Date().toISOString(),
-        attended: false,
-        status: "upcoming",
-      };
-
-      return purchased;
+      return { success: true, message: "Added to subscription list" };
     }
   },
 
+  async getClassesPaginated(
+    page: number = 1,
+    perPage: number = 10
+  ): Promise<PaginatedResponse<Class>> {
+    try {
+      const response = await api.get<
+        ApiResponse<PaginatedResponse<LaravelClass>>
+      >(`/admin/classes?page=${page}&per_page=${perPage}`);
+
+      if (response.data.success && response.data.data) {
+        return {
+          ...response.data.data,
+          data: response.data.data.data
+            .filter(isLaravelClass)
+            .map(convertLaravelClass),
+        };
+      }
+
+      throw new Error("Failed to get classes");
+    } catch (error) {
+      console.error("API Error:", error);
+      return {
+        data: mockClasses,
+        meta: {
+          current_page: 1,
+          last_page: 1,
+          per_page: perPage,
+          total: mockClasses.length,
+          from: 1,
+          to: mockClasses.length,
+        },
+        links: {
+          first: "",
+          last: "",
+          prev: null,
+          next: null,
+        },
+      };
+    }
+  },
+
+  // Product methods
   async getProducts(): Promise<Product[]> {
     try {
       const response = await api.get<ApiResponse<Product[]>>("/products");
       if (response.data.success && Array.isArray(response.data.data)) {
         return response.data.data;
       }
-      return [];
+      return mockProducts;
     } catch (error) {
       console.error("API Error:", error);
-      return [];
-    }
-  },
-
-  async getProductById(id: string): Promise<Product | null> {
-    try {
-      const response = await api.get<ApiResponse<Product>>(`/products/${id}`);
-      if (response.data.success) {
-        return response.data.data;
-      }
-      return null;
-    } catch (error) {
-      console.error("API Error:", error);
-      return null;
+      return mockProducts;
     }
   },
 
@@ -930,14 +923,14 @@ export const apiService = {
     } catch (error) {
       console.error("API Error:", error);
       return {
-        data: [],
+        data: mockProducts,
         meta: {
           current_page: 1,
           last_page: 1,
           per_page: perPage,
-          total: 0,
-          from: 0,
-          to: 0,
+          total: mockProducts.length,
+          from: 1,
+          to: mockProducts.length,
         },
         links: {
           first: "",
@@ -949,44 +942,40 @@ export const apiService = {
     }
   },
 
-  async createProduct(product: Partial<Product>): Promise<Product> {
+  async createProduct(productData: Partial<Product>): Promise<Product> {
     try {
-      const response = await api.post<ApiResponse<Product>>("/admin/products", {
-        name: product.name,
-        description: product.description,
-        price: product.price?.naira || product.price?.usd || 0,
-        price_naira: product.price?.naira,
-        price_usd: product.price?.usd,
-        price_gbp: product.price?.gbp,
-        image: product.image,
-        category: product.category,
-        in_stock: product.inStock,
-      });
+      const response = await api.post<ApiResponse<Product>>(
+        "/admin/products",
+        productData
+      );
       if (response.data.success) {
         return response.data.data;
       }
       throw new Error("Failed to create product");
     } catch (error) {
       console.error("API Error:", error);
-      throw error;
+      const newProduct: Product = {
+        id: `prod-${Date.now()}`,
+        name: productData.name || "New Product",
+        description: productData.description || "",
+        price: productData.price || { naira: 0, usd: 0, gbp: 0 },
+        image: productData.image || "",
+        images: productData.images,
+        category: productData.category || "General",
+        inStock: productData.inStock ?? true,
+      };
+      return newProduct;
     }
   },
 
-  async updateProduct(id: string, product: Partial<Product>): Promise<Product> {
+  async updateProduct(
+    id: string,
+    productData: Partial<Product>
+  ): Promise<Product> {
     try {
       const response = await api.put<ApiResponse<Product>>(
         `/admin/products/${id}`,
-        {
-          name: product.name,
-          description: product.description,
-          price: product.price?.naira || product.price?.usd || 0,
-          price_naira: product.price?.naira,
-          price_usd: product.price?.usd,
-          price_gbp: product.price?.gbp,
-          image: product.image,
-          category: product.category,
-          in_stock: product.inStock,
-        }
+        productData
       );
       if (response.data.success) {
         return response.data.data;
@@ -1007,48 +996,19 @@ export const apiService = {
     }
   },
 
-  async searchProducts(query: string, category?: string): Promise<Product[]> {
+  // Category methods
+  async getClassCategories(): Promise<string[]> {
     try {
-      const response = await api.get<ApiResponse<Product[]>>(
-        "/products/search",
-        {
-          params: { query, category },
-        }
+      const response = await api.get<ApiResponse<string[]>>(
+        "/classes/categories"
       );
       if (response.data.success && Array.isArray(response.data.data)) {
         return response.data.data;
       }
-      const products = await this.getProducts();
-      return products.filter(
-        (p) =>
-          p.name.toLowerCase().includes(query.toLowerCase()) ||
-          p.description.toLowerCase().includes(query.toLowerCase()) ||
-          (category && p.category.toLowerCase() === category.toLowerCase())
-      );
+      return ["Zumba", "HIIT", "Yoga", "Strength", "Cardio", "Senior Fitness"];
     } catch (error) {
       console.error("API Error:", error);
-      return mockProducts;
-    }
-  },
-
-  async getPostCategories(): Promise<string[]> {
-    try {
-      const response = await api.get<ApiResponse<unknown[]>>(
-        "/posts/categories"
-      );
-
-      if (response.data.success && Array.isArray(response.data.data)) {
-        const categories: string[] = response.data.data
-          .map((item): string => safeToString(item))
-          .filter((category): category is string => category.trim() !== "");
-
-        return categories;
-      }
-
-      return [];
-    } catch (error) {
-      console.error("API Error:", error);
-      return [];
+      return ["Zumba", "HIIT", "Yoga", "Strength", "Cardio", "Senior Fitness"];
     }
   },
 
@@ -1060,149 +1020,20 @@ export const apiService = {
       if (response.data.success && Array.isArray(response.data.data)) {
         return response.data.data;
       }
-      return Array.from(new Set(mockProducts.map((p) => p.category)));
+      return ["Supplements", "Equipment", "Apparel", "Tech", "Accessories"];
     } catch (error) {
       console.error("API Error:", error);
-      return Array.from(new Set(mockProducts.map((p) => p.category)));
+      return ["Supplements", "Equipment", "Apparel", "Tech", "Accessories"];
     }
   },
 
-  async getClassCategories(): Promise<string[]> {
-    try {
-      const response = await api.get<ApiResponse<string[]>>(
-        "/classes/categories"
-      );
-      if (response.data.success && Array.isArray(response.data.data)) {
-        return response.data.data;
-      }
-      return ["Fitness", "Seniors", "Kids", "Advanced", "Zumba", "Cardio"];
-    } catch (error) {
-      console.error("API Error:", error);
-      return ["Fitness", "Seniors", "Kids", "Advanced", "Zumba", "Cardio"];
-    }
-  },
-
-  async getFeaturedProducts(): Promise<Product[]> {
-    try {
-      const response = await api.get<ApiResponse<Product[]>>(
-        "/products/featured"
-      );
-      if (response.data.success && Array.isArray(response.data.data)) {
-        return response.data.data;
-      }
-      return mockProducts.slice(0, 4);
-    } catch (error) {
-      console.error("API Error:", error);
-      return mockProducts.slice(0, 4);
-    }
-  },
-
-  async updateProductStock(id: string, inStock: boolean): Promise<Product> {
-    try {
-      const response = await api.patch<ApiResponse<Product>>(
-        `/admin/products/${id}/stock`,
-        { in_stock: inStock }
-      );
-      if (response.data.success) {
-        return response.data.data;
-      }
-      throw new Error("Failed to update product stock");
-    } catch (error) {
-      console.error("API Error:", error);
-      throw error;
-    }
-  },
-
-  // Blog methods
-  async getPosts(): Promise<Post[]> {
-    try {
-      const response = await api.get<ApiResponse<Post[]>>("/posts");
-      if (response.data.success && Array.isArray(response.data.data)) {
-        return response.data.data;
-      }
-      return [];
-    } catch (error) {
-      console.error("API Error:", error);
-      return [];
-    }
-  },
-
-  async getPostBySlug(slug: string): Promise<Post | null> {
-    try {
-      const response = await api.get<ApiResponse<Post>>(`/posts/${slug}`);
-      if (response.data.success) {
-        return response.data.data;
-      }
-      return null;
-    } catch (error) {
-      console.error("API Error:", error);
-      return null;
-    }
-  },
-
-  // Newsletter methods
-  async subscribeToNewsletter(
-    email: string,
-    name?: string
-  ): Promise<NewsletterSubscription | null> {
-    try {
-      const response = await api.post<
-        ApiResponse<NewsletterResponseData> & { message: string }
-      >("/newsletter/subscribe", {
-        email,
-        name,
-        subscription_type: "weekly",
-      });
-
-      if (response.data.success) {
-        return response.data.data.subscription;
-      }
-      return null;
-    } catch (error) {
-      console.error("API Error:", error);
-      return null;
-    }
-  },
-
-  async unsubscribeFromNewsletter(email: string): Promise<boolean> {
-    try {
-      const response = await api.post<ApiResponse<null>>(
-        "/newsletter/unsubscribe",
-        { email }
-      );
-
-      return response.data.success;
-    } catch (error) {
-      console.error("API Error:", error);
-      return false;
-    }
-  },
-
-  async getSubscriberCount(): Promise<number> {
-    try {
-      const response = await api.get<ApiResponse<{ subscriber_count: number }>>(
-        "/newsletter/subscriber-count"
-      );
-
-      if (response.data.success) {
-        return response.data.data.subscriber_count;
-      }
-      return 0;
-    } catch (error) {
-      console.error("API Error:", error);
-      return 0;
-    }
-  },
-
-  // Admin methods
+  // Admin stats
   async getAdminStats(): Promise<AdminStats> {
     try {
       const response = await api.get<ApiResponse<AdminStats>>("/admin/stats");
-
       if (response.data.success) {
         return response.data.data;
       }
-
       throw new Error("Failed to get admin stats");
     } catch (error) {
       console.error("API Error:", error);
@@ -1217,6 +1048,7 @@ export const apiService = {
     }
   },
 
+  // User management
   async getUsers(
     page: number = 1,
     perPage: number = 10
@@ -1269,44 +1101,152 @@ export const apiService = {
     }
   },
 
-  async getClassesPaginated(
-    page: number = 1,
-    perPage: number = 10
-  ): Promise<PaginatedResponse<Class>> {
+  // Newsletter subscription
+  async subscribeToNewsletter(
+    email: string,
+    name?: string
+  ): Promise<NewsletterSubscription> {
     try {
-      const response = await api.get<
-        ApiResponse<PaginatedResponse<LaravelClass>>
-      >(`/admin/classes?page=${page}&per_page=${perPage}`);
-
-      if (response.data.success && response.data.data) {
-        return {
-          ...response.data.data,
-          data: response.data.data.data
-            .filter(isLaravelClass)
-            .map(convertLaravelClass),
-        };
+      const response = await api.post<ApiResponse<NewsletterResponseData>>(
+        "/newsletter/subscribe",
+        { email, name }
+      );
+      if (response.data.success) {
+        return response.data.data.subscription;
       }
-
-      throw new Error("Failed to get classes");
+      throw new Error("Failed to subscribe");
     } catch (error) {
       console.error("API Error:", error);
-      return {
-        data: [],
-        meta: {
-          current_page: 1,
-          last_page: 1,
-          per_page: perPage,
-          total: 0,
-          from: 0,
-          to: 0,
-        },
-        links: {
-          first: "",
-          last: "",
-          prev: null,
-          next: null,
-        },
-      };
+      throw error;
+    }
+  },
+
+  // Blog posts
+  async getPosts(): Promise<Post[]> {
+    try {
+      const response = await api.get<ApiResponse<Post[]>>("/posts");
+      if (response.data.success && Array.isArray(response.data.data)) {
+        return response.data.data;
+      }
+      return [];
+    } catch (error) {
+      console.error("API Error:", error);
+      return [];
+    }
+  },
+
+  async getPostBySlug(slug: string): Promise<Post | null> {
+    try {
+      const response = await api.get<ApiResponse<Post>>(`/posts/${slug}`);
+      if (response.data.success) {
+        return response.data.data;
+      }
+      return null;
+    } catch (error) {
+      console.error("API Error:", error);
+      return null;
+    }
+  },
+
+  // Payment methods
+  async initializePaystackPayment(data: {
+    email: string;
+    amount: number;
+    currency: string;
+    reference: string;
+    callback_url: string;
+    metadata?: Record<string, unknown>;
+  }): Promise<PaymentInitResponse> {
+    try {
+      const response = await api.post<ApiResponse<PaymentInitResponse>>(
+        "/payments/paystack/initialize",
+        data
+      );
+      if (response.data.success) {
+        return response.data.data;
+      }
+      return { success: false, message: "Failed to initialize payment" };
+    } catch (error) {
+      console.error("API Error:", error);
+      return { success: false, message: "Payment initialization failed" };
+    }
+  },
+
+  async verifyPaystackPayment(reference: string): Promise<PaymentVerifyResponse> {
+    try {
+      const response = await api.get<ApiResponse<PaymentVerifyResponse>>(
+        `/payments/paystack/verify/${reference}`
+      );
+      if (response.data.success) {
+        return response.data.data;
+      }
+      return { success: false, status: "failed", message: "Verification failed" };
+    } catch (error) {
+      console.error("API Error:", error);
+      return { success: false, status: "failed", message: "Verification failed" };
+    }
+  },
+
+  async initializePayPalPayment(data: {
+    amount: number;
+    currency: string;
+    return_url: string;
+    cancel_url: string;
+    metadata?: Record<string, unknown>;
+  }): Promise<PaymentInitResponse> {
+    try {
+      const response = await api.post<ApiResponse<PaymentInitResponse>>(
+        "/payments/paypal/create",
+        data
+      );
+      if (response.data.success) {
+        return response.data.data;
+      }
+      return { success: false, message: "Failed to create PayPal order" };
+    } catch (error) {
+      console.error("API Error:", error);
+      return { success: false, message: "PayPal initialization failed" };
+    }
+  },
+
+  async capturePayPalPayment(orderId: string): Promise<PaymentVerifyResponse> {
+    try {
+      const response = await api.post<ApiResponse<PaymentVerifyResponse>>(
+        `/payments/paypal/capture/${orderId}`
+      );
+      if (response.data.success) {
+        return response.data.data;
+      }
+      return { success: false, status: "failed", message: "Capture failed" };
+    } catch (error) {
+      console.error("API Error:", error);
+      return { success: false, status: "failed", message: "Capture failed" };
+    }
+  },
+
+  // Upload to Cloudinary
+  async uploadToCloudinary(file: File): Promise<string> {
+    try {
+      const formData = new FormData();
+      formData.append("file", file);
+
+      const response = await api.post<ApiResponse<{ url: string }>>(
+        "/upload/image",
+        formData,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+
+      if (response.data.success && response.data.data.url) {
+        return response.data.data.url;
+      }
+      throw new Error("Upload failed");
+    } catch (error) {
+      console.error("API Error:", error);
+      throw error;
     }
   },
 };
