@@ -15,11 +15,13 @@ export interface User {
   name: string;
   role: "user" | "admin" | "super_admin";
   profile_image?: string;
+  avatar?: string;
   phone?: string;
   address?: string;
   city?: string;
   country?: string;
   postalCode?: string;
+  createdAt?: string;
 }
 
 interface SignupData {
@@ -29,11 +31,22 @@ interface SignupData {
   password_confirmation: string;
 }
 
+interface ProfileUpdateData {
+  name?: string;
+  email?: string;
+  phone?: string;
+  address?: string;
+  city?: string;
+  country?: string;
+  postalCode?: string;
+}
+
 interface AuthContextType {
   user: User | null;
   login: (email: string, password: string) => Promise<boolean>;
   signup: (data: SignupData) => Promise<boolean>;
   logout: () => void;
+  updateProfile: (data: ProfileUpdateData) => Promise<boolean>;
   isAuthenticated: boolean;
   isAdmin: boolean;
   isLoading: boolean;
@@ -235,6 +248,33 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     }
   };
 
+  const updateProfile = async (data: ProfileUpdateData): Promise<boolean> => {
+    try {
+      const response = await api.put("/auth/profile", data);
+
+      if (response.data.success) {
+        const updatedUser = { ...user, ...data } as User;
+        setUser(updatedUser);
+        localStorage.setItem("user", JSON.stringify(updatedUser));
+
+        toast({
+          title: "Profile Updated",
+          description: "Your profile has been updated successfully",
+        });
+        return true;
+      }
+      return false;
+    } catch (error) {
+      console.error("Profile update error:", error);
+      toast({
+        title: "Update Failed",
+        description: "Failed to update profile. Please try again.",
+        variant: "destructive",
+      });
+      return false;
+    }
+  };
+
   const logout = async () => {
     try {
       // Call logout API if token exists
@@ -265,6 +305,7 @@ export const AuthProvider: React.FC<{ children: ReactNode }> = ({
     login,
     signup,
     logout,
+    updateProfile,
     isAuthenticated: !!user,
     isAdmin: user?.role === "admin" || user?.role === "super_admin",
     isLoading,

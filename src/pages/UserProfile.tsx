@@ -7,9 +7,12 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useAuth } from '@/context/AuthContext';
 import { User, Mail, Phone, MapPin, Save } from 'lucide-react';
+import { useToast } from '@/hooks/use-toast';
 
 const UserProfile = () => {
   const { user, updateProfile } = useAuth();
+  const { toast } = useToast();
+  const [loading, setLoading] = useState(false);
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
@@ -36,7 +39,22 @@ const UserProfile = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await updateProfile(formData);
+    setLoading(true);
+    try {
+      await updateProfile(formData);
+      toast({
+        title: "Profile Updated",
+        description: "Your profile has been saved successfully",
+      });
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Failed to update profile",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -46,7 +64,7 @@ const UserProfile = () => {
       <section className="section-padding pt-32">
         <div className="container-custom mx-auto max-w-3xl">
           <div className="mb-12">
-            <h1 className="text-5xl font-heading font-bold mb-4 text-chocolate">
+            <h1 className="text-5xl font-heading font-bold mb-4 text-[#8026d9]">
               My Profile
             </h1>
             <p className="text-xl text-chocolate/80">
@@ -156,9 +174,13 @@ const UserProfile = () => {
                 </div>
               </div>
 
-              <Button type="submit" className="w-full bg-chocolate text-creamish hover:bg-chocolate/90">
+              <Button 
+                type="submit" 
+                className="w-full bg-[#8026d9] text-white hover:bg-[#8026d9]/90"
+                disabled={loading}
+              >
                 <Save className="w-4 h-4 mr-2" />
-                Save Changes
+                {loading ? "Saving..." : "Save Changes"}
               </Button>
             </form>
           </Card>

@@ -103,7 +103,7 @@ const Header = () => {
               to={item.href}
               className={`transition-colors duration-300 hover-underline font-medium ${
                 showSolidBackground
-                  ? "text-chocolate hover:text-[#9902f7]"
+                  ? "text-chocolate hover:text-[#8026d9]"
                   : "text-white hover:text-white/90"
               }`}
             >
@@ -119,12 +119,12 @@ const Header = () => {
             <Button
               variant="ghost"
               size="icon"
-              className={`relative hover:bg-primary/20 ${textColorClass}`}
+              className={`relative hover:bg-[#8026d9]/20 ${textColorClass}`}
               onClick={() => navigate("/cart")}
             >
               <ShoppingCart className="h-4 w-4 md:h-5 md:w-5" />
               {getTotalItems() > 0 && (
-                <span className="absolute -top-1 -right-1 bg-primary text-primary-foreground text-xs rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center">
+                <span className="absolute -top-1 -right-1 bg-[#8026d9] text-white text-xs rounded-full h-4 w-4 md:h-5 md:w-5 flex items-center justify-center">
                   {getTotalItems()}
                 </span>
               )}
@@ -137,7 +137,7 @@ const Header = () => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  className={`hover:bg-primary/20 hidden md:inline-flex ${textColorClass}`}
+                  className={`hover:bg-[#8026d9]/20 hidden md:inline-flex ${textColorClass}`}
                 >
                   <User className="h-4 w-4 md:h-5 md:w-5" />
                 </Button>
@@ -164,7 +164,7 @@ const Header = () => {
               <Button
                 variant="ghost"
                 size="icon"
-                className={`hover:bg-primary/20 hidden md:inline-flex ${textColorClass}`}
+                className={`hover:bg-[#8026d9]/20 hidden md:inline-flex ${textColorClass}`}
                 onClick={() => navigate("/login")}
               >
                 <User className="h-4 w-4 md:h-5 md:w-5" />
@@ -175,7 +175,7 @@ const Header = () => {
           {/* Show Shop button only on non-admin pages */}
           {!isAdminPage && (
             <Button
-              className="bg-white text-chocolate hover:bg-creamish/90 hidden md:flex text-sm md:text-base"
+              className="bg-[#8026d9] text-white hover:bg-[#8026d9]/90 hidden md:flex text-sm md:text-base"
               onClick={() => navigate("/shop")}
             >
               Shop
@@ -201,19 +201,19 @@ const Header = () => {
         </div>
       </div>
 
-      {/* Mobile Menu - COMPLETELY SOLID BACKGROUND */}
+      {/* Mobile Menu - Semi-transparent background */}
       {isMobileMenuOpen && (
         <div
-          className="lg:hidden fixed top-[60px] md:top-[68px] left-0 right-0 bottom-0 bg-creamish z-40"
+          className="lg:hidden fixed top-[60px] md:top-[68px] left-0 right-0 bottom-0 bg-black/80 backdrop-blur-md z-40"
           onClick={(e) => e.stopPropagation()}
         >
-          <div className="bg-creamish h-full overflow-y-auto">
+          <div className="h-full overflow-y-auto">
             <nav className="container mx-auto px-4 py-6 flex flex-col space-y-4">
               {(isAdminPage ? adminNavItems : navItems).map((item) => (
                 <Link
                   key={item.label}
                   to={item.href}
-                  className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium py-3 text-lg border-b border-chocolate/10"
+                  className="text-white hover:text-[#8026d9] transition-colors duration-300 font-medium py-3 text-lg border-b border-white/20"
                   onClick={() => setIsMobileMenuOpen(false)}
                 >
                   {item.label}
@@ -222,26 +222,26 @@ const Header = () => {
 
               {/* Mobile Authentication Links */}
               {!isAdminPage && (
-                <div className="pt-4 border-t border-chocolate/20 mt-2">
+                <div className="pt-4 border-t border-white/30 mt-2">
                   {isAuthenticated ? (
                     <>
                       <Link
                         to={user?.role === "admin" ? "/admin" : "/dashboard"}
-                        className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium py-3 block text-lg border-b border-chocolate/10"
+                        className="text-white hover:text-[#8026d9] transition-colors duration-300 font-medium py-3 block text-lg border-b border-white/20"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         Dashboard
                       </Link>
                       <Link
                         to="/profile"
-                        className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium py-3 block text-lg border-b border-chocolate/10"
+                        className="text-white hover:text-[#8026d9] transition-colors duration-300 font-medium py-3 block text-lg border-b border-white/20"
                         onClick={() => setIsMobileMenuOpen(false)}
                       >
                         My Profile
                       </Link>
                       <Button
                         variant="outline"
-                        className="w-full text-red-600 border-red-600 hover:bg-red-50 mt-4 py-6 text-lg"
+                        className="w-full text-red-400 border-red-400 hover:bg-red-400/20 mt-4 py-6 text-lg"
                         onClick={() => {
                           logout();
                           setIsMobileMenuOpen(false);
@@ -254,7 +254,7 @@ const Header = () => {
                   ) : (
                     <Link
                       to="/login"
-                      className="text-chocolate hover:text-chocolate/80 transition-colors duration-300 font-medium py-3 block text-lg border-b border-chocolate/10"
+                      className="text-white hover:text-[#8026d9] transition-colors duration-300 font-medium py-3 block text-lg border-b border-white/20"
                       onClick={() => setIsMobileMenuOpen(false)}
                     >
                       Login
@@ -265,9 +265,9 @@ const Header = () => {
 
               {/* Shop button only on non-admin pages */}
               {!isAdminPage && (
-                <div className="pt-4 border-t border-chocolate/20 mt-2 space-y-4">
+                <div className="pt-4 border-t border-white/30 mt-2 space-y-4">
                   <Button
-                    className="bg-white text-chocolate hover:bg-creamish/90 w-full py-6 text-lg font-medium"
+                    className="bg-white text-[#8026d9] hover:bg-white/90 w-full py-6 text-lg font-medium"
                     onClick={() => {
                       setIsMobileMenuOpen(false);
                       navigate("/shop");
@@ -277,7 +277,7 @@ const Header = () => {
                   </Button>
 
                   <Button
-                    className="btn-primary w-full py-6 text-lg font-medium"
+                    className="bg-[#8026d9] text-white hover:bg-[#8026d9]/90 w-full py-6 text-lg font-medium"
                     onClick={() => {
                       setIsMobileMenuOpen(false);
                       navigate("/contact");
