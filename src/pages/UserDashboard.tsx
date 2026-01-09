@@ -88,7 +88,7 @@ const UserDashboard = () => {
         {
           id: "1",
           classId: "ZUM101",
-          userId: user?.id || "1",
+          userId: user?.id?.toString() || "1",
           orderId: "ORD-001",
           purchasedAt: new Date().toISOString(),
           zoomLink: "https://zoom.us/j/123456789",
@@ -98,11 +98,12 @@ const UserDashboard = () => {
           classDate: new Date(Date.now() + 86400000).toISOString(),
           duration: "60 min",
           type: "virtual",
+          attended: false,
         },
         {
           id: "2",
           classId: "HIIT202",
-          userId: user?.id || "1",
+          userId: user?.id?.toString() || "1",
           orderId: "ORD-002",
           purchasedAt: new Date(Date.now() - 86400000).toISOString(),
           zoomLink: "https://zoom.us/j/987654321",
@@ -112,13 +113,14 @@ const UserDashboard = () => {
           classDate: new Date(Date.now() - 172800000).toISOString(),
           duration: "45 min",
           type: "in-person",
+          attended: true,
         },
       ];
 
       const mockOrders: Order[] = [
         {
           id: "ORD-001",
-          userId: user?.id || "1",
+          userId: user?.id?.toString() || "1",
           total: 45,
           status: "completed",
           currency: "usd",
@@ -126,24 +128,24 @@ const UserDashboard = () => {
           items: [
             {
               id: "1",
-              orderId: "ORD-001",
-              classId: "ZUM101",
+              type: "class",
+              itemId: "ZUM101",
               name: "Zumba Fiesta Class",
               price: 15,
               quantity: 1,
             },
             {
               id: "2",
-              orderId: "ORD-001",
-              classId: "HIIT202",
+              type: "class",
+              itemId: "HIIT202",
               name: "HIIT Cardio Blast",
               price: 20,
               quantity: 1,
             },
             {
               id: "3",
-              orderId: "ORD-001",
-              productId: "PROD-001",
+              type: "product",
+              itemId: "PROD-001",
               name: "Fitness Mat",
               price: 10,
               quantity: 1,
@@ -152,7 +154,7 @@ const UserDashboard = () => {
         },
         {
           id: "ORD-002",
-          userId: user?.id || "1",
+          userId: user?.id?.toString() || "1",
           total: 30,
           status: "paid",
           currency: "usd",
@@ -160,16 +162,16 @@ const UserDashboard = () => {
           items: [
             {
               id: "4",
-              orderId: "ORD-002",
-              classId: "YOGA303",
+              type: "class",
+              itemId: "YOGA303",
               name: "Yoga & Mindfulness",
               price: 12,
               quantity: 1,
             },
             {
               id: "5",
-              orderId: "ORD-002",
-              productId: "PROD-002",
+              type: "product",
+              itemId: "PROD-002",
               name: "Water Bottle",
               price: 18,
               quantity: 1,
@@ -924,12 +926,12 @@ const UserDashboard = () => {
                                       <p className="text-sm text-gray-600">
                                         Qty: {item.quantity}
                                       </p>
-                                      {item.classId && (
+                                      {item.type === "class" && (
                                         <Badge className="mt-1 bg-purple-100 text-purple-800 border-0">
                                           Class
                                         </Badge>
                                       )}
-                                      {item.productId && (
+                                      {item.type === "product" && (
                                         <Badge className="mt-1 bg-blue-100 text-blue-800 border-0">
                                           Product
                                         </Badge>
