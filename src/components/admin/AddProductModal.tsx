@@ -7,7 +7,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Switch } from '@/components/ui/switch';
 import { Product } from '@/services/api';
-import { ImageUpload } from './ImageUpload';
+import { MultiImageUpload } from './MultiImageUpload';
 
 interface AddProductModalProps {
   open: boolean;
@@ -22,17 +22,30 @@ const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalP
     description: '',
     price: { usd: 0, naira: 0, gbp: 0 },
     image: '',
+    images: [] as string[],
     category: '',
     inStock: true,
   });
 
+  const handleImagesChange = (images: string[]) => {
+    setFormData({ 
+      ...formData, 
+      images,
+      image: images[0] || '' // Set first image as primary
+    });
+  };
+
   const handleSubmit = () => {
-    onSave(formData);
+    onSave({
+      ...formData,
+      image: formData.images[0] || formData.image,
+    });
     setFormData({
       name: '',
       description: '',
       price: { usd: 0, naira: 0, gbp: 0 },
       image: '',
+      images: [],
       category: '',
       inStock: true,
     });
@@ -43,7 +56,7 @@ const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalP
     <Dialog open={open} onOpenChange={onClose}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle>Add New Product</DialogTitle>
+          <DialogTitle className="text-[#8026d9]">Add New Product</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
@@ -120,11 +133,13 @@ const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalP
           </div>
           
           <div className="grid gap-2">
-            <Label>Product Image</Label>
-            <ImageUpload
-              value={formData.image}
-              onChange={(value) => setFormData({ ...formData, image: value })}
+            <Label>Product Images (Multiple)</Label>
+            <MultiImageUpload
+              values={formData.images}
+              onChange={handleImagesChange}
+              maxImages={5}
             />
+            <p className="text-xs text-gray-500">Upload up to 5 images. First image will be the primary image.</p>
           </div>
           
           <div className="flex items-center space-x-2">
@@ -138,7 +153,7 @@ const AddProductModal = ({ open, onClose, onSave, categories }: AddProductModalP
         </div>
         <div className="flex justify-end gap-3">
           <Button variant="outline" onClick={onClose}>Cancel</Button>
-          <Button onClick={handleSubmit} className="bg-chocolate text-creamish hover:bg-chocolate/90">
+          <Button onClick={handleSubmit} className="bg-[#8026d9] text-white hover:bg-[#8026d9]/90">
             Add Product
           </Button>
         </div>

@@ -217,10 +217,20 @@ const Checkout = () => {
     }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Get recommended payment gateway based on currency
+  const getRecommendedGateway = () => {
+    if (currency === "₦") return "paystack";
+    return "paypal"; // USD and GBP use PayPal
+  };
 
-    if (!isAuthenticated) {
+  // Helper to get currency code
+  const getCurrencyCode = () => {
+    if (currency === "₦") return "NGN";
+    if (currency === "$") return "USD";
+    return "GBP";
+  };
+
+  const isNaira = currency === "₦";
       toast({
         title: "Login Required",
         description: "Please login to complete your purchase",
@@ -233,45 +243,81 @@ const Checkout = () => {
     setLoading(true);
 
     try {
-      if (isClassCheckout) {
-        // Handle class subscription
-        const classIds = classCheckoutItems.map((item) => item.id);
+      const orderReference = `ORDER-${Date.now()}`;
+      const amountInSmallestUnit = currency === "naira" ? total * 100 : total * 100; // Convert to kobo/cents
+      
+      if (paymentMethod === "paystack" || (paymentMethod === "card" && currency === "naira")) {
+        // Use Paystack for Naira payments
+        const paymentData = {
+          email: formData.email || user?.email || "",
+          amount: amountInSmallestUnit,
+          currency: currency === "naira" ? "NGN" : "USD",
+          reference: orderReference,
+          callback_url: `${window.location.origin}/payment/callback?gateway=paystack`,
+          metadata: {
+            cart_items: isClassCheckout ? classCheckoutItems : cartState.items,
+            user_id: user?.id,
+            is_class_checkout: isClassCheckout,
+          },
+        };
 
-        // Call API to subscribe to classes
-        for (const classId of classIds) {
-          await apiService.subscribeToClass(classId, user?.id);
+        const response = await apiService.initializePaystackPayment(paymentData);
+        
+        if (response.success && response.authorization_url) {
+          // Redirect to Paystack payment page
+          window.location.href = response.authorization_url;
+          return;
+        } else {
+          throw new Error(response.message || "Failed to initialize Paystack payment");
         }
+      } else if (paymentMethod === "paypal" || (paymentMethod === "card" && currency !== "naira")) {
+        // Use PayPal for USD/GBP payments
+        const paymentData = {
+          amount: total,
+          currency: currency === "usd" ? "USD" : "GBP",
+          description: isClassCheckout ? "Class Subscription" : "Product Purchase",
+          return_url: `${window.location.origin}/payment/callback?gateway=paypal`,
+          cancel_url: `${window.location.origin}/checkout`,
+          metadata: {
+            cart_items: isClassCheckout ? classCheckoutItems : cartState.items,
+            user_id: user?.id,
+            is_class_checkout: isClassCheckout,
+          },
+        };
 
-        const orderId = `CLASS-${Date.now()}`;
+        const response = await apiService.initializePayPalPayment(paymentData);
+        
+        if (response.success && response.authorization_url) {
+          // Redirect to PayPal payment page
+          window.location.href = response.authorization_url;
+          return;
+        } else {
+          throw new Error(response.message || "Failed to initialize PayPal payment");
+        }
+      } else if (paymentMethod === "bank") {
+        // Bank transfer - show bank details
         toast({
-          title: "🎉 Class Subscription Successful!",
-          description: `You've been subscribed to ${
-            classCheckoutItems.length
-          } class${
-            classCheckoutItems.length > 1 ? "es" : ""
-          }. Check your email for details.`,
+          title: "Bank Transfer Details",
+          description: "Please transfer to: Bank Name, Account: XXXXXXXXXX, Reference: " + orderReference,
         });
-
-        // Redirect to classes dashboard
-        navigate(`/dashboard/classes`);
-      } else {
-        // Handle product purchase
-        // Simulate API call for product purchase
-        setTimeout(() => {
-          const orderId = `PROD-${Date.now()}`;
-          clearCart();
-          toast({
-            title: "🎉 Order Successful!",
-            description: `Your order #${orderId} has been confirmed. You'll receive an email confirmation shortly.`,
-          });
-          navigate(`/order-confirmation/${orderId}`);
-        }, 2000);
+        
+        // Create pending order
+        if (isClassCheckout) {
+          const classIds = classCheckoutItems.map((item) => item.id);
+          for (const classId of classIds) {
+            await apiService.subscribeToClass(classId, user?.id);
+          }
+          navigate(`/dashboard?pending=true&ref=${orderReference}`);
+        } else {
+          navigate(`/order-confirmation/${orderReference}?pending=true`);
+        }
+        return;
       }
     } catch (error) {
       console.error("Checkout error:", error);
       toast({
-        title: "Checkout Failed",
-        description: "Unable to complete checkout. Please try again.",
+        title: "Payment Failed",
+        description: error instanceof Error ? error.message : "Unable to process payment. Please try again.",
         variant: "destructive",
       });
     } finally {
@@ -525,58 +571,76 @@ const Checkout = () => {
 
                 {/* Payment Method */}
                 <Card className="relative overflow-hidden border border-gray-200 shadow-sm bg-white/95 backdrop-blur-sm">
-                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#9902f7] via-[#667eea] to-[#00d4ff]" />
+                  <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#8026d9] to-[#a855f7]" />
                   <div className="p-6">
-                    <h2 className="text-xl font-bold mb-6 flex items-center">
-                      <CreditCard className="mr-3 h-5 w-5 text-[#9902f7]" />
+                    <h2 className="text-xl font-bold mb-4 flex items-center text-[#8026d9]">
+                      <CreditCard className="mr-3 h-5 w-5" />
                       Payment Method
                     </h2>
+                    
+                    {/* Currency-based recommendation */}
+                    <div className="mb-4 p-3 bg-purple-50 border border-purple-200 rounded-lg">
+                      <p className="text-sm text-purple-800">
+                        <strong>Recommended:</strong> Based on your currency ({getCurrencyCode()}), 
+                        we recommend {isNaira ? "Paystack" : "PayPal"} for the best experience.
+                      </p>
+                    </div>
+
                     <RadioGroup
                       value={paymentMethod}
                       onValueChange={setPaymentMethod}
                       className="space-y-3"
                     >
-                      <div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:border-[#9902f7] transition-colors">
+                      {/* Paystack - Recommended for Naira */}
+                      <div className={`flex items-center space-x-3 p-3 border rounded-lg transition-colors ${
+                        isNaira ? "border-[#8026d9] bg-purple-50" : "border-gray-200 hover:border-[#8026d9]"
+                      }`}>
                         <RadioGroupItem
-                          value="card"
-                          id="card"
-                          className="text-[#9902f7]"
+                          value="paystack"
+                          id="paystack"
+                          className="text-[#8026d9]"
                         />
-                        <Label htmlFor="card" className="flex-1 cursor-pointer">
-                          Credit/Debit Card
+                        <Label htmlFor="paystack" className="flex-1 cursor-pointer">
+                          <div className="flex items-center justify-between">
+                            <span>Paystack</span>
+                            {isNaira && (
+                              <span className="text-xs bg-[#8026d9] text-white px-2 py-0.5 rounded-full">Recommended</span>
+                            )}
+                          </div>
+                          <span className="text-xs text-gray-500">Card, Bank Transfer, USSD</span>
                         </Label>
-                        <div className="flex gap-1">
-                          {["Visa", "Mastercard"].map((card) => (
-                            <div
-                              key={card}
-                              className="px-2 py-1 bg-gray-100 rounded text-xs"
-                            >
-                              {card}
-                            </div>
-                          ))}
-                        </div>
                       </div>
-                      <div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:border-[#9902f7] transition-colors">
+
+                      {/* PayPal - Recommended for USD/GBP */}
+                      <div className={`flex items-center space-x-3 p-3 border rounded-lg transition-colors ${
+                        !isNaira ? "border-[#8026d9] bg-purple-50" : "border-gray-200 hover:border-[#8026d9]"
+                      }`}>
                         <RadioGroupItem
                           value="paypal"
                           id="paypal"
-                          className="text-[#9902f7]"
+                          className="text-[#8026d9]"
                         />
-                        <Label
-                          htmlFor="paypal"
-                          className="flex-1 cursor-pointer"
-                        >
-                          PayPal
+                        <Label htmlFor="paypal" className="flex-1 cursor-pointer">
+                          <div className="flex items-center justify-between">
+                            <span>PayPal</span>
+                            {!isNaira && (
+                              <span className="text-xs bg-[#8026d9] text-white px-2 py-0.5 rounded-full">Recommended</span>
+                            )}
+                          </div>
+                          <span className="text-xs text-gray-500">PayPal, Credit/Debit Card</span>
                         </Label>
                       </div>
-                      <div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:border-[#9902f7] transition-colors">
+
+                      {/* Bank Transfer */}
+                      <div className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:border-[#8026d9] transition-colors">
                         <RadioGroupItem
                           value="bank"
                           id="bank"
-                          className="text-[#9902f7]"
+                          className="text-[#8026d9]"
                         />
                         <Label htmlFor="bank" className="flex-1 cursor-pointer">
-                          Bank Transfer
+                          <span>Direct Bank Transfer</span>
+                          <span className="block text-xs text-gray-500">Manual transfer (may take 24-48hrs to confirm)</span>
                         </Label>
                       </div>
                     </RadioGroup>
